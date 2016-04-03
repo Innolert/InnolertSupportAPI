@@ -3,40 +3,40 @@
 var app = require('../..');
 import request from 'supertest';
 
-var newThing;
+var newAppEvent;
 
-describe('Thing API:', function() {
+describe('AppEvent API:', function() {
 
-  describe('GET /api/things', function() {
-    var things;
+  describe('GET /api/appEvents', function() {
+    var appEvents;
 
     beforeEach(function(done) {
       request(app)
-        .get('/api/things')
+        .get('/api/appEvents')
         .expect(200)
         .expect('Content-Type', /json/)
         .end((err, res) => {
           if (err) {
             return done(err);
           }
-          things = res.body;
+          appEvents = res.body;
           done();
         });
     });
 
     it('should respond with JSON array', function() {
-      things.should.be.instanceOf(Array);
+      appEvents.should.be.instanceOf(Array);
     });
 
   });
 
-  describe('POST /api/things', function() {
+  describe('POST /api/appEvents', function() {
     beforeEach(function(done) {
       request(app)
-        .post('/api/things')
+        .post('/api/appEvents')
         .send({
-          name: 'New Thing',
-          info: 'This is the brand new thing!!!'
+          name: 'New AppEvent',
+          info: 'This is the brand new appEvent!!!'
         })
         .expect(201)
         .expect('Content-Type', /json/)
@@ -44,55 +44,55 @@ describe('Thing API:', function() {
           if (err) {
             return done(err);
           }
-          newThing = res.body;
+          newAppEvent = res.body;
           done();
         });
     });
 
-    it('should respond with the newly created thing', function() {
-      newThing.name.should.equal('New Thing');
-      newThing.info.should.equal('This is the brand new thing!!!');
+    it('should respond with the newly created appEvent', function() {
+      newAppEvent.name.should.equal('New AppEvent');
+      newAppEvent.info.should.equal('This is the brand new appEvent!!!');
     });
 
   });
 
-  describe('GET /api/things/:id', function() {
-    var thing;
+  describe('GET /api/appEvents/:id', function() {
+    var appEvent;
 
     beforeEach(function(done) {
       request(app)
-        .get('/api/things/' + newThing._id)
+        .get('/api/appEvents/' + newAppEvent._id)
         .expect(200)
         .expect('Content-Type', /json/)
         .end((err, res) => {
           if (err) {
             return done(err);
           }
-          thing = res.body;
+          appEvent = res.body;
           done();
         });
     });
 
     afterEach(function() {
-      thing = {};
+      appEvent = {};
     });
 
-    it('should respond with the requested thing', function() {
-      thing.name.should.equal('New Thing');
-      thing.info.should.equal('This is the brand new thing!!!');
+    it('should respond with the requested appEvent', function() {
+      appEvent.name.should.equal('New AppEvent');
+      appEvent.info.should.equal('This is the brand new appEvent!!!');
     });
 
   });
 
-  describe('PUT /api/things/:id', function() {
-    var updatedThing;
+  describe('PUT /api/appEvents/:id', function() {
+    var updatedAppEvent;
 
     beforeEach(function(done) {
       request(app)
-        .put('/api/things/' + newThing._id)
+        .put('/api/appEvents/' + newAppEvent._id)
         .send({
-          name: 'Updated Thing',
-          info: 'This is the updated thing!!!'
+          name: 'Updated AppEvent',
+          info: 'This is the updated appEvent!!!'
         })
         .expect(200)
         .expect('Content-Type', /json/)
@@ -100,27 +100,27 @@ describe('Thing API:', function() {
           if (err) {
             return done(err);
           }
-          updatedThing = res.body;
+          updatedAppEvent = res.body;
           done();
         });
     });
 
     afterEach(function() {
-      updatedThing = {};
+      updatedAppEvent = {};
     });
 
-    it('should respond with the updated thing', function() {
-      updatedThing.name.should.equal('Updated Thing');
-      updatedThing.info.should.equal('This is the updated thing!!!');
+    it('should respond with the updated appEvent', function() {
+      updatedAppEvent.name.should.equal('Updated AppEvent');
+      updatedAppEvent.info.should.equal('This is the updated appEvent!!!');
     });
 
   });
 
-  describe('DELETE /api/things/:id', function() {
+  describe('DELETE /api/appEvents/:id', function() {
 
     it('should respond with 204 on successful removal', function(done) {
       request(app)
-        .delete('/api/things/' + newThing._id)
+        .delete('/api/appEvents/' + newAppEvent._id)
         .expect(204)
         .end((err, res) => {
           if (err) {
@@ -130,9 +130,9 @@ describe('Thing API:', function() {
         });
     });
 
-    it('should respond with 404 when thing does not exist', function(done) {
+    it('should respond with 404 when appEvent does not exist', function(done) {
       request(app)
-        .delete('/api/things/' + newThing._id)
+        .delete('/api/appEvents/' + newAppEvent._id)
         .expect(404)
         .end((err, res) => {
           if (err) {

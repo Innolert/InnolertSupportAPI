@@ -1,15 +1,15 @@
 /**
- * Thing model events
+ * AppEvent model events
  */
 
 'use strict';
 
 import {EventEmitter} from 'events';
-import Thing from './thing.model';
-var ThingEvents = new EventEmitter();
+import AppEvent from './appEvent.model';
+var AppEventEvents = new EventEmitter();
 
 // Set max event listeners (0 == unlimited)
-ThingEvents.setMaxListeners(0);
+AppEventEvents.setMaxListeners(0);
 
 // Model events
 var events = {
@@ -20,14 +20,14 @@ var events = {
 // Register the event emitter to the model events
 for (var e in events) {
   var event = events[e];
-  Thing.schema.post(e, emitEvent(event));
+  AppEvent.schema.post(e, emitEvent(event));
 }
 
 function emitEvent(event) {
   return function(doc) {
-    ThingEvents.emit(event + ':' + doc._id, doc);
-    ThingEvents.emit(event, doc);
+    AppEventEvents.emit(event + ':' + doc._id, doc);
+    AppEventEvents.emit(event, doc);
   }
 }
 
-export default ThingEvents;
+export default AppEventEvents;
