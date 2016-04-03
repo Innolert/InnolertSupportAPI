@@ -15,7 +15,7 @@ class MainController {
   }
 
   $onInit() {
-    this.$http.get('/api/things').then(response => {
+    this.$http.get('/api/appEvents').then(response => {
       this.awesomeThings = response.data;
       this.socket.syncUpdates('thing', this.awesomeThings);
     });
