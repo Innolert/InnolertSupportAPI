@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 
 var AppEventSchema = new mongoose.Schema({
   active: {type : Boolean , default : true},
-  createdAt: {type Date , default : Date.now},
+  createdAt: { type: Date, default: Date.now },
   appName : String,
   appVersion : String,
   deviceId : String
