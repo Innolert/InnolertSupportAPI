@@ -3,9 +3,11 @@
 import mongoose from 'mongoose';
 
 var AppEventSchema = new mongoose.Schema({
-  name: String,
-  info: String,
-  active: Boolean
+  active: Boolean,
+  date: Date,
+  appName : String,
+  appVersion : String,
+  deviceId : String,
 });
 
 export default mongoose.model('AppEvent', AppEventSchema);
