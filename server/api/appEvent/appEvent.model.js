@@ -7,7 +7,8 @@ var AppEventSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
   appName : String,
   appVersion : String,
-  deviceId : String
+  deviceId : String,
+  action : String
 });
 
 export default mongoose.model('AppEvent', AppEventSchema);
