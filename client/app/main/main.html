@@ -10,9 +10,22 @@
   <div class="row">
     <div class="col-lg-12">
       <h1 class="page-header">Features:</h1>
-      <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="app in $ctrl.awesomeapps">
-        <li><a href="#" uib-tooltip="{{app}}">{{app.appName}}<button type="button" class="close" ng-click="$ctrl.deleteApp(app)">&times;</button></a></li>
-      </ul>
+
+
+      <table class="table">
+          <thead>
+            <tr>
+              <th>Data</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="app in $ctrl.awesomeapps">
+              <td>{{ app | json }}</td>
+              <td>
+                <button type="button" class="close" ng-click="$ctrl.deleteApp(app)">&times;</button></td>
+              </tr>
+          </tbody>
+        </table>
     </div>
   </div>
 
