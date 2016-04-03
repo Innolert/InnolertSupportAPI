@@ -51,11 +51,11 @@ export default function(app) {
    * Lusca - express server security
    * https://github.com/krakenjs/lusca
    */
-  if ('test' !== env) {
+  if (false && 'test' !== env) {
     app.use(lusca({
-      // csrf: {
-      //   angular: true
-      // },
+      csrf: {
+        angular: true
+      },
       xframe: 'SAMEORIGIN',
       hsts: {
         maxAge: 31536000, //1 year, in seconds
