@@ -12,8 +12,8 @@ var ReportedItemSchema = new mongoose.Schema({
     default: Date.now
   },
   filePath : String,
-  updates : [Schema.Types.Mixed],
-  author : Schema.Types.ObjectId
+  updates : [mongoose.Schema.Types.Mixed],
+  author : mongoose.Schema.Types.ObjectId
 });
 
 export default mongoose.model('ReportedItem', ReportedItemSchema);
