@@ -3,9 +3,17 @@
 import mongoose from 'mongoose';
 
 var ReportedItemSchema = new mongoose.Schema({
-  name: String,
-  info: String,
-  active: Boolean
+  active: {
+    type: Boolean,
+    default: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  filePath : String,
+  updates : [Schema.Types.Mixed],
+  author : Schema.Types.ObjectId
 });
 
 export default mongoose.model('ReportedItem', ReportedItemSchema);
