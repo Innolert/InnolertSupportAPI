@@ -12,9 +12,11 @@
 import _ from 'lodash';
 import ItemUpload from './itemUpload.model';
 var fs = require('fs');
+var reportemItemController = require(__base + "/api/reportedItem/reportedItem.controller.js")
 //using shortid to generate uniqe file name to the uploaded files
 var shortid = require('shortid');
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
+
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -80,6 +82,7 @@ export function show(req, res) {
 
 // Creates a new ItemUpload in the DB
 export function create(req, res) {
+  //get the author also in the req object
   var tempPath = req.files.file.path;
   var newFileName = shortid.generate();
   var targetPath = './public/images/' + newFileName +"." +req.files.file.originalFilename.split(".").pop();
@@ -88,6 +91,12 @@ export function create(req, res) {
       // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
       fs.unlink(tempPath, function() {
           if (err) throw err;
+          reportemItemController.create({
+            filePath : targetPath,
+            status : "file upload",
+            updates : ["first upload"],
+            author : require('mongoose').Types.ObjectId() // should be given not genarated
+          })
           res.send('File uploaded to: ' + targetPath + ' - ' + req.files.file.size + ' bytes');
       });
   });
