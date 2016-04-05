@@ -11,6 +11,9 @@
 
 import _ from 'lodash';
 import ItemUpload from './itemUpload.model';
+var fs = require('fs');
+
+
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -76,9 +79,16 @@ export function show(req, res) {
 
 // Creates a new ItemUpload in the DB
 export function create(req, res) {
-  return ItemUpload.create(req.body)
-    .then(respondWithResult(res, 201))
-    .catch(handleError(res));
+  var tempPath = req.files.file.path;
+  var targetPath = './public/images/' + req.files.file.originalFilename;
+  fs.rename(tempPath, targetPath, function(err) {
+      if (err) throw err;
+      // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
+      fs.unlink(tempPath, function() {
+          if (err) throw err;
+          res.send('File uploaded to: ' + targetPath + ' - ' + req.files.file.size + ' bytes');
+      });
+  });
 }
 
 // Updates an existing ItemUpload in the DB
