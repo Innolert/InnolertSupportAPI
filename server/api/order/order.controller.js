@@ -61,6 +61,21 @@ function handleError(res, statusCode) {
 
 // Gets a list of Orders
 export function index(req, res) {
+  var gcmClient = new (require(__base + '/config/gcm.config.js'))()
+
+  var message = new gcmClient.gcm.Message({
+  	data: {
+  		message: req.query.say
+  	}
+  });
+
+
+  gcmClient.regTokens.push('fDQ3nwkzzPk:APA91bFey61kz0DckSkam_9tzckcJJdJSXRSTaDnKIcyzc4d2aw-E0aJVrOxdE69ZY3yT57wG182R5SzvJ27E_B8wegs5b4ex70tvdc-cjp05uYFkYGRfuyHXB3gu40bxkjZfGiCMYdt');
+  // Now the sender can be used to send messages
+  gcmClient.sender.send(message, { registrationTokens: gcmClient.regTokens }, function (err, response) {
+  	if(err) console.error(err);
+  	else 	console.log(response);
+  });
   return Order.find().exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
