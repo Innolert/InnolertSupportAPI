@@ -7,6 +7,7 @@ class clientGCM {
     this.gcm = gcm;
     //set up API key
     this.sender = new gcm.Sender('AIzaSyD4MzVr4aNTI9Sn51lO1kU6UiCuMLkUWio');
+		this.regTokens = [];
   }
 }
 
