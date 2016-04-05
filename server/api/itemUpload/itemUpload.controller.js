@@ -94,7 +94,7 @@ export function create(req, res) {
           reportemItemController.create({
             filePath : targetPath,
             status : "file upload",
-            updates : ["first upload"],
+            updates : [{authors_note : req.body.description}],
             author : require('mongoose').Types.ObjectId() // should be given not genarated
           })
           res.send('File uploaded to: ' + targetPath + ' - ' + req.files.file.size + ' bytes');
