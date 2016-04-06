@@ -7,35 +7,18 @@ class DevicesComponent {
     this.socket = socket;
     this.vm = {};
     this.vm.devices = [{
-        name:"oleg",
+        name:"Choose option",
         token:"",
         hardware : {
           bt : {
             state : true,
             state_rep : "on"
           },
-          wifi : {
+          wf : {
             state : true,
             state_rep : "on"
           },
-          screen : {
-            state : true,
-            state_rep : "on"
-          }
-        }
-      },{
-        name:"max",
-        token:"",
-        hardware : {
-          bt : {
-            state : true,
-            state_rep : "on"
-          },
-          wifi : {
-            state : true,
-            state_rep : "on"
-          },
-          screen : {
+          scr : {
             state : true,
             state_rep : "on"
           }
@@ -49,11 +32,11 @@ class DevicesComponent {
       },
       {
         title : "wifi toggle",
-        key: "wifi"
+        key: "wf"
       },
       {
-        title : "Lock screen",
-        key: "screen"
+        title : "Screen",
+        key: "scr"
       }
     ];
 
