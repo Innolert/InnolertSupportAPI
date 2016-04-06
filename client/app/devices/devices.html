@@ -4,6 +4,13 @@
   </button>
   {{$ctrl.test}}
   <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-    <li ng-repeat="operation in $ctrl.vm.operations" role="menuitem"><a ng-click="$ctrl.operation(operation,device)">{{operation.title}}</a></li>
+    <li ng-repeat="operation in $ctrl.vm.operations" role="menuitem">
+      <a ng-click="$ctrl.operation(operation,device)">
+        {{operation.title}} {{device.hardware[operation.key].state_rep}}
+      </a>
+    </li>
   </ul>
+  <div class="form-group">
+    <input type="text" class="form-control" ng-model="device.token" placeholder="Token">
+  </div>
 </div>

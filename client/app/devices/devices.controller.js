@@ -8,36 +8,63 @@ class DevicesComponent {
     this.vm = {};
     this.vm.devices = [{
         name:"oleg",
-        token:"d12XFPYu188:APA91bFpdprgfh3SMZfOjKCNeJtO2k-kpnuG7KNY2ZI9MxFe1wDhSWtIRiscisqvIhjqka2BUz8DRdmWdefEiJnnhbouOWErvBuEZZJPSJPYT1uwr2LenzZkVSd7zkSOFKnEYRL9JckO",
+        token:"",
+        hardware : {
+          bt : {
+            state : true,
+            state_rep : "on"
+          },
+          wifi : {
+            state : true,
+            state_rep : "on"
+          },
+          screen : {
+            state : true,
+            state_rep : "on"
+          }
+        }
       },{
         name:"max",
-        token:"fn-qFJ6yJL0:APA91bHdhQn6GBqZAFNuW7tXbZm3e7okfLqmMe2pptiBeCsjOue3eYKEONe_ycMPTGF_fsNuUIhxNKbToSizmhRN_ZwjSfPumahdWfGtSuse_TWmDPwSpkNRiY_De5gjDV1UdZ9rV3ny"
+        token:"",
+        hardware : {
+          bt : {
+            state : true,
+            state_rep : "on"
+          },
+          wifi : {
+            state : true,
+            state_rep : "on"
+          },
+          screen : {
+            state : true,
+            state_rep : "on"
+          }
+        }
       }
     ]
     this.vm.operations = [
       {
         title : "Bt toggle",
-        key: "bt",
-        state : true
+        key: "bt"
       },
       {
         title : "wifi toggle",
-        key: "wifi",
-        state: true
+        key: "wifi"
       },
       {
         title : "Lock screen",
-        key: "screen",
-        state: true
+        key: "screen"
       }
     ];
 
   }
 
-  operation(operaion,device){
-    var req = (operaion.state==true? operaion.key+"on" : operaion.key+"off");
-    operaion.state =!operaion.state;
+  operation(operation,device){
+    device.hardware[operation.key].state = !device.hardware[operation.key].state
+    var req = operation.key + device.hardware[operation.key].state_rep;
+    device.hardware[operation.key].state_rep = (device.hardware[operation.key].state == true ? "on" : "off")
     console.log(req,device.token);
+
     this.$http.post('/api/orders', { message:  req , token : device.token});
   }
 
