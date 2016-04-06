@@ -13,7 +13,7 @@ export default function(app) {
   app.use('/api/reportedItems', require('./api/reportedItem'));
   app.use('/api/appEvents', require('./api/appEvent'));
   app.use('/api/users', require('./api/user'));
-
+  app.use('/api/orders', require('./api/order'));
   app.use('/auth', require('./auth').default);
 
   // All undefined asset or api routes should return a 404

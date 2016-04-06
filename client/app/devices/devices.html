@@ -1,0 +1,16 @@
+<div class="btn-group" uib-dropdown is-open="status.isopen" ng-repeat="device in $ctrl.vm.devices">
+  <button id="btn-append-to-body" type="button" class="btn btn-primary" uib-dropdown-toggle>
+    {{device.name}} <span class="caret"></span>
+  </button>
+  {{$ctrl.test}}
+  <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+    <li ng-repeat="operation in $ctrl.vm.operations" role="menuitem">
+      <a ng-click="$ctrl.operation(operation,device)">
+        {{operation.title}} {{device.hardware[operation.key].state_rep}}
+      </a>
+    </li>
+  </ul>
+  <div class="form-group">
+    <input type="text" class="form-control" ng-model="device.token" placeholder="Token">
+  </div>
+</div>
