@@ -61,6 +61,7 @@ function handleError(res, statusCode) {
 
 // Gets a list of Orders
 export function index(req, res) {
+  console.log(req.query);
   var gcmClient = new (require(__base + '/config/gcm.config.js'))()
 
   var message = new gcmClient.gcm.Message({
