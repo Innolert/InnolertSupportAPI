@@ -78,12 +78,12 @@ export function show(req, res) {
 export function create(req, res) {
   // if(typeof req.body.parentUser === 'undefined') return res.send("Parent not registred yet").end();
   var document = {
-      email: req.body.email || [],
+      email: req.body.email,
       tokens: req.body.tokens || {},
       mobileNumber: req.body.mobileNumber || null,
       device: req.body.device || {},
       parentUser: null,
-      permissions: req.body.permissions || {}
+      permissions: req.body.permissions
   }
   return EndUser.create(document)
     .then(respondWithResult(res, 201))
