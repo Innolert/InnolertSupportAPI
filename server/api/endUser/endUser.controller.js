@@ -81,7 +81,7 @@ export function create(req, res) {
       email: req.body.email || [],
       tokens: req.body.tokens || {},
       mobileNumber: req.body.mobileNumber || null,
-      device: req.body.device || {String},
+      device: req.body.device || {},
       parentUser: null,
       permissions: req.body.permissions || {}
   }

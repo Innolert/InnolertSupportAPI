@@ -11,10 +11,10 @@ var EndUserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  email : [String],
-  tokens : {
-    gcm : String,
-    apis : {
+  email: [String],
+  tokens: {
+    gcm: String,
+    apis: {
       fb: String,
       gp: String,
       wa: String,
@@ -23,14 +23,15 @@ var EndUserSchema = new mongoose.Schema({
       ig: String
     }
   },
-  mobileNumber : String,
-  device : {
-    id : String,
-    type : String,
-    IMEI : String
+  mobileNumber: String,
+  device: {
+    brand: String,
+    id: String,
+    imei: String
   },
-  parentUser : mongoose.Schema.Types.ObjectId,
-  permissions : [mongoose.Schema.Types.Mixed]
+
+  parentUser: mongoose.Schema.Types.ObjectId,
+  permissions: [mongoose.Schema.Types.Mixed]
 });
 
 export default mongoose.model('EndUser', EndUserSchema);
