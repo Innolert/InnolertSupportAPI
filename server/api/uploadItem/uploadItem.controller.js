@@ -11,7 +11,7 @@
 
 import _ from 'lodash';
 import UploadItem from './uploadItem.model';
-
+var Upload = require('upload-file');
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
   return function(entity) {
@@ -76,10 +76,37 @@ export function show(req, res) {
 
 // Creates a new UploadItem in the DB
 export function create(req, res) {
-  return UploadItem.create(req.body)
-    .then(respondWithResult(res, 201))
-    .catch(handleError(res));
+  var upload = new Upload({
+    maxNumberOfFiles: 10,
+    // Byte unit
+    maxFileSize: 1000 * 1024,
+    acceptFileTypes: /(\.|\/)(gif|jpe?g|png|css)$/i,
+    dest: 'uploads/images',
+    minNumberOfFiles: 0
+  });
+
+  upload.on('end', function(fields, files) {
+    console.log(fields);
+    console.log(files)
+    if (!fields.description) {
+      this.cleanup();
+      this.error('Channel can not be empty');
+      return;
+    }
+    res.send('ok')
+  });
+
+  upload.on('error', function(err) {
+    res.send(err);
+  });
+
+  upload.parse(req);
 }
+// export function create(req, res) {
+//   return UploadItem.create(req.body)
+//     .then(respondWithResult(res, 201))
+//     .catch(handleError(res));
+// }
 
 // Updates an existing UploadItem in the DB
 export function update(req, res) {
