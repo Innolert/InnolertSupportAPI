@@ -1,17 +1,11 @@
-<form action="/upload" enctype="multipart/form-data" method="post">
-      <input name="file" type="file"> signle file<br>
-      <input multiple="multiple" name="files" type="file"> multiple files<br>
-      <input name="directory" type="file"> directory<br>
-      <input name="channel"> <span style="margin-left:20px;">single
-      value</span><br>
-      <input name="city" type="text"><input name="city" type=
-      "text"><input name="city" type="text"><span style=
-      "margin-left:20px;">array value</span><br>
-      <input name="checkbox[]" type="checkbox" value="1"><input name=
-      "checkbox[]" type="checkbox" value="2"><span style=
-      "margin-left:20px;">array value</span><br>
-      <input name="radio" type="radio" value="1"><input name="radio" type=
-      "radio" value="2"><span style="margin-left:20px;">single
-      value</span><br>
+<form action="api/uploadItems" enctype="multipart/form-data" method="post">
+      <input name="file" type="file">
+      signle file
+      <br>
+      <input name="description">
+      <span style="margin-left:20px;">single
+        value
+      </span>
+      <br>
       <input type="submit">
   </form>
