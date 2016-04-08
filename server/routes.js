@@ -8,6 +8,7 @@ import path from 'path';
 
 export default function(app) {
   // Insert routes below
+  app.use('/api/uploadItems', require('./api/uploadItem'));
   var Upload = require('upload-file')
   app.post('/upload', function(req, res) {
     var upload = new Upload({
