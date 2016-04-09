@@ -10,7 +10,7 @@
     <input type="submit">
 </form>
 <div ng-repeat="item in $ctrl.vm.images">
-  <img ng-src="http://localhost:9000/{{item.filePath}}" >
+  <img ng-src="{{item.filePath}}" >
   </img>
   <ul>
     <li ng-repeat="update in item.updates">

@@ -12,6 +12,7 @@
 import _ from 'lodash';
 var Upload = require('upload-file');
 var shortid = require('shortid');
+var env = require(__base + '/config/environment/index.js');
 var reportItemController = require(__base + "/api/reportedItem/reportedItem.controller.js");
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -77,8 +78,10 @@ export function show(req, res) {
 
 // Creates a new UploadItem in the DB
 export function create(req, res) {
-  var destination = 'uploads/images/';
+  var uri = (env.env == 'development' ? 'http://localhost:9000/' : 'http://staging.innolert.com/')
+  var destination =  'uploads/images';
   var fileName = null;
+  console.log(env)
   var upload = new Upload({
     maxNumberOfFiles: 10,
     // Byte unit
@@ -102,7 +105,7 @@ export function create(req, res) {
       return;
     }
     console.log(files)
-    reportItemController.create({filePath:destination+"/"+fileName , updates : [fields.description] , author : null})
+    reportItemController.create({filePath:uri + destination+"/"+fileName , updates : [fields.description] , author : null})
     res.send('File has been saved into '+ destination+files.file.filename)
   });
 
