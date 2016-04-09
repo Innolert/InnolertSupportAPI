@@ -2,8 +2,14 @@
 (function(){
 
 class ReportComponent {
-  constructor() {
-    this.message = 'Hello';
+  constructor($http) {
+    this.$http = $http;
+    this.vm = {};
+    this.vm.images = [1,2]
+    this.$http.get('/api/reportedItems').then(response => {
+      this.vm.images = response.data;
+      // this.socket.syncUpdates('appEvent', this.awesomeapps);
+    });
   }
 }
 

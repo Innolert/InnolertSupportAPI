@@ -1,11 +1,20 @@
 <form action="api/uploadItems" enctype="multipart/form-data" method="post">
-      <input name="file" type="file">
-      signle file
-      <br>
-      <input name="description">
-      <span style="margin-left:20px;">single
-        value
-      </span>
-      <br>
-      <input type="submit">
-  </form>
+    <input name="file" type="file">
+    signle file
+    <br>
+    <input name="description">
+    <span style="margin-left:20px;">single
+      value
+    </span>
+    <br>
+    <input type="submit">
+</form>
+<div ng-repeat="item in $ctrl.vm.images">
+  <img ng-src="http://localhost:9000/{{item.filePath}}" >
+  </img>
+  <ul>
+    <li ng-repeat="update in item.updates">
+      {{update}}
+    </li>
+  </ul>
+</div>
