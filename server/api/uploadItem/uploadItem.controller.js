@@ -12,6 +12,7 @@
 import _ from 'lodash';
 var Upload = require('upload-file');
 var shortid = require('shortid');
+var reportItemController = require(__base + "/api/reportedItem/reportedItem.controller.js");
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
   return function(entity) {
@@ -77,6 +78,7 @@ export function show(req, res) {
 // Creates a new UploadItem in the DB
 export function create(req, res) {
   var destination = 'uploads/images';
+  var fileName = null;
   var upload = new Upload({
     maxNumberOfFiles: 10,
     // Byte unit
@@ -86,7 +88,8 @@ export function create(req, res) {
     minNumberOfFiles: 0,
     rename: function(name, file) {
       console.log(this.fields);
-      return shortid.generate()+"."+file.filename.split(".").pop();
+      fileName = shortid.generate()+"."+file.filename.split(".").pop();
+      return fileName;
     }
   });
 
@@ -99,12 +102,14 @@ export function create(req, res) {
       return;
     }
     console.log(files)
+    reportItemController.create({filePath:destination+"/"+fileName , updates : [fields.description] , author : null})
     res.send('File has been saved into '+ destination+files.file.filename)
   });
 
   upload.on('error', function(err) {
     res.send(err);
   });
+  
 
   upload.parse(req);
 }
