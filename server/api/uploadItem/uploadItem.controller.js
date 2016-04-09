@@ -77,14 +77,14 @@ export function show(req, res) {
 
 // Creates a new UploadItem in the DB
 export function create(req, res) {
-  var destination = 'uploads/images';
+  var destination = 'uploads/images/';
   var fileName = null;
   var upload = new Upload({
     maxNumberOfFiles: 10,
     // Byte unit
     maxFileSize: 1000 * 1024,
     acceptFileTypes: /(\.|\/)(gif|jpe?g|png|css)$/i,
-    dest: destination,
+    dest: 'server/'+destination,
     minNumberOfFiles: 0,
     rename: function(name, file) {
       console.log(this.fields);
