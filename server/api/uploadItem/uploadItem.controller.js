@@ -10,7 +10,6 @@
 'use strict';
 
 import _ from 'lodash';
-import UploadItem from './uploadItem.model';
 var Upload = require('upload-file');
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;

@@ -9,7 +9,7 @@ import path from 'path';
 export default function(app) {
   // Insert routes below
 
-
+  app.use('/api/uploadItems', require('./api/uploadItem')); 
   app.use('/api/endUsers', require('./api/endUser'));
   app.use('/api/reportedItems', require('./api/reportedItem'));
   app.use('/api/appEvents', require('./api/appEvent'));
