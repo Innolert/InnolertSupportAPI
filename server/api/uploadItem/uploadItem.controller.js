@@ -11,6 +11,7 @@
 
 import _ from 'lodash';
 var Upload = require('upload-file');
+var shortid = require('shortid');
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
   return function(entity) {
@@ -75,13 +76,18 @@ export function show(req, res) {
 
 // Creates a new UploadItem in the DB
 export function create(req, res) {
+  var destination = 'uploads/images';
   var upload = new Upload({
     maxNumberOfFiles: 10,
     // Byte unit
     maxFileSize: 1000 * 1024,
     acceptFileTypes: /(\.|\/)(gif|jpe?g|png|css)$/i,
-    dest: 'uploads/images',
-    minNumberOfFiles: 0
+    dest: destination,
+    minNumberOfFiles: 0,
+    rename: function(name, file) {
+      console.log(this.fields);
+      return shortid.generate()+"."+file.filename.split(".").pop();
+    }
   });
 
   upload.on('end', function(fields, files) {
@@ -92,7 +98,8 @@ export function create(req, res) {
       this.error('Channel can not be empty');
       return;
     }
-    res.send('ok')
+    console.log(files)
+    res.send('File has been saved into '+ destination+files.file.filename)
   });
 
   upload.on('error', function(err) {
