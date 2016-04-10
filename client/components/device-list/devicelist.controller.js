@@ -1,8 +1,7 @@
 'use strict';
+(function(){
 
-class DeviceListController {
-  //start-non-standard
-
+class DeviceListComponent {
   constructor(Auth) {
     this.isLoggedIn = Auth.isLoggedIn;
     this.isAdmin = Auth.isAdmin;
@@ -11,4 +10,10 @@ class DeviceListController {
 }
 
 angular.module('innolertApiApp')
-  .controller('DeviceListController', DeviceListController);
+  .component('deviceList', {
+    templateUrl: 'components/device-list/devicelist.html',
+    controller: 'DeviceListComponent',
+    controllerAs: 'devList'
+  });
+
+})();
