@@ -79,7 +79,7 @@ export function show(req, res) {
 // Creates a new UploadItem in the DB
 export function create(req, res) {
   var uri = (env.env == 'development' ? 'http://localhost:9000/' : 'http://staging.innolert.com/')
-  var destination =  'uploads/images';
+  var destination =  'public/images';
   var fileName = null;
   console.log(env)
   var upload = new Upload({
@@ -87,7 +87,7 @@ export function create(req, res) {
     // Byte unit
     maxFileSize: 1000 * 1024,
     acceptFileTypes: /(\.|\/)(gif|jpe?g|png|css)$/i,
-    dest: 'server/'+destination,
+    dest: destination,
     minNumberOfFiles: 0,
     rename: function(name, file) {
       console.log(this.fields);
@@ -105,14 +105,14 @@ export function create(req, res) {
       return;
     }
     console.log(files)
-    reportItemController.create({filePath:uri + destination+"/"+fileName , updates : [fields.description] , author : null})
+    reportItemController.create({filePath:uri + destination.split("/").pop()+"/"+fileName , updates : [fields.description] , author : null})
     res.send('File has been saved into '+ destination+files.file.filename)
   });
 
   upload.on('error', function(err) {
     res.send(err);
   });
-  
+
 
   upload.parse(req);
 }
