@@ -76,8 +76,9 @@ export function show(req, res) {
 
 // Creates a new ReportedItem in the DB
 export function create(req) {
-  console.log(req);
-  return ReportedItem.create(req)
+    return ReportedItem.create(req.body)
+    .then(respondWithResult(res, 201))
+    .catch(handleError(res));
 }
 
 // Updates an existing ReportedItem in the DB
