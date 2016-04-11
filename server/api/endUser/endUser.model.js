@@ -13,15 +13,15 @@ var EndUserSchema = new mongoose.Schema({
   },
   email: [String],
   apis: {
-    fb: String,
-    gp: String,
-    wa: String,
-    tw: String,
-    sc: String,
-    ig: String
+    facebook: String,
+    googleplus: String,
+    whatsapp: String,
+    twitter: String,
+    snapchat: String,
+    instegram: String
   },
   mobileNumber: String,
-  device: {
+  device: [{
     brand: String,
     id: String,
     imei: String,
@@ -29,7 +29,7 @@ var EndUserSchema = new mongoose.Schema({
     privateTokens :{
       gcm : String
     }
-  },
+  }],
   parentUser: mongoose.Schema.Types.ObjectId,
 
 });
