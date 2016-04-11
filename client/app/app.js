@@ -11,7 +11,7 @@ angular.module('innolertApiApp', [
   'ui.router',
   'ui.bootstrap',
   'validation.match',
-  'innolertApiApp.device'
+  'innolertApiApp.device',
 ])
   .config(function($urlRouterProvider, $locationProvider) {
     $urlRouterProvider

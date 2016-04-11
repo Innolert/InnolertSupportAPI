@@ -1,6 +1,27 @@
-<div>
-  Im container
-  <device-list></device-list>
-  <device-info></device-info>
-  <new-device></new-device>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-2">
+		</div>
+		<div class="col-md-8">
+      <device-list list="vm.model.deviceList"  on-update="vm.updateList()"></device-list>
+		</div>
+		<div class="col-md-2">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2">
+		</div>
+		<div class="col-md-8">
+        <device-info></device-info>
+		</div>
+		<div class="col-md-2">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-10">
+		</div>
+		<div class="col-md-2">
+        <new-device></new-device>
+		</div>
+	</div>
 </div>
