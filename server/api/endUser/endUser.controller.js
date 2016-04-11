@@ -77,15 +77,7 @@ export function show(req, res) {
 // Creates a new EndUser in the DB
 export function create(req, res) {
   // if(typeof req.body.parentUser === 'undefined') return res.send("Parent not registred yet").end();
-  var document = {
-      email: req.body.email || [],
-      tokens: req.body.tokens || {},
-      mobileNumber: req.body.mobileNumber || null,
-      device: req.body.device || {String},
-      parentUser: null,
-      permissions: req.body.permissions || {}
-  }
-  return EndUser.create(document)
+  return EndUser.create(req.body)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
 }

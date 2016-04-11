@@ -8,7 +8,6 @@ import path from 'path';
 
 export default function(app) {
   // Insert routes below
-
   app.use('/api/uploadItems', require('./api/uploadItem'));
   app.use('/api/endUsers', require('./api/endUser'));
   app.use('/api/reportedItems', require('./api/reportedItem'));
@@ -16,7 +15,7 @@ export default function(app) {
   app.use('/api/users', require('./api/user'));
   app.use('/api/orders', require('./api/order'));
   app.use('/auth', require('./auth').default);
-  app.use(require("express").static('public'));  
+  app.use(require("express").static('public'));
   app.route('/:url(api|auth|components|app|bower_components|assets)/*')
    .get(errors[404]);
 
