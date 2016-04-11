@@ -1,5 +1,4 @@
 'use strict';
 (function(){
-angular.module('innolertApiApp.device',[])
-
+angular.module('innolertApiApp.device',[]);
 })();

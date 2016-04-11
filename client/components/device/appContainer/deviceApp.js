@@ -6,7 +6,7 @@ class DeviceComponent {
   }
 }
 
-angular.module('innolertApiApp')
+angular.module('innolertApiApp.device')
   .component('deviceAppContainer', {
     templateUrl: 'components/device/appContainer/deviceAppTmpl.html',
     controller: DeviceComponent
