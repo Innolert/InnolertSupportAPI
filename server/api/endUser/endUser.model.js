@@ -11,6 +11,7 @@ var EndUserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
+  name : String,
   email: [String],
   apis: {
     facebook: String,
