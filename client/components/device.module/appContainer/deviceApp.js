@@ -9,7 +9,7 @@
       ctrl.$uibModal = $uibModal;
       ctrl.model = {
         deviceList: null,
-        selectedDevice : "max"
+        selectedDevice : null
       };
     }
 
@@ -28,6 +28,9 @@
     }
     attachDeviceToInfoComponent(device){
       this.model.selectedDevice = device;
+    }
+    showAdditionInfo(){
+      return this.model.selectedDevice != null;
     }
     onRemove(device){
       this.networkService.DELETE('endUsers' , device._id)
