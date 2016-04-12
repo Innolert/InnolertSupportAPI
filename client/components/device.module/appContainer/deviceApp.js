@@ -2,14 +2,16 @@
 (function(){
 
 class DeviceComponent {
-  constructor(networkService,$uibModal) {
+  constructor(networkService,$uibModal,socket) {
     var ctrl = this;
+    ctrl.socket = socket;
     ctrl.networkService = networkService;
     ctrl.$uibModal = $uibModal;
     ctrl.model = {};
     networkService.GET("endUsers")
     .then((response) => {
       this.model.deviceList = response.data
+      this.socket.syncUpdates('endUser', this.model.deviceList);
     })
 
   }
