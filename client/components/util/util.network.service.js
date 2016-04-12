@@ -22,7 +22,12 @@ function networkService($http) {
         return $http.get(this.baseUrl+endPoint)
       },
       PUL : {},
-      DELETE : {},
+      DELETE : function(endPoint , id){
+        $http({
+          method: 'DELETE',
+          url: this.baseUrl+endPoint+"/"+id 
+        })
+      },
       UPDATE : {},
       SHOW : {}
   };

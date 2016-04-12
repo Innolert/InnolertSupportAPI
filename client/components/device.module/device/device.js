@@ -33,7 +33,8 @@ angular.module('innolertApiApp.device')
     controllerAs: "vm",
     bindings: {
       device: '=',
-      onExtend: '&'
+      onExtend: '&',
+      onRemove: '&'
     }
   });
 

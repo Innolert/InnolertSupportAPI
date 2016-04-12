@@ -19,6 +19,11 @@ class DeviceListComponent {
   showDeviceInfo(device){
     this.onDeviceSelected({selectedDevice : device})
   }
+  onRemove(device){
+    console.log(device);
+    this.removeDevice({toRemove:device})
+  }
+
 
 }
 
@@ -30,7 +35,8 @@ angular.module('innolertApiApp.device')
     bindings: {
       list: '<',
       onUpdate: '&',
-      onDeviceSelected: '&'
+      onDeviceSelected: '&',
+      removeDevice: '&'
     }
   });
 
