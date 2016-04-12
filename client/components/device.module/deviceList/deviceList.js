@@ -16,6 +16,9 @@ class DeviceListComponent {
      this.model.deviceList = changesObj.list.currentValue
   }
 
+  showDeviceInfo(device){
+    this.onDeviceSelected({selectedDevice : device})
+  }
 
 }
 
@@ -26,7 +29,8 @@ angular.module('innolertApiApp.device')
     controllerAs: "vm",
     bindings: {
       list: '<',
-      onUpdate: '&'
+      onUpdate: '&',
+      onDeviceSelected: '&'
     }
   });
 

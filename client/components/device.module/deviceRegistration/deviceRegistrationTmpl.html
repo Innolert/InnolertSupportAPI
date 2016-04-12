@@ -19,7 +19,7 @@
       <label class="control-label " for="Selectphone">
        Phone
       </label>
-      <select class="select form-control" id="Selectphone" name="Selectphone" ng-model="vm.model.newDevice.brand">
+      <select class="select form-control" id="Selectphone" name="Selectphone" ng-model="vm.model.newDevice.device.brand">
 				<option value="">---Please select---</option>
 				<option value="{{device.value}}" ng-repeat="device in vm.model.supportedDevices">
 				 {{device.representation}}

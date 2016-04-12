@@ -3,7 +3,7 @@
 		<div class="col-md-2">
 		</div>
 		<div class="col-md-8">
-      <device-list list="vm.model.deviceList"  on-update="vm.updateList()"></device-list>
+      <device-list list="vm.model.deviceList"  on-update="vm.updateList()" on-device-selected="vm.attachDeviceToInfoComponent(selectedDevice)"></device-list>
 		</div>
 		<div class="col-md-2">
 		</div>
@@ -12,7 +12,7 @@
 		<div class="col-md-2">
 		</div>
 		<div class="col-md-8">
-        <device-info></device-info>
+        <device-info device="vm.model.selectedDevice" on-update="vm.updateDeviceInfo()"  ></device-info>
 		</div>
 		<div class="col-md-2">
 		</div>

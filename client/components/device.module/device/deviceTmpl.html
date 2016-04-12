@@ -2,12 +2,12 @@
   <div class="panel panel-primary">
     <div class="panel-heading">
       <h3 class="panel-title">
-        {{vm.model.device._id}}
+        {{vm.model.device.name}}
       </h3>
     </div>
     <div class="panel-body">
-      <div class="col-md-6">
-    			<img alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/" class="img-circle" />
+      <div class="col-md-6"  >
+    			<img alt="Bootstrap Image Preview" ng-class='vm.deviceBrand()' class="img-circle"/>
   		</div>
   		<div class="col-md-6">
   			<dl>
@@ -21,7 +21,8 @@
   		</div>
     </div>
     <div class="panel-footer">
-      Panel footer
+      {{vm.model.device.mobileNumber}}
+      <button type="button" class="btn" ng-click="vm.onExtend(vm)">Show more</button>
     </div>
   </div>
 </div>

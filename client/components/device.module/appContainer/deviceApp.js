@@ -7,19 +7,29 @@
       ctrl.socket = socket;
       ctrl.networkService = networkService;
       ctrl.$uibModal = $uibModal;
-      ctrl.model = {};
+      ctrl.model = {
+        deviceList: null,
+        selectedDevice : "max"
+      };
     }
 
     $onInit() {
       this.networkService.GET("endUsers")
         .then((response) => {
-          this.model.deviceList = response.data
+          this.model.deviceList = response.data;
           this.socket.syncUpdates('endUser', this.model.deviceList);
         })
     }
-    updateList(data) {
+    updateList() {
       return this.model.deviceList
     };
+    updateDeviceInfo(){
+      return this.model.selectedDevice
+    }
+    attachDeviceToInfoComponent(device){
+      console.log("in app" , device);
+      this.model.selectedDevice = device;
+    }
 
     toggleResitration() {
       var networkService = this.networkService;
@@ -35,7 +45,9 @@
             newDevice: {
               name: null,
               mobileNumber: null,
-              brand: null
+              device:{
+                brand: null
+              }
             },
             supportedDevices: [{
               value: "Samsung",
@@ -69,6 +81,8 @@
           })
       })
     }
+
+
   }
 
   angular.module('innolertApiApp.device')
