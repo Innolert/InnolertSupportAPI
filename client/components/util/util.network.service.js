@@ -15,8 +15,8 @@ function networkService($http) {
      * DELETE  /api/GIVIN_URL/GIVIN_ID
      */
       baseUrl : "http://localhost:9000/api/",
-      POST : function(){
-        return "abs";
+      POST : function(endPoint){
+        return $http.post(this.baseUrl+endPoint)
       },
       GET : function(endPoint){
         return $http.get(this.baseUrl+endPoint)
