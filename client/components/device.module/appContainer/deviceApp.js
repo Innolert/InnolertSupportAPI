@@ -34,7 +34,7 @@
           ctrl.model = {
             newDevice: {
               name: null,
-              telNumber: null,
+              mobileNumber: null,
               brand: null
             },
             supportedDevices: [{
@@ -63,7 +63,7 @@
       });
       registrationModelInstance.result.then((data) => {
         console.log("the return data from the model is :", data);
-        networkService.POST('endUsers')
+        networkService.POST('endUsers' , data)
           .then((response) => {
             console.log(response);
           })
