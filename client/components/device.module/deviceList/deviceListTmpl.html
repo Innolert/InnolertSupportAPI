@@ -1,3 +1,3 @@
 <div class="row">
-	  <device ng-repeat="device in vm.model.deviceList" device="device" on-extend="vm.showDeviceInfo(this.device)" on-remove="vm.onRemove(this.device)"></device>
+	  <device ng-repeat="device in vm.model.deviceList track by $index" device="device" on-extend="vm.showDeviceInfo(this.device)" on-remove="vm.onRemove(this.device)"></device>
 </div>
