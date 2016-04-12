@@ -6,16 +6,12 @@ class DeviceInfoComponent {
     var ctrl = this;
     ctrl.model = {};
     ctrl.model.selectedDevice = this.device;
-    console.log("in ctor",this.device);
     }
 
 
-  $onInit(){
-    console.log("nothing in device info" , this);
-  }
+  $onInit(){}
 
   $onChanges(changesObj){
-    console.log("device info go change" , changesObj);
     this.model.selectedDevice = changesObj.device.currentValue
   }
 

@@ -27,7 +27,6 @@
       return this.model.selectedDevice
     }
     attachDeviceToInfoComponent(device){
-      console.log("in app" , device);
       this.model.selectedDevice = device;
     }
 
