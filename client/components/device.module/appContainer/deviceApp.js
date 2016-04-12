@@ -29,6 +29,11 @@
     attachDeviceToInfoComponent(device){
       this.model.selectedDevice = device;
     }
+    onRemove(device){
+      this.networkService.DELETE('endUsers' , device._id)
+      // this.model.deviceList.splice(this.model.deviceList.indexOf(device),1)
+      // console.log(device);
+    }
 
     toggleResitration() {
       var networkService = this.networkService;
