@@ -2,9 +2,9 @@
 (function(){
 
 class DeviceComponent {
-  constructor($scope) {
+  constructor() {
     this.model = {};
-    this.model.device = $scope.vm.device;
+    this.model.device = this.device;
   }
 
   deviceBrand(){

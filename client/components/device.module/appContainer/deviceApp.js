@@ -45,7 +45,7 @@
         templateUrl: 'components/device.module/deviceRegistration/deviceRegistrationTmpl.html',
         size: 'md',
         controllerAs: 'vm',
-        controller: function($uibModalInstance) {
+        controller: ['$uibModalInstance',function($uibModalInstance) {
           var ctrl = this;
           ctrl.$uibModalInstance = $uibModalInstance;
           ctrl.model = {
@@ -77,7 +77,7 @@
           ctrl.cancel = function() {
             this.$uibModalInstance.dismiss(null);
           };
-        }
+        }]
 
       });
       registrationModelInstance.result.then((data) => {
@@ -95,7 +95,7 @@
   angular.module('innolertApiApp.device')
     .component('deviceAppContainer', {
       templateUrl: 'components/device.module/appContainer/deviceAppTmpl.html',
-      controller: DeviceComponent,
+      controller: ['networkService','$uibModal','socket',DeviceComponent],
       controllerAs: "vm"
     });
 
