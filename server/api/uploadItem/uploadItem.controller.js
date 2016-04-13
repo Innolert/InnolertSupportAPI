@@ -101,7 +101,8 @@ export function create(req, res) {
       return;
     }
     reportItemController.create({filePath:uri + destination.split("/").pop()+"/"+fileName , updates : [fields.description] , author : null})
-    res.send('File has been saved into '+ destination+files.file.filename)
+    console.log(files , fields);
+    res.send('File has been saved into '+ destination)
   });
 
   upload.on('error', function(err) {
