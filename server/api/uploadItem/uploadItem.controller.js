@@ -81,7 +81,6 @@ export function create(req, res) {
   var uri = (env.env == 'development' ? 'http://localhost:9000/' : 'http://staging.innolert.com/')
   var destination =  'public/images';
   var fileName = null;
-  console.log(env)
   var upload = new Upload({
     maxNumberOfFiles: 10,
     // Byte unit
@@ -90,21 +89,17 @@ export function create(req, res) {
     dest: destination,
     minNumberOfFiles: 0,
     rename: function(name, file) {
-      console.log(this.fields);
       fileName = shortid.generate()+"."+file.filename.split(".").pop();
       return fileName;
     }
   });
 
   upload.on('end', function(fields, files) {
-    console.log(fields);
-    console.log(files)
     if (!fields.description) {
       this.cleanup();
       this.error('Channel can not be empty');
       return;
     }
-    console.log(files)
     reportItemController.create({filePath:uri + destination.split("/").pop()+"/"+fileName , updates : [fields.description] , author : null})
     res.send('File has been saved into '+ destination+files.file.filename)
   });
