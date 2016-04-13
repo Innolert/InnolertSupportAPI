@@ -81,6 +81,7 @@ export function create(req, res) {
   var uri = (env.env == 'development' ? 'http://localhost:9000/' : 'http://staging.innolert.com/')
   var destination =  'public/images';
   var fileName = null;
+  console.log("the req" : req);
   var upload = new Upload({
     maxNumberOfFiles: 10,
     // Byte unit
