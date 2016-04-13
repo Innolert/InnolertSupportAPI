@@ -12,6 +12,7 @@
 import _ from 'lodash';
 var Upload = require('upload-file');
 var shortid = require('shortid');
+var mongoose = require('mongoose');
 var env = require(__base + '/config/environment/index.js');
 var reportItemController = require(__base + "/api/reportedItem/reportedItem.controller.js");
 function respondWithResult(res, statusCode) {
@@ -84,30 +85,25 @@ export function create(req, res) {
   var upload = new Upload({
     maxNumberOfFiles: 10,
     // Byte unit
-    maxFileSize: 10000 * 1024,
+    maxFileSize: 1000 * 1024,
     acceptFileTypes: /(\.|\/)(gif|jpe?g|png|css)$/i,
     dest: destination,
     minNumberOfFiles: 0,
     rename: function(name, file) {
-      console.log("renaming the file:" , file);
-      console.log("name object thats passed:" , name);
       fileName = shortid.generate()+"."+file.filename.split(".").pop();
       return fileName;
     }
   });
 
   upload.on('end', function(fields, files) {
-    console.log("end event fired");
-    console.log(files , fields);
+    fields.author = fields.author || null;
     if (!fields.description) {
       this.cleanup();
       this.error('Channel can not be empty');
       return;
     }
-    console.log("No error , cuntinue");
-    reportItemController.create({filePath:uri + destination.split("/").pop()+"/"+fileName , updates : [fields.description] , author : null})
-    console.log("doc created");
-    res.send('File has been saved into '+ destination)
+    reportItemController.create({filePath:uri + destination.split("/").pop()+"/"+fileName , updates : [fields.description] , author : fields.author})
+    res.send('File has been saved into '+ destination+files.file.filename)
   });
 
   upload.on('error', function(err) {
