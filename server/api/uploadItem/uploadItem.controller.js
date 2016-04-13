@@ -12,6 +12,7 @@
 import _ from 'lodash';
 var Upload = require('upload-file');
 var shortid = require('shortid');
+var mongoose = require('mongoose');
 var env = require(__base + '/config/environment/index.js');
 var reportItemController = require(__base + "/api/reportedItem/reportedItem.controller.js");
 function respondWithResult(res, statusCode) {
@@ -95,12 +96,13 @@ export function create(req, res) {
   });
 
   upload.on('end', function(fields, files) {
+    fields.author = fields.author || null;
     if (!fields.description) {
       this.cleanup();
       this.error('Channel can not be empty');
       return;
     }
-    reportItemController.create({filePath:uri + destination.split("/").pop()+"/"+fileName , updates : [fields.description] , author : null})
+    reportItemController.create({filePath:uri + destination.split("/").pop()+"/"+fileName , updates : [fields.description] , author : fields.author})
     res.send('File has been saved into '+ destination+files.file.filename)
   });
 
