@@ -96,7 +96,7 @@ export function create(req, res) {
   });
 
   upload.on('end', function(fields, files) {
-    fields.author = fields.author || null;
+    fields.author = mongoose.Types.ObjectId(fields.author) || null;
     if (!fields.description) {
       this.cleanup();
       this.error('Channel can not be empty');
