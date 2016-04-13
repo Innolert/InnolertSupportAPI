@@ -84,7 +84,7 @@ export function create(req, res) {
   var upload = new Upload({
     maxNumberOfFiles: 10,
     // Byte unit
-    maxFileSize: 1000 * 1024,
+    maxFileSize: 10000 * 1024,
     acceptFileTypes: /(\.|\/)(gif|jpe?g|png|css)$/i,
     dest: destination,
     minNumberOfFiles: 0,
