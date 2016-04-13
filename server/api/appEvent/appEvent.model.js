@@ -13,9 +13,9 @@ var AppEventSchema = new mongoose.Schema({
   },
   appName: String,
   appVersion: String,
-  deviceId: String,
   phoneNumber: String,
-  action: String
+  action: String,
+  data: [mongoose.Schema.Types.Mixed]
 });
 
 export default mongoose.model('AppEvent', AppEventSchema);
