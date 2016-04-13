@@ -6,7 +6,7 @@
 'use strict';
 import User from '../api/user/user.model';
 import endUser from '../api/endUser/endUser.model';
-import reportedItem from '../api/reportedItem/reportedItem.model';
+import appEvent from '../api/appEvent/appEvent.model';
 
 User.find({}).remove()
   .then(() => {
@@ -34,7 +34,7 @@ User.find({}).remove()
     console.log('finished populating endUsers');
   });
 
-  reportedItem.find({}).remove()
+  appEvent.find({}).remove()
   .then(() => {
-    console.log('finished populating reportedItems');
+    console.log('finished populating appEvent');
   })
