@@ -97,13 +97,16 @@ export function create(req, res) {
   });
 
   upload.on('end', function(fields, files) {
+    console.log("end event fired");
+    console.log(files , fields);
     if (!fields.description) {
       this.cleanup();
       this.error('Channel can not be empty');
       return;
     }
+    console.log("No error , cuntinue");
     reportItemController.create({filePath:uri + destination.split("/").pop()+"/"+fileName , updates : [fields.description] , author : null})
-    console.log(files , fields);
+    console.log("doc created");
     res.send('File has been saved into '+ destination)
   });
 
