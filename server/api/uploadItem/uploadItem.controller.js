@@ -89,6 +89,8 @@ export function create(req, res) {
     dest: destination,
     minNumberOfFiles: 0,
     rename: function(name, file) {
+      console.log("renaming the file:" , file);
+      console.log("name object thats passed:" , name);
       fileName = shortid.generate()+"."+file.filename.split(".").pop();
       return fileName;
     }
