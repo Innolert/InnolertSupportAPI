@@ -18,8 +18,9 @@
         .then((response) => {
           var ctrl = this;
           this.model.deviceList = response.data;
-          this.socket.syncUpdates('endUser', this.model.deviceList , (event,item,array) => {
-            console.log("oleg");
+          this.socket.syncUpdates('endUser', this.model.deviceList,(event,item,array)=> {
+            if(event == "updated")
+              ctrl.model.selectedDevice = item;
           })
         })
     }
