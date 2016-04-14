@@ -84,7 +84,7 @@ export function create(req, res) {
   var upload = new Upload({
     maxNumberOfFiles: 10,
     // Byte unit
-    maxFileSize: 1000 * 1024,
+    maxFileSize: 10000 * 1024,
     acceptFileTypes: /(\.|\/)(gif|jpe?g|png|css)$/i,
     dest: destination,
     minNumberOfFiles: 0,
@@ -95,12 +95,13 @@ export function create(req, res) {
   });
 
   upload.on('end', function(fields, files) {
+    console.log(fields);
     if (!fields.description) {
       this.cleanup();
       this.error('Channel can not be empty');
       return;
     }
-    reportItemController.create({filePath:uri + destination.split("/").pop()+"/"+fileName , updates : [fields.description] , author : null})
+    reportItemController.create({filePath:uri + destination.split("/").pop()+"/"+fileName , updates : [fields.description] , author : fields.author})
     res.send('File has been saved into '+ destination+files.file.filename)
   });
 
