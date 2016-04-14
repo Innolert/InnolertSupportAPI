@@ -28,6 +28,7 @@ class DeviceInfoComponent {
   }
 
   $onChanges(changesObj){
+    console.log(changesObj);
     this.model.selectedDevice = changesObj.device.currentValue
     this.NgMap.getMap()
     .then((map) => {

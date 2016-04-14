@@ -16,11 +16,14 @@
     $onInit() {
       this.networkService.GET("endUsers")
         .then((response) => {
+          var ctrl = this;
           this.model.deviceList = response.data;
-          this.socket.syncUpdates('endUser', this.model.deviceList);
+          this.socket.syncUpdates('endUser', this.model.deviceList , (event,item,array) => {
+            console.log("oleg");
+          })
         })
     }
-    updateList() {
+    updateList(){
       return this.model.deviceList
     };
     updateDeviceInfo(){
@@ -34,9 +37,10 @@
     }
     onRemove(device){
       this.networkService.DELETE('endUsers' , device._id)
-      // this.model.deviceList.splice(this.model.deviceList.indexOf(device),1)
-      // console.log(device);
     }
+
+
+
 
     toggleResitration() {
       var networkService = this.networkService;

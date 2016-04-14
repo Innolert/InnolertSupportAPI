@@ -7,7 +7,6 @@ class DeviceListComponent {
     ctrl.model = {};
     ctrl.model.deviceList = this.list
   }
-
   $onInit(){
 
   }
@@ -19,12 +18,11 @@ class DeviceListComponent {
   showDeviceInfo(device){
     this.onDeviceSelected({selectedDevice : device})
   }
+
   onRemove(device){
     console.log(device);
     this.removeDevice({toRemove:device})
   }
-
-
 }
 
 angular.module('innolertApiApp.device')

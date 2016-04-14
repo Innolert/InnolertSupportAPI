@@ -3,8 +3,14 @@
 
 class DeviceComponent {
   constructor() {
-    this.model = {};
-    this.model.device = this.device;
+    var ctrl = this;
+    ctrl.model = {};
+    ctrl.model.device = this.device;
+  }
+
+
+  $onChanges(changesObj){
+     this.model.device = changesObj.device.currentValue
   }
 
   deviceBrand(){
@@ -32,7 +38,7 @@ angular.module('innolertApiApp.device')
     controller: DeviceComponent,
     controllerAs: "vm",
     bindings: {
-      device: '=',
+      device: '<',
       onExtend: '&',
       onRemove: '&'
     }
