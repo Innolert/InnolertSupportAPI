@@ -95,6 +95,7 @@ export function create(req, res) {
   });
 
   upload.on('end', function(fields, files) {
+    console.log(fields);
     if (!fields.description) {
       this.cleanup();
       this.error('Channel can not be empty');
