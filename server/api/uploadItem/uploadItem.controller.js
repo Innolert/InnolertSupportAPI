@@ -12,6 +12,7 @@
 import _ from 'lodash';
 var Upload = require('upload-file');
 var shortid = require('shortid');
+var mongoose = require('mongoose');
 var env = require(__base + '/config/environment/index.js');
 var reportItemController = require(__base + "/api/reportedItem/reportedItem.controller.js");
 function respondWithResult(res, statusCode) {
@@ -95,6 +96,7 @@ export function create(req, res) {
   });
 
   upload.on('end', function(fields, files) {
+    fields.author = mongoose.Types.ObjectId(fields.author) || null;
     console.log(fields);
     if (!fields.description) {
       this.cleanup();
