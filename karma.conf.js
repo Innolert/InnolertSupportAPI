@@ -23,6 +23,9 @@ module.exports = function(config) {
       'client/bower_components/angular-ui-router/release/angular-ui-router.js',
       'client/bower_components/angular-validation-match/dist/angular-validation-match.min.js',
       'client/bower_components/ngmap/build/scripts/ng-map.js',
+      'client/bower_components/qrcode-generator/js/qrcode.js',
+      'client/bower_components/qrcode-generator/js/qrcode_UTF8.js',
+      'client/bower_components/angular-qrcode/angular-qrcode.js',
       'client/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'node_modules/socket.io-client/socket.io.js',

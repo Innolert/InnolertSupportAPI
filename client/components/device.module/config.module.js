@@ -3,6 +3,7 @@
 angular.module('innolertApiApp.device',[
     'ui.bootstrap',
     'innolertApiApp.util',
-    'ngMap'
+    'ngMap',
+    'monospaced.qrcode'
 ]);
 })();
