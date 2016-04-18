@@ -20,13 +20,16 @@ function networkService($http,$location) {
         return  baseUri+path;
       },
       POST : function(endPoint,data){
+        console.log("POST " , this.buildPath()+endPoint , data);
         return $http.post(this.buildPath()+endPoint , data)
       },
       GET : function(endPoint){
+        console.log("GET " , this.buildPath()+endPoint , data);
         return $http.get(this.buildPath()+endPoint)
       },
       PULL   : {},
       DELETE : function(endPoint , id){
+        console.log("DELETE " , this.buildPath()+endPoint , data);
         $http({
           method: 'DELETE',
           url: this.buildPath()+endPoint+"/"+id
