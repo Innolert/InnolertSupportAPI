@@ -7,7 +7,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 mongoose.Promise = require('bluebird');
-var fs = require('fs');
+import fs from 'fs';
 import config from './config/environment';
 global.__base = __dirname;
 // Connect to MongoDB
