@@ -61,7 +61,7 @@ function handleError(res, statusCode) {
 
 // Gets a list of EndUsers
 export function index(req, res) {
-  return EndUser.find({author: req.user._id}).exec()
+  return EndUser.find({parentUser: req.user._id}).exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
@@ -76,7 +76,7 @@ export function show(req, res) {
 
 // Creates a new EndUser in the DB
 export function create(req, res) {
-  // if(typeof req.body.parentUser === 'undefined') return res.send("Parent not registred yet").end();
+  req.body.parentUser = req.user._id;
   return EndUser.create(req.body)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
