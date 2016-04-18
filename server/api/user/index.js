@@ -6,6 +6,7 @@ import * as auth from '../../auth/auth.service';
 
 var router = new Router();
 
+router.get('/verify/:id', controller.verify);
 router.get('/', auth.hasRole('admin'), controller.index);
 router.delete('/:id', auth.hasRole('admin'), controller.destroy);
 router.get('/me', auth.isAuthenticated(), controller.me);

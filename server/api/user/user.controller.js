@@ -3,6 +3,7 @@
 import User from './user.model';
 import passport from 'passport';
 import config from '../../config/environment';
+var emailController = require(__base + '/api/email/email.controller');
 import jwt from 'jsonwebtoken';
 
 function validationError(res, statusCode) {
@@ -40,13 +41,40 @@ export function create(req, res, next) {
   newUser.role = 'user';
   newUser.save()
     .then(function(user) {
-      var token = jwt.sign({ _id: user._id }, config.secrets.session, {
-        expiresIn: 60 * 60 * 5
+      var protocol = (req.secure) ?'https://' : 'http://';
+      var url = protocol + req.headers.host +"/";
+      emailController.newUser(url, req.body.email , user._id);
+      res.writeHead(302, {
+        'Location': url
       });
-      res.json({ token });
+      res.end();
+      // res.writeHead(301, { Location: "http://" + req.headers['host'] + req.url }).end();
     })
     .catch(validationError(res));
 }
+
+/**
+  * Verify the user after clicking the link in the mail
+  */
+  export function verify(req,res){
+    var userId = req.params.id;
+    var protocol = (req.secure) ?'https://' : 'http://';
+    var url = protocol + req.headers.host +"/";
+    return User.findById(userId).exec()
+      .then(user => {
+          user.isVerified = true;
+          return user.save()
+            .then(() => {
+              res.writeHead(302, {
+                'Location': url
+              });
+              res.end();
+            })
+            .catch(validationError(res));
+
+      });
+
+  }
 
 /**
  * Get a single user
