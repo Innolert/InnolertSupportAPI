@@ -58,17 +58,21 @@
       <script src="bower_components/angular-socket-io/socket.js"></script>
       <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
       <script src="bower_components/angular-validation-match/dist/angular-validation-match.min.js"></script>
+      <script src="bower_components/ngmap/build/scripts/ng-map.js"></script>
+      <script src="bower_components/qrcode-generator/js/qrcode.js"></script>
+      <script src="bower_components/qrcode-generator/js/qrcode_UTF8.js"></script>
+      <script src="bower_components/angular-qrcode/angular-qrcode.js"></script>
       <!-- endbower -->
       <script src="socket.io-client/socket.io.js"></script>
     <!-- endbuild -->
     <!-- build:js(.tmp) app/app.js -->
       <script src="app/app.js"></script>
       <!-- injector:js -->
-      <script src="components/auth/auth.module.js"></script>
       <script src="app/admin/admin.module.js"></script>
+      <script src="components/auth/auth.module.js"></script>
+      <script src="components/device.module/config.module.js"></script>
       <script src="components/util/util.module.js"></script>
-      <script src="app/account/signup/signup.controller.js"></script>
-      <script src="app/admin/admin.controller.js"></script>
+      <script src="components/auth/user.service.js"></script>
       <script src="app/account/account.js"></script>
       <script src="app/admin/admin.router.js"></script>
       <script src="app/app.constant.js"></script>
@@ -78,11 +82,17 @@
       <script src="app/main/main.js"></script>
       <script src="app/report/report.controller.js"></script>
       <script src="app/report/report.js"></script>
-      <script src="app/account/login/login.controller.js"></script>
+      <script src="app/account/settings/settings.controller.js"></script>
       <script src="components/auth/auth.service.js"></script>
       <script src="components/auth/interceptor.service.js"></script>
       <script src="components/auth/router.decorator.js"></script>
-      <script src="components/auth/user.service.js"></script>
+      <script src="app/account/login/login.controller.js"></script>
+      <script src="components/device.module/appContainer/deviceApp.js"></script>
+      <script src="app/account/signup/signup.controller.js"></script>
+      <script src="components/device.module/device/device.js"></script>
+      <script src="components/device.module/deviceInfo/deviceInfo.js"></script>
+      <script src="components/device.module/deviceList/deviceList.js"></script>
+      <script src="components/device.module/newDevice/newDevice.js"></script>
       <script src="components/footer/footer.directive.js"></script>
       <script src="components/modal/modal.service.js"></script>
       <script src="components/mongoose-error/mongoose-error.directive.js"></script>
@@ -91,7 +101,8 @@
       <script src="components/oauth-buttons/oauth-buttons.controller.js"></script>
       <script src="components/oauth-buttons/oauth-buttons.directive.js"></script>
       <script src="components/socket/socket.service.js"></script>
-      <script src="app/account/settings/settings.controller.js"></script>
+      <script src="app/admin/admin.controller.js"></script>
+      <script src="components/util/util.network.service.js"></script>
       <script src="components/util/util.service.js"></script>
       <!-- endinjector -->
     <!-- endbuild -->

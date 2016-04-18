@@ -21,6 +21,7 @@ $fa-font-path: "../bower_components/font-awesome/fonts";
 @import 'devices/devices.scss';
 @import 'main/main.scss';
 @import 'report/report.scss';
+@import '../components/device.module/device.scss';
 @import '../components/footer/footer.scss';
 @import '../components/modal/modal.scss';
 @import '../components/oauth-buttons/oauth-buttons.scss';

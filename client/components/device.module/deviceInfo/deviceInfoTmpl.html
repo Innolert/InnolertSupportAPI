@@ -1,0 +1,51 @@
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			{{vm.model.selectedDevice.name}} {{vm.model.selectedDevice._id}}
+			<i class="fa fa-pencil" aria-hidden="true"></i>
+		</h3>
+	</div>
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-md-12">
+				{{vm.model.selectedDevice}}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3">
+				<div class="btn-group btn-group-lg">
+					<button class="btn btn-default" type="button" ng-repeat="btn in vm.model.operations">
+						{{btn.title}}
+						<i ng-class="btn.icon" aria-hidden="true"></i>
+					</button>
+				</div>
+			</div>
+			<div class="col-md-6">
+
+			</div>
+			<div class="col-md-3">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-9">
+				<div map-lazy-load="https://maps.google.com/maps/api/js">
+					<ng-map center="41,-87" zoom="3">
+						<marker animation="Animation.BOUNCE" centered="true" draggable="true"></marker>
+					</ng-map>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="col-md-4">
+					<i class="fa fa-phone fa-lg pull-left" aria-hidden="true"></i>
+				</div>
+				<div class="col-md-8">
+					<h4 class="pull-left">Call log</h4>
+					<qrcode data="{{vm.model.selectedDevice._id}}" size="150" download></qrcode>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel-footer">
+		{{vm.model.selectedDevice.createdAt}}
+	</div>
+</div>

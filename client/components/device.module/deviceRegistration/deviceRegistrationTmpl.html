@@ -1,0 +1,43 @@
+<div class="modal-content">
+	<div class="modal-header">
+  	<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="vm.cancel()">
+  		×
+  	</button>
+  	<h4 class="modal-title" id="myModalLabel">
+  		Register new device
+  	</h4>
+	</div>
+	<div class="modal-body">
+    <form>
+     <div class="form-group ">
+      <input class="form-control" ng-model="vm.model.newDevice.name" id="name" name="name" placeholder="Name" type="text"/>
+     </div>
+     <div class="form-group ">
+      <input class="form-control" ng-model="vm.model.newDevice.mobileNumber" id="mobileNumber" name="mobileNumber" placeholder="Telephone number" type="text"/>
+     </div>
+     <div class="form-group ">
+      <label class="control-label " for="Selectphone">
+       Phone
+      </label>
+      <select class="select form-control" id="Selectphone" name="Selectphone" ng-model="vm.model.newDevice.device.brand">
+				<option value="">---Please select---</option>
+				<option value="{{device.value}}" ng-repeat="device in vm.model.supportedDevices">
+				 {{device.representation}}
+				</option>
+      </select>
+      <span class="help-block" id="hint_Selectphone">
+       If you know the brand of the phone please provide it now
+      </span>
+     </div>
+    </form>
+	</div>
+	<div class="modal-footer">
+
+		<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.cancel()">
+			Close
+		</button>
+		<button type="button" class="btn btn-primary" ng-click="vm.save()">
+			Save changes
+		</button>
+	</div>
+</div>

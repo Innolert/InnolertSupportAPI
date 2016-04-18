@@ -10,7 +10,8 @@ angular.module('innolertApiApp', [
   'btford.socket-io',
   'ui.router',
   'ui.bootstrap',
-  'validation.match'
+  'validation.match',
+  'innolertApiApp.device',
 ])
   .config(function($urlRouterProvider, $locationProvider) {
     $urlRouterProvider
