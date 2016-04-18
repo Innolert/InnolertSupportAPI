@@ -25,7 +25,7 @@ function networkService($http,$location) {
       GET : function(endPoint){
         return $http.get(this.buildPath()+endPoint)
       },
-      PUL : {},
+      PULL : {},
       DELETE : function(endPoint , id){
         $http({
           method: 'DELETE',
