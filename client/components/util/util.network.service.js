@@ -15,6 +15,7 @@ function networkService($http,$location) {
      * DELETE  /api/GIVIN_URL/GIVIN_ID
      */
       buildPath : function(){
+        console.log($location);
         var baseUri = ($location.$$host == 'localhost') ? "http://localhost:9000/" : "";
         var path = (baseUri.slice(-1) == "/") ? "api/" : "/api/";
         return  baseUri+path;
@@ -25,7 +26,7 @@ function networkService($http,$location) {
       GET : function(endPoint){
         return $http.get(this.buildPath()+endPoint)
       },
-      PULL : {},
+      PULL   : {},
       DELETE : function(endPoint , id){
         $http({
           method: 'DELETE',
