@@ -58,13 +58,15 @@ export function create(req, res, next) {
   */
   export function verify(req,res){
     var userId = req.params.id;
+    var protocol = (req.secure) ?'https://' : 'http://';
+    var url = protocol + req.headers.host +"/";
     return User.findById(userId).exec()
       .then(user => {
           user.isVerified = true;
           return user.save()
             .then(() => {
               res.writeHead(302, {
-                'Location': (req.secure) ?'https://' : 'http://' + req.headers['host'] + req.url
+                'Location': url
               });
               res.end();
             })
