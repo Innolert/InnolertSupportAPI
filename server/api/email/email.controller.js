@@ -12,7 +12,7 @@
 import _ from 'lodash';
 import Email from './email.model';
 import fs from 'fs';
-var sendgrid  = require('sendgrid')(JSON.parse(fs.readFileSync('./apis.key.json', 'utf8')).sendgrid);
+var sendgrid  = require('sendgrid')(JSON.parse(fs.readFileSync('../apis.key.json', 'utf8')).sendgrid);
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
   return function(entity) {
