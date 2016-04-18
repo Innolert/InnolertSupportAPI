@@ -37,12 +37,11 @@ export function index(req, res) {
  */
 export function create(req, res, next) {
   var newUser = new User(req.body);
-  console.log(req.headers);
   newUser.provider = 'local';
   newUser.role = 'user';
   newUser.save()
     .then(function(user) {
-      emailController.newUser((req.secure) ?'https://' : 'http://' + req.headers['host'] + req.url , req.body.email , user._id);
+      emailController.newUser((req.secure) ?'https://' : 'http://' + req.headers['host']+"/" , req.body.email , user._id);
       res.writeHead(302, {
         'Location': (req.secure) ?'https://' : 'http://' + req.headers['host'] + req.url
       });
