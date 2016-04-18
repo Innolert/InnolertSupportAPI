@@ -41,12 +41,11 @@ export function create(req, res, next) {
   newUser.role = 'user';
   newUser.save()
     .then(function(user) {
-      console.log("the headers are " ,req.headers.host);
-      var url = (req.secure) ?'https://' : 'http://' + req.headers.host+"/";
-      console.log("the url is:", url);
+      var protocol = (req.secure) ?'https://' : 'http://';
+      var url = protocol + req.headers.host +"/";
       emailController.newUser(url, req.body.email , user._id);
       res.writeHead(302, {
-        'Location': (req.secure) ?'https://' : 'http://' + req.headers['host'] + req.url
+        'Location': url
       });
       res.end();
       // res.writeHead(301, { Location: "http://" + req.headers['host'] + req.url }).end();
