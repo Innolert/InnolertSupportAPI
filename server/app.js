@@ -7,8 +7,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 mongoose.Promise = require('bluebird');
+var fs = require('fs');
 import config from './config/environment';
-import http from 'http';
 global.__base = __dirname;
 // Connect to MongoDB
 mongoose.connect(config.mongo.uri, config.mongo.options);
@@ -22,7 +22,16 @@ if (config.seedDB) { require('./config/seed'); }
 
 // Setup server
 var app = express();
-var server = http.createServer(app);
+if (config.env !== 'production') {
+  var server = require('http').createServer(app);
+}
+else{
+  var server = require('https').createServer({
+    key: fs.readFileSync('../innolert.key', 'utf8'),
+    cert: fs.readFileSync('../innolert.crt', 'utf8'),
+    passphrase:  fs.readFileSync('../passphrase', 'utf8')
+  }, app);
+}
 var socketio = require('socket.io')(server, {
   serveClient: config.env !== 'production',
   path: '/socket.io-client'
@@ -33,9 +42,18 @@ require('./routes').default(app);
 
 // Start server
 function startServer() {
-  app.angularFullstack = server.listen(config.port, config.ip, function() {
-    console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
+
+  app.angularFullstack = server.listen(config.env !== 'production' ? config.port : 443, config.ip, function () {
+    console.log('Express server listening on %d, in %s mode', config.env !== 'production' ? config.port : 443, app.get('env'));
   });
+  if (config.env === 'production') {
+   require('http')
+     .createServer(function (req, res) {
+       res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+       res.end();
+     })
+     .listen(config.port, config.ip);
+   }
 }
 
 setImmediate(startServer);
