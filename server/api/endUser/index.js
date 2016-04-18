@@ -1,11 +1,11 @@
 'use strict';
-
+import * as auth from '../../auth/auth.service';
 var express = require('express');
 var controller = require('./endUser.controller');
 
 var router = express.Router();
 
-router.get('/', controller.index);
+router.get('/',auth.hasRole('user'), controller.index);
 router.get('/:id', controller.show);
 router.post('/', controller.create);
 router.put('/:id', controller.update);

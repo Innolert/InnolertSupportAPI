@@ -61,7 +61,7 @@ function handleError(res, statusCode) {
 
 // Gets a list of EndUsers
 export function index(req, res) {
-  return EndUser.find().exec()
+  return EndUser.find({author:req.user._id}).exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
