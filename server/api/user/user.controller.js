@@ -41,9 +41,8 @@ export function create(req, res, next) {
   newUser.role = 'user';
   newUser.save()
     .then(function(user) {
-      console.log("the headers are " ,req.headers);
-      console.log("the urlis " ,req.url);
-      var url = (req.secure) ?'https://' : 'http://' + req.headers['host']+"/";
+      console.log("the headers are " ,req.headers.host);
+      var url = (req.secure) ?'https://' : 'http://' + req.headers.host+"/";
       console.log("the url is:", url);
       emailController.newUser(url, req.body.email , user._id);
       res.writeHead(302, {
