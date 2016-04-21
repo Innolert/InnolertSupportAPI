@@ -27,7 +27,7 @@ if (config.env !== 'production') {
 }
 else{
   var caArr = [];
-  function logArrayElements(element, index, array) {
+  function readFileSyncToArray(element, index, array) {
     caArr.push(fs.readFileSync('../'+element+".crt" , "utf8"));
   }
   [
