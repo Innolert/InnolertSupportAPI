@@ -34,7 +34,7 @@ else{
     "AddTrustExternalCARoot.crt"
   ]
   for(var i=0 ; i<files.length ; i++)
-    ca.push(fs.readFileSync("../"+files[i] , 'utf8'))
+    caArray.push(fs.readFileSync("../"+files[i] , 'utf8'))
   var server = require('https').createServer({
     key: fs.readFileSync('../innolert.key', 'utf8'),
     passphrase:  fs.readFileSync('../passphrase', 'utf8'),
