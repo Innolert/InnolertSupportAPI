@@ -26,7 +26,7 @@ if (config.env !== 'production') {
   var server = require('http').createServer(app);
 }
 else{
-  var ca = [];
+  var caArray = [];
   var files = [
     "innolert_com.crt",
     "COMODORSADomainValidationSecureServerCA.crt",
@@ -35,11 +35,10 @@ else{
   ]
   for(var i=0 ; i<files.length ; i++)
     ca.push(fs.readFileSync("../"+files[i] , 'utf8'))
-  ca = (fs.readFileSync "/path/to/#{file}" for file in files)
   var server = require('https').createServer({
     key: fs.readFileSync('../innolert.key', 'utf8'),
     passphrase:  fs.readFileSync('../passphrase', 'utf8'),
-    ca: ca
+    ca: caArray
   }, app);
 }
 var socketio = require('socket.io')(server, {
