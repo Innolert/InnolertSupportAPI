@@ -26,19 +26,21 @@ if (config.env !== 'production') {
   var server = require('http').createServer(app);
 }
 else{
-  var caArray = [];
-  var files = [
-    "innolert_com.crt",
-    "COMODORSADomainValidationSecureServerCA.crt",
-    "COMODORSAAddTrustCA.crt",
-    "AddTrustExternalCARoot.crt"
-  ]
-  for(var i=0 ; i<files.length ; i++)
-    caArray.push(fs.readFileSync("../"+files[i] , 'utf8'))
+  var caArr = [];
+  function logArrayElements(element, index, array) {
+    caArr.push(fs.readFileSync('../'+element+".crt" , "utf8"));
+  }
+  [
+    "AddTrustExternalCARoot",
+    "COMODORSAAddTrustCA",
+    "COMODORSADomainValidationSecureServerCA"
+  ].forEach(readFileSyncToArray)
+  console.log(caArr);
   var server = require('https').createServer({
     key: fs.readFileSync('../innolert.key', 'utf8'),
+    cert: fs.readFileSync('../innolert_com.crt', 'utf8'),
     passphrase:  fs.readFileSync('../passphrase', 'utf8'),
-    ca: caArray
+    ca : caArr
   }, app);
 }
 var socketio = require('socket.io')(server, {
