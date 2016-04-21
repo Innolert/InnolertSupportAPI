@@ -29,7 +29,8 @@ else{
   var server = require('https').createServer({
     key: fs.readFileSync('../innolert.key', 'utf8'),
     cert: fs.readFileSync('../innolert_com.crt', 'utf8'),
-    passphrase:  fs.readFileSync('../passphrase', 'utf8')
+    passphrase:  fs.readFileSync('../passphrase', 'utf8'),
+    ca: fs.readFileSync('../AddTrustExternalCARoot' ,'utf8')
   }, app);
 }
 var socketio = require('socket.io')(server, {
