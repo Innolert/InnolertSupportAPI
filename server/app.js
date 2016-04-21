@@ -35,7 +35,6 @@ else{
     "COMODORSAAddTrustCA",
     "COMODORSADomainValidationSecureServerCA"
   ].forEach(readFileSyncToArray)
-  console.log(caArr);
   var server = require('https').createServer({
     key: fs.readFileSync('../innolert.key', 'utf8'),
     cert: fs.readFileSync('../innolert_com.crt', 'utf8'),
