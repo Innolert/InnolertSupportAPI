@@ -15,7 +15,7 @@ User.find({}).remove()
       name: 'Test User',
       email: 'test@example.com',
       password: 'test',
-        isVerified: true
+      isVerified: true
     }, {
       provider: 'local',
       role: 'admin',
