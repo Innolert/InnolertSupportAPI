@@ -27,20 +27,6 @@ User.find({}).remove()
     .then(() => {
       console.log('finished populating users');
       //creeate admin on the first run
-      User.find({email: 'admin@example.com'})
-        .exec()
-        .then(user => {
-          console.log(!user);
-          if(!user)
-            User.create({
-              provider: 'local',
-              role: 'admin',
-              name: 'Admin',
-              email: 'admin@example.com',
-              password: 'admin',
-              isVerified: true
-            })
-        })
     });
   });
 
