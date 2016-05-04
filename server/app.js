@@ -18,7 +18,8 @@ mongoose.connection.on('error', function(err) {
 });
 
 // Populate databases with sample data
-if (config.seedDB) { require('./config/seed'); }
+if (config.seedDB && config.env === 'production') { require('./config/productionSeed'); }
+else if(config.seedDB && config.env === 'development') { require('./config/developmentSeed');}
 
 // Setup server
 var app = express();
