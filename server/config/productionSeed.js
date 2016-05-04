@@ -14,7 +14,8 @@ User.find({email: 'test@example.com'}).remove()
       provider: 'local',
       name: 'Test User',
       email: 'test@example.com',
-      password: 'test'
+      password: 'test',
+      isVerified: true
     })
     .then(() => {
       console.log('finished populating users');
@@ -30,6 +31,7 @@ User.findOne({email: 'admin@example.com'})
         role: 'admin',
         name: 'Admin',
         email: 'admin@example.com',
-        password: 'admin'
+        password: 'admin',
+        isVerified: true 
       })
   })
