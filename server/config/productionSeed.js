@@ -8,30 +8,32 @@ import User from '../api/user/user.model';
 import endUser from '../api/endUser/endUser.model';
 import appEvent from '../api/appEvent/appEvent.model';
 
-User.find({email: 'test@example.com'}).remove()
+User.find({
+    email: 'test@example.com'
+  }).remove()
   .then(() => {
     User.create({
-      provider: 'local',
-      name: 'Test User',
-      email: 'test@example.com',
-      password: 'test',
-      isVerified: true
-    })
-    .then(() => {
-      console.log('finished populating users');
-    });
-  });
-
-//creeate admin on the first run
-User.findOne({email: 'admin@example.com'})
-  .then((err , doc) => {
-    if(!doc.length)
-      User.create({
         provider: 'local',
-        role: 'admin',
-        name: 'Admin',
-        email: 'admin@example.com',
-        password: 'admin',
-        isVerified: true 
+        name: 'Test User',
+        email: 'test@example.com',
+        password: 'test',
+        isVerified: true
       })
-  })
+      .then(() => {
+        User.find({
+            email: 'admin@example.com'
+          })
+          .exec()
+          .then(user => {
+            if (!user)
+              User.create({
+                provider: 'local',
+                role: 'admin',
+                name: 'Admin',
+                email: 'admin@example.com',
+                password: 'admin',
+                isVerified: true
+              })
+          })
+      });
+  });
