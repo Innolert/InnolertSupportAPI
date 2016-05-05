@@ -32,17 +32,17 @@ var EndUserSchema = new mongoose.Schema({
     }
   }],
   parentUser: mongoose.Schema.Types.ObjectId,
-  gps: {
+  location: {
     lastLocation: {
       LatLng: {
         lat: {
-          type: Number
+          type: Number,
           default: 0
         },
         lng: {
-          type: Number
+          type: Number,
           default: 0
-        },
+        }
       }
     },
     locations: []
