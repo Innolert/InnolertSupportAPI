@@ -34,6 +34,8 @@ class DeviceInfoComponent {
 
   $onChanges(changesObj){
     this.model.selectedDevice = changesObj.device.currentValue
+    this.model.map.instance.markers[0].setPosition(this.model.selectedDevice.location.LatLng);
+    this.model.map.instance.setCenter(this.model.selectedDevice.location.LatLng);
     console.log(changesObj);
   }
 
