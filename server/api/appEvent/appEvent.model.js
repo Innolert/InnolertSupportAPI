@@ -16,7 +16,7 @@ var AppEventSchema = new mongoose.Schema({
   phoneNumber: String,
   action: String,
   data: [mongoose.Schema.Types.Mixed],
-  author: [{ type: mongoose.Schema.Types.ObjectId, ref: 'EndUser' }],
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'EndUser' },
 });
 
 export default mongoose.model('AppEvent', AppEventSchema);
