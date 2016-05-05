@@ -87,7 +87,7 @@ export function create(req, res) {
   .then((user) => {
     var userDevices = user.device;
     userDevices.forEach((device,index,array) => {
-      if(device.hasOwnProperty('privateTokens') && device.privateTokens.hasOwnProperty('gcm')){
+      if(typeof device.privateTokens !== 'undefiend' && typeof device.privateTokens.gcm !== 'undefiend'){
         gcmClient.regTokens.push(device.privateTokens.gcm)
         var message = new gcmClient.gcm.Message({
           data: {
