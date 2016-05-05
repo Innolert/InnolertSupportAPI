@@ -25,9 +25,9 @@
               ctrl.model.selectedDevice = item;
           })
           this.socket.syncUpdates('appEvent', this.model.selectedDevice,(event,item,array)=> {
-            console.log(event);
+            console.log(event , item);
             if(event == "updated")
-              ctrl.model.selectedDevice = item;
+              ctrl.model.selectedDevice.lastLocation = item;
           })
         })
     }
