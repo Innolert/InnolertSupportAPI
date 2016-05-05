@@ -96,6 +96,7 @@ function updateEndUserLastLocation(userData){
     console.log("going to set : " , userData.data.location , userData.data.location.Latitude , userData.data.location.Longtitude);
     user.location.lastLocation.lat = userData.data.location.Latitude;
     user.location.lastLocation.lng = userData.data.location.Longtitude;
+    console.log("user now , " , user);
     user.location.history.push(user.location.lastLocation);
     user.save();
   })
