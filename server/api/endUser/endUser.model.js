@@ -45,7 +45,7 @@ var EndUserSchema = new mongoose.Schema({
         }
       }
     },
-    locations: []
+    history: []
   }
 
 });
