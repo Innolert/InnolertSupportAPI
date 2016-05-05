@@ -25,7 +25,8 @@ class DeviceInfoComponent {
       this.model.map.instance = map;
       this.$timeout(() => {
         google.maps.event.trigger(this.model.map.instance, "resize");
-        this.model.map.instance.markers[0].setPosition(this.model.map.LatLng);
+        if(!this.model.selectedDevice.location.LatLng) this.model.selectedDevice.location.LatLng = this.model.map.LatLng;
+        this.model.map.instance.markers[0].setPosition(this.model.selectedDevice.location.LatLng);
         this.model.map.instance.setCenter(this.model.map.LatLng);
         this.model.map.isLoaded = true;
       }, 2000)
