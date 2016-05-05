@@ -34,7 +34,7 @@ class DeviceInfoComponent {
 
   $onChanges(changesObj){
     this.model.selectedDevice = changesObj.device.currentValue
-
+    console.log(changesObj);
   }
 
 }
