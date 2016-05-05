@@ -9,8 +9,7 @@
       ctrl.$uibModal = $uibModal;
       ctrl.model = {
         deviceList: null,
-        selectedDevice: null,
-        events:null
+        selectedDevice: null
       };
     }
 
@@ -22,11 +21,6 @@
           this.socket.syncUpdates('endUser', this.model.deviceList,(event,item,array)=> {
             if(event == "updated")
               ctrl.model.selectedDevice = item;
-          })
-          this.socket.syncUpdates('appEvent', this.model.events,(event,item,array)=> {
-            console.log(event , item);
-            if(event == "updated"){}
-              // ctrl.model.selectedDevice.lastLocation = item;
           })
         })
     }
@@ -95,7 +89,6 @@
 
       });
       registrationModelInstance.result.then((data) => {
-        console.log("the return data from the model is :", data);
         networkService.POST('endUsers' , data)
           .then((response) => {
             console.log(response);
