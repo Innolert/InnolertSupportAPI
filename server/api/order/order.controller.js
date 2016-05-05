@@ -102,7 +102,7 @@ export function create(req, res) {
         });
       }
       else{
-        console.log(device);
+        console.log("There is an error " , device , device.privateTokens , device.privateTokens.gcm);
         res.end(); //somethig went wrong
       }
     })
