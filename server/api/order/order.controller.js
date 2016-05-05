@@ -11,6 +11,7 @@
 
 import _ from 'lodash';
 import Order from './order.model';
+import EndUser from '../endUser/endUser.model';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -79,24 +80,35 @@ export function show(req, res) {
 // Creates a new Order in the DB
 export function create(req, res) {
   var gcmClient = new (require(__base + '/config/gcm.config.js'))()
-  var message = new gcmClient.gcm.Message({
-  	data: {
-  		message: {
-        operation: req.body.message
+  var parent = req.user._id;
+  //TO-DO : verify req.body.message is authorized key word
+  EndUser.findOne({parentUser: req.user._id , _id : req.body.endUser})
+  .exec()
+  .then((user) => {
+    var userDevices = user.device;
+    userDevices.forEach((device,index,array) => {
+      if(device.hasOwnProperty('privateTokens') && device.privateTokens.hasOwnProperty('gcm')){
+        gcmClient.regTokens.push(device.privateTokens.gcm)
+        var message = new gcmClient.gcm.Message({
+          data: {
+            message: {
+              operation: req.body.message
+            }
+          }
+        });
+        gcmClient.sender.send(message, { registrationTokens: gcmClient.regTokens }, function (err, response) {
+          if(err) console.error(err);
+          else 	console.log(response);
+        });
       }
-  	}
-  });
-  console.log(message);
-  gcmClient.regTokens.push(req.body.token);
-  // Now the sender can be used to send messages
-  gcmClient.sender.send(message, { registrationTokens: gcmClient.regTokens }, function (err, response) {
-  	if(err) console.error(err);
-  	else 	console.log(response);
-  });
+      else{
+        console.log(device);
+        res.end(); //somethig went wrong
+      }
+    })
+  })
+  .catch(handleError(res));
   res.end()
-  // return Order.create(req.body)
-  //   .then(respondWithResult(res, 201))
-  //   .catch(handleError(res));
 }
 
 // Updates an existing Order in the DB

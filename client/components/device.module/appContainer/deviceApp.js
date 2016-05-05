@@ -39,6 +39,9 @@
     onRemove(device){
       this.networkService.DELETE('endUsers' , device._id)
     }
+    getLocation(){
+      this.networkService.POST('orders', {endUser: this.model.selectedDevice._id , message: 'get_location'})
+    }
 
 
 

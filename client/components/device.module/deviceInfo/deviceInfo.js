@@ -49,7 +49,8 @@ angular.module('innolertApiApp.device')
     controllerAs : "vm",
     bindings: {
       device: '<',
-      onUpdate: '&'
+      onUpdate: '&',
+      onLocationUpdate: '&'
     }
   });
 
