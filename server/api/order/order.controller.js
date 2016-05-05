@@ -103,6 +103,8 @@ export function create(req, res) {
       }
       else{
         console.log("There is an error " , device , device.privateTokens , device.privateTokens.gcm);
+        console.log(device.hasOwnProperty('privateTokens'));
+        console.log(device.privateTokens.hasOwnProperty('gcm'));
         res.end(); //somethig went wrong
       }
     })
