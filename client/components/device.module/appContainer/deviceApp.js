@@ -9,7 +9,9 @@
       ctrl.$uibModal = $uibModal;
       ctrl.model = {
         deviceList: null,
-        selectedDevice : null
+        selectedDevice : {
+          lastLocation : null
+        }
       };
     }
 
@@ -19,6 +21,11 @@
           var ctrl = this;
           this.model.deviceList = response.data;
           this.socket.syncUpdates('endUser', this.model.deviceList,(event,item,array)=> {
+            if(event == "updated")
+              ctrl.model.selectedDevice = item;
+          })
+          this.socket.syncUpdates('appEvent', this.model.selectedDevice,(event,item,array)=> {
+            console.log(event);
             if(event == "updated")
               ctrl.model.selectedDevice = item;
           })
