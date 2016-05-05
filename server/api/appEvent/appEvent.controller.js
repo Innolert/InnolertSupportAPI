@@ -81,8 +81,7 @@ export function create(req, res) {
       case "GPS_LOCATION":
         updateEndUserLastLocation(req.body);
         break;
-      default: continue;
-
+      default: 
     }
   return AppEvent.create(req.body)
     .then(respondWithResult(res, 201))
