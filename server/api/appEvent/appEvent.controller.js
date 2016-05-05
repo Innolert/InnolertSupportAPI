@@ -84,7 +84,7 @@ export function create(req, res) {
         console.log("Case matched");
         updateEndUserLastLocation(req.body);
         break;
-      default:
+      default: break;
     }
   }
   return AppEvent.create(req.body)
@@ -97,6 +97,7 @@ function updateEndUserLastLocation(userData){
   EndUser.findById(userData.author)
   .exec()
   .then((user) => {
+    console.log("the userdata is : " , userData);
     console.log("User found" , user);
     user.location.lastLocation.lat = userData.data[0].location.Latitude;
     user.location.lastLocation.lng = userData.data[0].location.Longtitude;
