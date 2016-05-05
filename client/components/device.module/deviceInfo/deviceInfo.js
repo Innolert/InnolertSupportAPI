@@ -11,7 +11,7 @@ class DeviceInfoComponent {
       isLoaded: false,
       instance: null,
       LatLng : {
-        lat : 25.7405442,
+        lat : 25.7405442, //default value the will be replaced 
         lng : -100.392488
   		}
     }
@@ -23,18 +23,20 @@ class DeviceInfoComponent {
     this.NgMap.getMap()
     .then((map) => {
       this.model.map.instance = map;
-      this.$timeout(() => {
-        google.maps.event.trigger(this.model.map.instance, "resize");
-        if(!this.model.selectedDevice.location.LatLng) this.model.selectedDevice.location.LatLng = this.model.map.LatLng;
-        this.model.map.instance.markers[0].setPosition(this.model.selectedDevice.location.LatLng);
-        this.model.map.instance.setCenter(this.model.map.LatLng);
-        this.model.map.isLoaded = true;
-      }, 2000)
     })
   }
 
   $onChanges(changesObj){
+    console.log("obj");
     this.model.selectedDevice = changesObj.device.currentValue
+    this.model.map.LatLng = this.model.selectedDevice.location.lastLocation;
+    this.$timeout(() => {
+      google.maps.event.trigger(this.model.map.instance, "resize");
+      if(!this.model.selectedDevice.location.LatLng) this.model.selectedDevice.location.LatLng = this.model.map.LatLng;
+      this.model.map.instance.markers[0].setPosition(this.model.selectedDevice.location.LatLng);
+      this.model.map.instance.setCenter(this.model.map.LatLng);
+      this.model.map.isLoaded = true;
+    }, 1000)
   }
 
 }
