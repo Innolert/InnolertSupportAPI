@@ -9,7 +9,7 @@
       ctrl.$uibModal = $uibModal;
       ctrl.model = {
         deviceList: null,
-        selectedDevice null,
+        selectedDevice: null,
         events:null
       };
     }
@@ -24,9 +24,9 @@
               ctrl.model.selectedDevice = item;
           })
           this.socket.syncUpdates('appEvent', this.model.events,(event,item,array)=> {
-            if(event == "updated"){
-              console.log(event);
-            }
+            console.log(event , item);
+            if(event == "updated"){}
+              // ctrl.model.selectedDevice.lastLocation = item;
           })
         })
     }
