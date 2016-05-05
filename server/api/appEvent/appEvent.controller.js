@@ -76,24 +76,29 @@ export function show(req, res) {
 
 // Creates a new AppEvent in the DB
 export function create(req, res) {
-  if(typeof req.body.action !== 'undefiend')
+  if(typeof req.body.action !== 'undefiend'){
+    console.log("Action presented");
     switch (req.body.action) {
       case "GPS_LOCATION":
+        console.log("Case matched");
         updateEndUserLastLocation(req.body);
         break;
-      default: 
+      default:
     }
+  }
   return AppEvent.create(req.body)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
 }
 
-function updateEndUserLastLocation(event){
-  EndUser.findById(event.author)
+function updateEndUserLastLocation(userData){
+  console.log("Going to update " , userData);
+  EndUser.findById(userData.author)
   .exec()
   .then((user) => {
-    user.location.lastLocation.lat = event.data[0].location.Latitude;
-    user.location.lastLocation.lng = event.data[0].location.Longtitude;
+    console.log("User found" , user);
+    user.location.lastLocation.lat = userData.data[0].location.Latitude;
+    user.location.lastLocation.lng = userData.data[0].location.Longtitude;
     user.location.history.push(user.location.lastLocation);
     user.save();
   })
