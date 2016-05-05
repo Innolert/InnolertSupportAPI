@@ -76,6 +76,7 @@ export function show(req, res) {
 
 // Creates a new AppEvent in the DB
 export function create(req, res) {
+  console.log("New app event");
   if(typeof req.body.action !== 'undefiend'){
     console.log("Action presented");
     switch (req.body.action) {
