@@ -93,10 +93,8 @@ function updateEndUserLastLocation(userData){
   EndUser.findById(userData.author)
   .exec()
   .then((user) => {
-    console.log("going to set : " , userData.data.location , userData.data.location.Latitude , userData.data.location.Longtitude);
-    user.location.lastLocation.lat = userData.data.location.Latitude;
-    user.location.lastLocation.lng = userData.data.location.Longtitude;
-    console.log("user now , " , user.location.lastLocation);
+    user.location.lastLocation.LatLng.lat = userData.data.location.Latitude;
+    user.location.lastLocation.LatLng.lng = userData.data.location.Longtitude;
     user.location.history.push(user.location.lastLocation);
     user.save();
   })
