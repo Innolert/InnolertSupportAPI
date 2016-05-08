@@ -97,32 +97,31 @@ export function create(req, res) {
 
     upload.on('end', function(fields, files) {
             console.log(fields,files);
-            if (typeof fields.type !== 'undefiend') {
-                switch (fields.type) {
-                    case '3gp':
-                        if(fields.operation === "stop_voice_record"){
-                          updateEndUserRecord(fields.author, uri + destination.split("/").pop() + "/" + fileName)
-                          .then(() => {
-                            res.send('File has been saved into ' + destination +"/"+ files.file.filename)
-                          })
-                          .catch(handleError(res));
-                        }
+
+                switch (fields.operation) {
+                    case "stop_voice_record":
+                        updateEndUserRecord(fields.author, uri + destination.split("/").pop() + "/" + fileName)
+                        .then(() => {
+                          res.send('File has been saved into ' + destination +"/"+ files.file.filename)
+                        })
+                        .catch(handleError(res));
                         break;
+
+                    case "user_sharing":
+                      if (!fields.description) {
+                          this.cleanup();
+                          this.error('Channel can not be empty');
+                          return;
+                      }
+                      reportItemController.create({
+                          filePath: uri + destination.split("/").pop() + "/" + fileName,
+                          updates: [fields.description],
+                          author: fields.author
+                      })
+                      res.send('File has been saved into ' + destination + files.file.filename)
+                      break;
                     default:
-                }
-            }else {
-                if (!fields.description) {
-                    this.cleanup();
-                    this.error('Channel can not be empty');
-                    return;
-                }
-                reportItemController.create({
-                    filePath: uri + destination.split("/").pop() + "/" + fileName,
-                    updates: [fields.description],
-                    author: fields.author
-                })
-                res.send('File has been saved into ' + destination + files.file.filename)
-              }
+                  }
             })
 
     upload.on('error', function(err) {
