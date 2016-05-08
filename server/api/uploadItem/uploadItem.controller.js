@@ -99,7 +99,7 @@ export function create(req, res) {
             console.log(fields);
             if (typeof fields.type !== 'undefiend') {
                 switch (fields.type) {
-                    case '3gpp':
+                    case '3gp':
                         if(fields.operation === "stop_voice_record"){
                         updateEndUserRecord(fields.author, uri + destination.split("/").pop() + "/" + fileName);
                         res.send('File has been saved into ' + destination + files.file.filename)
