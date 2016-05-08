@@ -32,6 +32,9 @@ var EndUserSchema = new mongoose.Schema({
     }
   }],
   parentUser: mongoose.Schema.Types.ObjectId,
+  files: {
+    voice : [String]
+  }
 
 });
 

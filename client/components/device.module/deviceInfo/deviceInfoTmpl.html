@@ -7,8 +7,16 @@
 	</div>
 	<div class="panel-body">
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-9">
 				{{vm.model.selectedDevice}}
+			</div>
+			<div class="col-md-3">
+				<button type="button" class="btn btn-primary" ng-show="!vm.model.isRecording" ng-click="vm.recordToggle()">
+					Start recording
+				</button>
+				<button type="button" class="btn btn-primary" ng-show="vm.model.isRecording" ng-click="vm.recordToggle()">
+						Stop recording
+				</button>
 			</div>
 		</div>
 		<div class="row">
