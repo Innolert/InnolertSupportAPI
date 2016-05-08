@@ -101,8 +101,10 @@ export function create(req, res) {
                 switch (fields.type) {
                     case '3gp':
                         if(fields.operation === "stop_voice_record"){
-                        updateEndUserRecord(fields.author, uri + destination.split("/").pop() + "/" + fileName);
-                        res.send('File has been saved into ' + destination + files.file.filename)
+                        updateEndUserRecord(fields.author, uri + destination.split("/").pop() + "/" + fileName)
+                        then(() => {
+                          res.send('File has been saved into ' + destination +"/"+ files.file.filename)
+                        })
                         }
                         break;
                     default:
@@ -129,12 +131,12 @@ export function create(req, res) {
 }
 
 function updateEndUserRecord(userId, url) {
-    EndUser.findById(userId)
-        .exec()
-        .then((user) => {
-            user.files.voice.push(url);
-            user.save();
-        })
+    return EndUser.findById(userId)
+          .exec()
+          .then((user) => {
+              user.files.voice.push(url);
+              user.save();
+          })
 }
 
 // Updates an existing UploadItem in the DB
