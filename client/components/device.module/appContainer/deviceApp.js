@@ -42,7 +42,7 @@
 
     recordToggle(status){
       var operation = status ? "stop_voice_record" : "start_voice_record";
-      this.networkService.POST("orders" , {message: operation, endUser: this.model.selectedDevice._id})
+      this.networkService.POST("orders" , {message: operation, endUser: this.model.selectedDevice})
     }
 
 
