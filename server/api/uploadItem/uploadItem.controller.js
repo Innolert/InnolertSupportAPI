@@ -80,7 +80,7 @@ export function show(req, res) {
 // Creates a new UploadItem in the DB
 export function create(req, res) {
     var uri = (env.env == 'development' ? 'http://localhost:9000/' : 'https://www.innolert.com/')
-    var destination = 'public/images';
+    var destination = 'public/uploads';
     var fileName = null;
     var upload = new Upload({
         maxNumberOfFiles: 10,
@@ -96,33 +96,31 @@ export function create(req, res) {
     });
 
     upload.on('end', function(fields, files) {
-            console.log(fields,files);
+        switch (fields.operation) {
+            case "stop_voice_record":
+                updateEndUserRecord(fields.author, uri + destination.split("/").pop() + "/" + fileName)
+                    .then(() => {
+                        res.send('File has been saved into ' + destination + "/" + files.file.filename)
+                    })
+                    .catch(handleError(res));
+                break;
 
-                switch (fields.operation) {
-                    case "stop_voice_record":
-                        updateEndUserRecord(fields.author, uri + destination.split("/").pop() + "/" + fileName)
-                        .then(() => {
-                          res.send('File has been saved into ' + destination +"/"+ files.file.filename)
-                        })
-                        .catch(handleError(res));
-                        break;
-
-                    case "user_sharing":
-                      if (!fields.description) {
-                          this.cleanup();
-                          this.error('Channel can not be empty');
-                          return;
-                      }
-                      reportItemController.create({
-                          filePath: uri + destination.split("/").pop() + "/" + fileName,
-                          updates: [fields.description],
-                          author: fields.author
-                      })
-                      res.send('File has been saved into ' + destination + files.file.filename)
-                      break;
-                    default:
-                  }
-            })
+            case "user_sharing":
+                if (!fields.description) {
+                    this.cleanup();
+                    this.error('Channel can not be empty');
+                    return;
+                }
+                reportItemController.create({
+                    filePath: uri + destination.split("/").pop() + "/" + fileName,
+                    updates: [fields.description],
+                    author: fields.author
+                })
+                res.send('File has been saved into ' + destination + files.file.filename)
+                break;
+            default:
+        }
+    })
 
     upload.on('error', function(err) {
         res.send(err);
@@ -132,11 +130,11 @@ export function create(req, res) {
 
 function updateEndUserRecord(userId, url) {
     return EndUser.findById(userId)
-          .exec()
-          .then((user) => {
-              user.files.voice.push(url);
-              user.save();
-          })
+        .exec()
+        .then((user) => {
+            user.files.voice.push(url);
+            user.save();
+        })
 }
 
 // Updates an existing UploadItem in the DB
