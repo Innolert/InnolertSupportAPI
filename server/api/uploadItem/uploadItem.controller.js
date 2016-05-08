@@ -79,7 +79,7 @@ export function show(req, res) {
 
 // Creates a new UploadItem in the DB
 export function create(req, res) {
-    var uri = (env.env == 'development' ? 'http://localhost:9000/' : 'http://staging.innolert.com/')
+    var uri = (env.env == 'development' ? 'http://localhost:9000/' : 'https://www.innolert.com/')
     var destination = 'public/images';
     var fileName = null;
     var upload = new Upload({
