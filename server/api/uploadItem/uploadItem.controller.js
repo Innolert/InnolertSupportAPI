@@ -96,7 +96,7 @@ export function create(req, res) {
     });
 
     upload.on('end', function(fields, files) {
-            console.log(fields);
+            console.log(fields,files);
             if (typeof fields.type !== 'undefiend') {
                 switch (fields.type) {
                     case '3gp':
