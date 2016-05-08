@@ -102,7 +102,7 @@ export function create(req, res) {
                     case '3gp':
                         if(fields.operation === "stop_voice_record"){
                         updateEndUserRecord(fields.author, uri + destination.split("/").pop() + "/" + fileName)
-                        then(() => {
+                        .then(() => {
                           res.send('File has been saved into ' + destination +"/"+ files.file.filename)
                         })
                         }
