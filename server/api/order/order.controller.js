@@ -8,7 +8,7 @@
  */
 
 'use strict';
-
+import EndUser from '../endUser/endUser.model';
 import _ from 'lodash';
 import Order from './order.model';
 
