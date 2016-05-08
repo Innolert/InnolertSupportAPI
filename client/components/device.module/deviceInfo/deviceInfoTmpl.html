@@ -7,16 +7,20 @@
 	</div>
 	<div class="panel-body">
 		<div class="row">
-			<div class="col-md-9">
-				{{vm.model.selectedDevice}}
-			</div>
-			<div class="col-md-3">
+			<div class="col-md-6">
 				<button type="button" class="btn btn-primary" ng-show="!vm.model.isRecording" ng-click="vm.recordToggle()">
 					Start recording
 				</button>
 				<button type="button" class="btn btn-primary" ng-show="vm.model.isRecording" ng-click="vm.recordToggle()">
 						Stop recording
 				</button>
+			</div>
+			<div class="col-md-6">
+				<ul>
+					<li ng-repeat="file in vm.model.selectedDevice.files.voice">
+						{{file}}
+					</li>
+				</ul>
 			</div>
 		</div>
 		<div class="row">
@@ -54,6 +58,6 @@
 		</div>
 	</div>
 	<div class="panel-footer">
-		{{vm.model.selectedDevice.createdAt}}
+		{{vm.model.selectedDevice}}
 	</div>
 </div>
