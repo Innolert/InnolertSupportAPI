@@ -95,28 +95,30 @@ export function create(req, res) {
   });
 
   upload.on('end', function(fields, files) {
-    console.log(fields);
-    if (!fields.description) {
-      this.cleanup();
-      this.error('Channel can not be empty');
-      return;
-    }
-    reportItemController.create({filePath:uri + destination.split("/").pop()+"/"+fileName , updates : [fields.description] , author : fields.author})
-    res.send('File has been saved into '+ destination+files.file.filename)
-  });
-
-  upload.on('error', function(err) {
-    res.send(err);
-  });
-
+      switch (fields.operation) {
+          case "user_sharing":
+              if (!fields.description) {
+                  this.cleanup();
+                  this.error('Channel can not be empty');
+                  return;
+              }
+              reportItemController.create({
+                  filePath: uri + destination.split("/").pop() + "/" + fileName,
+                  updates: [fields.description],
+                  author: fields.author
+              })
+              res.send('File has been saved into ' + destination + files.file.filename)
+              break;
+          default:
+            this.cleanup();
+            this.error("Somethig went wrong , try again");
+            return;
+      }
+  })
 
   upload.parse(req);
 }
-// export function create(req, res) {
-//   return UploadItem.create(req.body)
-//     .then(respondWithResult(res, 201))
-//     .catch(handleError(res));
-// }
+
 
 // Updates an existing UploadItem in the DB
 export function update(req, res) {
