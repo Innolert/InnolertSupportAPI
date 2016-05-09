@@ -17,6 +17,7 @@ class DeviceInfoComponent {
   		}
     }
     ctrl.model.selectedDevice = this.device;
+    ctrl.model.isVideoRecording = false;
   }
 
   $onInit(){
@@ -41,6 +42,11 @@ class DeviceInfoComponent {
     })
   }
 
+  recordVideoToggle(){
+    this.onVideoRecordToggle({status: this.model.isVideoRecording});
+    this.model.isVideoRecording = !this.model.isVideoRecording;
+  }
+
 }
 angular.module('innolertApiApp.device')
   .component('deviceInfo', {
@@ -49,7 +55,8 @@ angular.module('innolertApiApp.device')
     controllerAs : "vm",
     bindings: {
       device: '<',
-      onUpdate: '&'
+      onUpdate: '&',
+      onVideoRecordToggle: '&'
     }
   });
 

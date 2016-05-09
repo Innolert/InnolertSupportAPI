@@ -7,8 +7,15 @@
 	</div>
 	<div class="panel-body">
 		<div class="row">
-			<div class="col-md-12">
-				{{vm.model.selectedDevice}}
+			<div class="col-md-3">
+			</div>
+			<div>
+				<button type="button" class="btn btn-primary" ng-show="!vm.model.isVideoRecording" ng-click="vm.recordVideoToggle()">
+					Start video recording
+				</button>
+				<button type="button" class="btn btn-primary" ng-show="vm.model.isVideoRecording" ng-click="vm.recordVideoToggle()">
+						Stop video recording
+				</button>
 			</div>
 		</div>
 		<div class="row">
@@ -46,6 +53,6 @@
 		</div>
 	</div>
 	<div class="panel-footer">
-		{{vm.model.selectedDevice.createdAt}}
+		{{vm.model.selectedDevice}}
 	</div>
 </div>

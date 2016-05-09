@@ -90,6 +90,9 @@
       })
     }
 
+    recordVideoToggle(status){
+      this.deviceService.toggleVideoRecord(status,this.model.selectedDevice._id);
+    }
 
   }
 

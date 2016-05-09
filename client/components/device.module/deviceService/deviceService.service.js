@@ -15,4 +15,9 @@ angular.module('innolertApiApp.device')
       return networkService.GET("endUsers")
     }
 
+    this.toggleVideoRecord = function(){
+      var operation = status ? "stop_back_video_record" : "start_back_video_record";
+      return networkService.POST("orders" , {message: operation, endUser: endUserId})
+    }
+
   }]);
