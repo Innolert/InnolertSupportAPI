@@ -7,15 +7,22 @@
 	</div>
 	<div class="panel-body">
 		<div class="row">
-			<div class="col-md-3">
+			<div class="col-md-6">
+				<div>
+					<button type="button" class="btn btn-primary" ng-show="!vm.model.isVideoRecording" ng-click="vm.recordVideoToggle()">
+						Start video recording
+					</button>
+					<button type="button" class="btn btn-primary" ng-show="vm.model.isVideoRecording" ng-click="vm.recordVideoToggle()">
+							Stop video recording
+					</button>
+				</div>
 			</div>
-			<div>
-				<button type="button" class="btn btn-primary" ng-show="!vm.model.isVideoRecording" ng-click="vm.recordVideoToggle()">
-					Start video recording
-				</button>
-				<button type="button" class="btn btn-primary" ng-show="vm.model.isVideoRecording" ng-click="vm.recordVideoToggle()">
-						Stop video recording
-				</button>
+			<div class="col-md-6">
+				<ul>
+					<li ng-repeat="file in vm.model.selectedDevice.files.video">
+						<a ng-href={{file}} download>{{file}}</a>
+					</li>
+				</ul>
 			</div>
 		</div>
 		<div class="row">
