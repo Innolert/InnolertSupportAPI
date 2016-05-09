@@ -2,11 +2,11 @@
 (function() {
 
   class DeviceComponent {
-    constructor(networkService, $uibModal, socket) {
+    constructor($uibModal, socket,deviceService) {
       var ctrl = this;
       ctrl.socket = socket;
-      ctrl.networkService = networkService;
       ctrl.$uibModal = $uibModal;
+      ctrl.deviceService = deviceService;
       ctrl.model = {
         deviceList: null,
         selectedDevice : null
@@ -14,7 +14,7 @@
     }
 
     $onInit() {
-      this.networkService.GET("endUsers")
+      this.deviceService.fetchEndUsers()
         .then((response) => {
           var ctrl = this;
           this.model.deviceList = response.data;
@@ -37,14 +37,14 @@
       return this.model.selectedDevice != null;
     }
     onRemove(device){
-      this.networkService.DELETE('endUsers' , device._id)
+      this.deviceService.removeEndUser(device._id);
     }
 
 
 
 
     toggleResitration() {
-      var networkService = this.networkService;
+      var deviceService = this.deviceService;
       var registrationModelInstance = this.$uibModal.open({
         // template: '<device-resitration></device-resitration>',
         templateUrl: 'components/device.module/deviceRegistration/deviceRegistrationTmpl.html',
@@ -86,11 +86,7 @@
 
       });
       registrationModelInstance.result.then((data) => {
-        console.log("the return data from the model is :", data);
-        networkService.POST('endUsers' , data)
-          .then((response) => {
-            console.log(response);
-          })
+        deviceService.newEndUser(data)
       })
     }
 
@@ -100,7 +96,7 @@
   angular.module('innolertApiApp.device')
     .component('deviceAppContainer', {
       templateUrl: 'components/device.module/appContainer/deviceAppTmpl.html',
-      controller: ['networkService','$uibModal','socket',DeviceComponent],
+      controller: ['$uibModal','socket','deviceService',DeviceComponent],
       controllerAs: "vm"
     });
 
