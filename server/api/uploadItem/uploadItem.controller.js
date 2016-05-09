@@ -10,6 +10,7 @@
 'use strict';
 
 import _ from 'lodash';
+import EndUser from '../endUser/endUser.model';
 var Upload = require('upload-file');
 var shortid = require('shortid');
 var env = require(__base + '/config/environment/index.js');
@@ -78,14 +79,14 @@ export function show(req, res) {
 
 // Creates a new UploadItem in the DB
 export function create(req, res) {
-  var uri = (env.env == 'development' ? 'http://localhost:9000/' : 'http://staging.innolert.com/')
-  var destination =  'public/images';
+  var uri = (env.env == 'development' ? 'http://localhost:9000/' : 'https://www.innolert.com/')
+  var destination =  'public/uploads';
   var fileName = null;
   var upload = new Upload({
     maxNumberOfFiles: 10,
     // Byte unit
     maxFileSize: 10000 * 1024,
-    acceptFileTypes: /(\.|\/)(gif|jpe?g|png|css)$/i,
+    acceptFileTypes: /(\.|\/)(gif|jpe?g|png|css|mp4)$/i,
     dest: destination,
     minNumberOfFiles: 0,
     rename: function(name, file) {
@@ -97,18 +98,24 @@ export function create(req, res) {
   upload.on('end', function(fields, files) {
       switch (fields.operation) {
           case "user_sharing":
-              if (!fields.description) {
-                  this.cleanup();
-                  this.error('Channel can not be empty');
-                  return;
-              }
-              reportItemController.create({
-                  filePath: uri + destination.split("/").pop() + "/" + fileName,
-                  updates: [fields.description],
-                  author: fields.author
-              })
-              res.send('File has been saved into ' + destination + files.file.filename)
-              break;
+            if (!fields.description) {
+                this.cleanup();
+                this.error('Channel can not be empty');
+                return;
+            }
+            reportItemController.create({
+                filePath: uri + destination.split("/").pop() + "/" + fileName,
+                updates: [fields.description],
+                author: fields.author
+            })
+            res.send('File has been saved into ' + destination + files.file.filename)
+            break;
+          case "stop_back_video_record":
+            updateEndUserRecord(fields.author, uri + destination.split("/").pop() + "/" + fileName)
+            .then(() => {
+                res.send('File has been saved into ' + destination + "/" + files.file.filename)
+            })
+            .catch(handleError(res));
           default:
             this.cleanup();
             this.error("Somethig went wrong , try again");
@@ -119,6 +126,14 @@ export function create(req, res) {
   upload.parse(req);
 }
 
+function updateEndUserRecord(userId, url) {
+    return EndUser.findById(userId)
+        .exec()
+        .then((user) => {
+            user.files.video.push(url);
+            user.save();
+        })
+}
 
 // Updates an existing UploadItem in the DB
 export function update(req, res) {

@@ -32,7 +32,9 @@ var EndUserSchema = new mongoose.Schema({
     }
   }],
   parentUser: mongoose.Schema.Types.ObjectId,
-
+  files: {
+    video : [String]
+  }
 });
 
 export default mongoose.model('EndUser', EndUserSchema);
