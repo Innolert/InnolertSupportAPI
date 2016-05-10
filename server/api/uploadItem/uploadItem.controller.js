@@ -96,6 +96,7 @@ export function create(req, res) {
   });
 
   upload.on('end', function(fields, files) {
+      console.log(fields,files);
       switch (fields.operation) {
           case "user_sharing":
             if (!fields.description) {
