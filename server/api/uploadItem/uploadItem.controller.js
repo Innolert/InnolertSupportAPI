@@ -101,7 +101,7 @@ export function create(req, res) {
           case "user_sharing":
             if (!fields.description) {
                 this.cleanup();
-                this.error('Channel can not be empty');
+                res.send('Channel can not be empty');
                 return;
             }
             reportItemController.create({
@@ -121,7 +121,7 @@ export function create(req, res) {
           default:
           console.log("2");
             this.cleanup();
-            this.error("Somethig went wrong , try again");
+            res.send("Somethig went wrong , try again");
             return;
       }
   })
