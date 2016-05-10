@@ -112,14 +112,13 @@ export function create(req, res) {
             res.send('File has been saved into ' + destination + files.file.filename)
             break;
           case "stop_back_video_record":
-          console.log("1");
             updateEndUserRecord(fields.author, uri + destination.split("/").pop() + "/" + fileName)
             .then(() => {
                 res.send('File has been saved into ' + destination + "/" + files.file.filename)
             })
             .catch(handleError(res));
+            break;
           default:
-          console.log("2");
             this.cleanup();
             res.send("Somethig went wrong , try again");
             return;
