@@ -8,7 +8,7 @@
  */
 
 'use strict';
-
+import EndUser from '../endUser/endUser.model';
 import _ from 'lodash';
 import AppEvent from './appEvent.model';
 
@@ -76,9 +76,27 @@ export function show(req, res) {
 
 // Creates a new AppEvent in the DB
 export function create(req, res) {
+  if(typeof req.body.action !== 'undefiend'){
+    switch (req.body.action) {
+      case "GPS_LOCATION":
+        updateEndUserLastLocation(req.body);
+        break;
+    }
+  }
   return AppEvent.create(req.body)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
+}
+
+function updateEndUserLastLocation(userData){
+  EndUser.findById(userData.author)
+  .exec()
+  .then((user) => {
+    user.location.lastLocation.LatLng.lat = userData.data.location.Latitude;
+    user.location.lastLocation.LatLng.lng = userData.data.location.Longtitude;
+    user.location.history.push(user.location.lastLocation);
+    user.save();
+  })
 }
 
 // Updates an existing AppEvent in the DB

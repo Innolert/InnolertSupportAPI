@@ -9,7 +9,7 @@
       ctrl.deviceService = deviceService;
       ctrl.model = {
         deviceList: null,
-        selectedDevice : null
+        selectedDevice: null
       };
     }
 
@@ -38,6 +38,9 @@
     }
     onRemove(device){
       this.deviceService.removeEndUser(device._id);
+    }
+    getLocation(){
+      this.networkService.POST('orders', {endUser: this.model.selectedDevice._id , message: 'get_location'})
     }
 
 
