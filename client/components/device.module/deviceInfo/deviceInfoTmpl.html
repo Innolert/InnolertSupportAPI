@@ -9,11 +9,20 @@
 		<div class="row">
 			<div class="col-md-6">
 				<div>
+					<button type="button" class="btn btn-primary" ng-click="vm.onLocationUpdate()">
+						Get location
+					</button>
 					<button type="button" class="btn btn-primary" ng-show="!vm.model.isVideoRecording" ng-click="vm.recordVideoToggle()">
 						Start video recording
 					</button>
 					<button type="button" class="btn btn-primary" ng-show="vm.model.isVideoRecording" ng-click="vm.recordVideoToggle()">
 							Stop video recording
+					</button>
+					<button type="button" class="btn btn-primary" ng-show="!vm.model.isRecording" ng-click="vm.recordToggle()">
+						Start recording
+					</button>
+					<button type="button" class="btn btn-primary" ng-show="vm.model.isRecording" ng-click="vm.recordToggle()">
+							Stop recording
 					</button>
 				</div>
 			</div>
@@ -23,7 +32,13 @@
 						<a ng-href={{file}} download>{{file}}</a>
 					</li>
 				</ul>
+				<ul>
+					<li ng-repeat="file in vm.model.selectedDevice.files.voice">
+						<a ng-href={{file}} download>{{file}}</a>
+					</li>
+				</ul>
 			</div>
+			<div class="col-md-6">
 		</div>
 		<div class="row">
 			<div class="col-md-3">
@@ -43,7 +58,7 @@
 		<div class="row">
 			<div class="col-md-9">
 				<div map-lazy-load="https://maps.google.com/maps/api/js">
-					<ng-map center="41,-87" zoom="3">
+					<ng-map center="41,-87"  zoom-to-include-markers="true">
 						<marker animation="Animation.BOUNCE" centered="true" draggable="true"></marker>
 					</ng-map>
 				</div>
