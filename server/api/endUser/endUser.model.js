@@ -34,6 +34,21 @@ var EndUserSchema = new mongoose.Schema({
   parentUser: mongoose.Schema.Types.ObjectId,
   files: {
     voice : [String]
+  },
+  location: {
+    lastLocation: {
+      LatLng: {
+        lat: {
+          type: Number,
+          default: 0
+        },
+        lng: {
+          type: Number,
+          default: 0
+        }
+      }
+    },
+    history: []
   }
 
 });

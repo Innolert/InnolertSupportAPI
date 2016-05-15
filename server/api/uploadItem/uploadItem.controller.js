@@ -127,7 +127,6 @@ export function create(req, res) {
     });
     upload.parse(req);
 }
-
 function updateEndUserRecord(userId, url) {
     return EndUser.findById(userId)
         .exec()
@@ -136,6 +135,7 @@ function updateEndUserRecord(userId, url) {
             user.save();
         })
 }
+
 
 // Updates an existing UploadItem in the DB
 export function update(req, res) {
