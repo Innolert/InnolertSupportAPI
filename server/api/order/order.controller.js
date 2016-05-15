@@ -11,7 +11,6 @@
 import EndUser from '../endUser/endUser.model';
 import _ from 'lodash';
 import Order from './order.model';
-import EndUser from '../endUser/endUser.model';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;

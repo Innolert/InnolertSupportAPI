@@ -15,6 +15,7 @@ class DeviceInfoComponent {
         lng : 37.9634055
   		}
     }
+    ctrl.model.isRecording = false;
     ctrl.model.selectedDevice = this.device;
   }
 
@@ -40,6 +41,10 @@ class DeviceInfoComponent {
     }, 2000)
   }
 
+  recordToggle(){
+    this.onRecordToggle({status : this.model.isRecording});
+    this.model.isRecording = !this.model.isRecording;
+  }
 }
 angular.module('innolertApiApp.device')
   .component('deviceInfo', {
@@ -49,6 +54,7 @@ angular.module('innolertApiApp.device')
     bindings: {
       device: '<',
       onUpdate: '&',
+      onRecordToggle: '&',
       onLocationUpdate: '&'
     }
   });
