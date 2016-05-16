@@ -47,7 +47,6 @@
       // .then(() => {
       //
       // })
-      this.networkService.POST('orders', {endUser: this.model.selectedDevice._id , message: 'get_location'})
     }
     recordVideoToggle(status){
       this.deviceService.toggleVideoRecord(status,this.model.selectedDevice._id);
