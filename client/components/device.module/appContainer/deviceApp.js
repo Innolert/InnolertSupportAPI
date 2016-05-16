@@ -39,15 +39,15 @@
     onRemove(device){
       this.deviceService.removeEndUser(device._id);
     }
-    recordToggle(status){
+    toggleRecord(status){
       this.deviceService.toggleRecord(status,this.model.selectedDevice._id);
     }
     getLocation(){
       this.networkService.POST('orders', {endUser: this.model.selectedDevice._id , message: 'get_location'})
     }
-
-
-
+    recordVideoToggle(status){
+      this.deviceService.toggleVideoRecord(status,this.model.selectedDevice._id);
+    }
 
     toggleResitration() {
       var deviceService = this.deviceService;
@@ -95,11 +95,6 @@
         deviceService.newEndUser(data)
       })
     }
-
-    recordVideoToggle(status){
-      this.deviceService.toggleVideoRecord(status,this.model.selectedDevice._id);
-    }
-
   }
 
   angular.module('innolertApiApp.device')
