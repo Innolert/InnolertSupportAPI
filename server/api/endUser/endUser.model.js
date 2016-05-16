@@ -33,6 +33,7 @@ var EndUserSchema = new mongoose.Schema({
   }],
   parentUser: mongoose.Schema.Types.ObjectId,
   files: {
+    video : [String],
     voice : [String]
   },
   location: {
@@ -50,7 +51,6 @@ var EndUserSchema = new mongoose.Schema({
     },
     history: []
   }
-
 });
 
 export default mongoose.model('EndUser', EndUserSchema);

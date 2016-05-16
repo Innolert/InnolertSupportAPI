@@ -15,4 +15,18 @@ angular.module('innolertApiApp.device')
       return networkService.GET("endUsers")
     }
 
+    this.toggleVideoRecord = function(status,endUserId){
+      var operation = status ? "stop_back_video_record" : "start_back_video_record";
+      return networkService.POST("orders" , {message: operation, endUser: endUserId})
+    }
+
+    this.toggleRecord = function(status,endUserId){
+      var operation = status ? "stop_voice_record" : "start_voice_record";
+      return networkService.POST("orders" , {message: operation, endUser: endUserId})
+    }
+
+    this.getLocation = function(deviceId){
+      return networkService.POST('orders', {endUser: deviceId , message: 'get_location'})
+    }
+
   }]);

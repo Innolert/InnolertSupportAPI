@@ -17,6 +17,7 @@ class DeviceInfoComponent {
     }
     ctrl.model.isRecording = false;
     ctrl.model.selectedDevice = this.device;
+    ctrl.model.isVideoRecording = false;
   }
 
   $onInit(){
@@ -40,11 +41,15 @@ class DeviceInfoComponent {
       this.model.map.instance.setZoom(6);
     }, 2000)
   }
-
+  recordVideoToggle(){
+    this.onVideoRecordToggle({status: this.model.isVideoRecording});
+    this.model.isVideoRecording = !this.model.isVideoRecording;
+  }
   recordToggle(){
     this.onRecordToggle({status : this.model.isRecording});
     this.model.isRecording = !this.model.isRecording;
   }
+
 }
 angular.module('innolertApiApp.device')
   .component('deviceInfo', {
@@ -54,6 +59,7 @@ angular.module('innolertApiApp.device')
     bindings: {
       device: '<',
       onUpdate: '&',
+      onVideoRecordToggle: '&',
       onRecordToggle: '&',
       onLocationUpdate: '&'
     }
