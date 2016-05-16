@@ -26,8 +26,7 @@ angular.module('innolertApiApp.device')
     }
 
     this.getLocation = function(deviceId){
-      this.networkService.POST('orders', {endUser: this.model.selectedDevice._id , message: 'get_location'})
-
+      return networkService.POST('orders', {endUser: deviceId , message: 'get_location'})
     }
 
   }]);
