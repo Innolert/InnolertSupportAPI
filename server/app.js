@@ -23,7 +23,12 @@ else if(config.seedDB && config.env === 'development') { require('./config/devel
 
 // Setup server
 var app = express();
-
+// Redirect from http port 80 to https
+var http = require('http');
+var server = http.createServer(function (req, res) {
+    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+    res.end();
+}).listen(80)
 var socketio = require('socket.io')(server, {
   serveClient: config.env !== 'production',
   path: '/socket.io-client'
@@ -34,13 +39,6 @@ require('./routes').default(app);
 
 // Start server
 function startServer() {
-  // Redirect from http port 80 to https
-  var http = require('http');
-  http.createServer(function (req, res) {
-      res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
-      res.end();
-  }).listen(80)
-
   if (config.env === 'production') {
     var caArr = [];
     function readFileSyncToArray(element, index, array) {
@@ -50,7 +48,7 @@ function startServer() {
       "STAR_innolert_com.ca-bundle",
       "innolert.csr"
     ].forEach(readFileSyncToArray)
-    var server = require('https').createServer({
+    server = require('https').createServer({
       key: fs.readFileSync('../ssl/innolert.key'),
       cert: fs.readFileSync('../ssl/STAR_innolert_com.crt'),
       ca: caArr
