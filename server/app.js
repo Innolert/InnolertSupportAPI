@@ -46,7 +46,7 @@ else{
     res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
     res.end();
   })
-  .listen(config.port, config.ip);
+  .listen(80);
 
 }
 var socketio = require('socket.io')(server, {
