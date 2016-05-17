@@ -23,24 +23,7 @@ else if(config.seedDB && config.env === 'development') { require('./config/devel
 
 // Setup server
 var app = express();
-if (config.env !== 'production') {
-  var server = require('http').createServer(app);
-}
-else{
-  var caArr = [];
-  function readFileSyncToArray(element, index, array) {
-    caArr.push(fs.readFileSync('../ssl/'+element , "utf8"));
-  }
-  [
-    "STAR_innolert_com.ca-bundle",
-    "innolert.csr"
-  ].forEach(readFileSyncToArray)
-  var server = require('https').createServer({
-    key: fs.readFileSync('../ssl/innolert.key'),
-    cert: fs.readFileSync('../ssl/STAR_innolert_com.crt'),
-    ca: caArr
-  }, app);
-}
+
 var socketio = require('socket.io')(server, {
   serveClient: config.env !== 'production',
   path: '/socket.io-client'
@@ -51,18 +34,33 @@ require('./routes').default(app);
 
 // Start server
 function startServer() {
+  // Redirect from http port 80 to https
+  var http = require('http');
+  http.createServer(function (req, res) {
+      res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+      res.end();
+  }).listen(80)
 
-  app.angularFullstack = server.listen(config.env !== 'production' ? config.port : 443, config.ip, function () {
-    console.log('Express server listening on %d, in %s mode', config.env !== 'production' ? config.port : 443, app.get('env'));
-  });
   if (config.env === 'production') {
-   require('http')
-     .createServer(function (req, res) {
-       res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
-       res.end();
-     })
-     .listen(config.port, config.ip);
-   }
+    var caArr = [];
+    function readFileSyncToArray(element, index, array) {
+      caArr.push(fs.readFileSync('../ssl/'+element , "utf8"));
+    }
+    [
+      "STAR_innolert_com.ca-bundle",
+      "innolert.csr"
+    ].forEach(readFileSyncToArray)
+    var server = require('https').createServer({
+      key: fs.readFileSync('../ssl/innolert.key'),
+      cert: fs.readFileSync('../ssl/STAR_innolert_com.crt'),
+      ca: caArr
+    }, app)
+    .listen(443);
+  }
+
+  // app.angularFullstack = server.listen(config.env !== 'production' ? config.port : 443, config.ip, function () {
+    console.log('Express server listening on %d, in %s mode', config.env !== 'production' ? config.port : 443, app.get('env'));
+  // });
 }
 
 setImmediate(startServer);
