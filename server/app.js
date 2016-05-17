@@ -3,7 +3,7 @@
  */
 
 'use strict';
-var http = require('http')
+var http = require('http'),
   https = require('http');
 import express from 'express';
 import mongoose from 'mongoose';
