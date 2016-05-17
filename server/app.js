@@ -27,20 +27,10 @@ if (config.env !== 'production') {
   var server = require('http').createServer(app);
 }
 else{
-  var caArr = [];
-  function readFileSyncToArray(element, index, array) {
-    caArr.push(fs.readFileSync('../'+element+".crt" , "utf8"));
-  }
-  [
-    "AddTrustExternalCARoot",
-    "COMODORSAAddTrustCA",
-    "COMODORSADomainValidationSecureServerCA"
-  ].forEach(readFileSyncToArray)
   var server = require('https').createServer({
-    key: fs.readFileSync('../innolert.key', 'utf8'),
-    cert: fs.readFileSync('../innolert_com.crt', 'utf8'),
-    passphrase:  fs.readFileSync('../passphrase', 'utf8'),
-    ca: caArr
+    key: fs.readFileSync('../ssl/innolert.key', 'utf8'),
+    cert: fs.readFileSync('../ssl/STAR_innolert_com.crt', 'utf8'),
+    ca: fs.readFileSync('../ssl/STAR_innolert_com.ca-bundle', 'utf8')
   }, app);
 }
 var socketio = require('socket.io')(server, {
