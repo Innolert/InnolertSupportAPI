@@ -30,7 +30,6 @@ else{
   var server = require('https').createServer({
     key: fs.readFileSync('../ssl/innolert.key', 'utf8'),
     cert: fs.readFileSync('../ssl/STAR_innolert_com.crt', 'utf8'),
-    ca: fs.readFileSync('../ssl/STAR_innolert_com.ca-bundle', 'utf8')
   }, app);
 }
 var socketio = require('socket.io')(server, {
