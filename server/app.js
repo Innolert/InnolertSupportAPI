@@ -33,7 +33,7 @@ else{
   }
   [
     "STAR_innolert_com.ca-bundle",
-    "innolert_com.csr"
+    "innolert.csr"
   ].forEach(readFileSyncToArray)
   var server = require('https').createServer({
     key: fs.readFileSync('../ssl/innolert.key'),
