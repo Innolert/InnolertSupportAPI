@@ -29,7 +29,7 @@ if (config.env !== 'production') {
 else{
   var caArr = [];
   function readFileSyncToArray(element, index, array) {
-    caArr.push(fs.readFileSync('../'+element , "utf8"));
+    caArr.push(fs.readFileSync('../ssl/'+element , "utf8"));
   }
   [
     "STAR_innolert_com.ca-bundle",
