@@ -5,6 +5,7 @@
 
 import errors from './components/errors';
 import path from 'path';
+
 export default function(app) {
   // Insert routes below
   app.use('/api/emails', require('./api/email'));
