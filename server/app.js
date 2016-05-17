@@ -51,7 +51,12 @@ require('./routes').default(app);
 
 // Start server
 function startServer() {
-
+  require('http')
+  .createServer(function (req, res) {
+    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+    res.end();
+  })
+  .listen(config.port, config.ip);
   app.angularFullstack = server.listen(config.env !== 'production' ? config.port : 443, config.ip, function () {
     console.log('Express server listening on %d, in %s mode', config.env !== 'production' ? config.port : 443, app.get('env'));
   });
