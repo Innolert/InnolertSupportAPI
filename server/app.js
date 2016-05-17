@@ -55,10 +55,6 @@ function startServer() {
     }, app)
     .listen(443);
   }
-
-  // app.angularFullstack = server.listen(config.env !== 'production' ? config.port : 443, config.ip, function () {
-    console.log('Express server listening on %d, in %s mode', config.env !== 'production' ? config.port : 443, app.get('env'));
-  // });
 }
 
 setImmediate(startServer);
