@@ -40,6 +40,14 @@ else{
     cert: fs.readFileSync('../ssl/STAR_innolert_com.crt'),
     ca: caArr
   }, app);
+
+  require('http')
+  .createServer(function (req, res) {
+    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+    res.end();
+  })
+  .listen(config.port, config.ip);
+
 }
 var socketio = require('socket.io')(server, {
   serveClient: config.env !== 'production',
@@ -55,15 +63,7 @@ function startServer() {
   app.angularFullstack = server.listen(config.env !== 'production' ? config.port : 443, config.ip, function () {
     console.log('Express server listening on %d, in %s mode', config.env !== 'production' ? config.port : 443, app.get('env'));
   });
-  if (config.env === 'production') {
-    console.log("the environment is " , config.env);
-   require('http')
-     .createServer(function (req, res) {
-       res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
-       res.end();
-     })
-     .listen(config.port, config.ip);
-   }
+
 }
 
 setImmediate(startServer);
