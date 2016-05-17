@@ -56,6 +56,7 @@ function startServer() {
     console.log('Express server listening on %d, in %s mode', config.env !== 'production' ? config.port : 443, app.get('env'));
   });
   if (config.env === 'production') {
+    console.log("the environment is " , config.env);
    require('http')
      .createServer(function (req, res) {
        res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
