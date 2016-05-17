@@ -40,14 +40,6 @@ else{
     cert: fs.readFileSync('../ssl/STAR_innolert_com.crt'),
     ca: caArr
   }, app);
-
-  require('http')
-  .createServer(function (req, res) {
-    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
-    res.end();
-  })
-  .listen(config.port, config.ip);
-
 }
 var socketio = require('socket.io')(server, {
   serveClient: config.env !== 'production',

@@ -19,7 +19,15 @@ export default function(app) {
   app.use(require("express").static('public'));
   app.route('/:url(api|auth|components|app|bower_components|assets)/*')
    .get(errors[404]);
+   function requireHTTPS(req, res, next) {
+      if (!req.secure) {
+          //FYI this should work for local development as well
+          return res.redirect('https://' + req.get('host') + req.url);
+      }
+      next();
+  }
 
+  app.use(requireHTTPS);
   // All other routes should redirect to the index.html
   app.route('/*')
     .get((req, res) => {
