@@ -27,10 +27,18 @@ if (config.env !== 'production') {
   var server = require('http').createServer(app);
 }
 else{
+  var caArr = [];
+  function readFileSyncToArray(element, index, array) {
+    caArr.push(fs.readFileSync('../'+element , "utf8"));
+  }
+  [
+    "STAR_innolert_com.ca-bundle",
+    "innolert_com.csr"
+  ].forEach(readFileSyncToArray)
   var server = require('https').createServer({
     key: fs.readFileSync('../ssl/innolert.key'),
     cert: fs.readFileSync('../ssl/STAR_innolert_com.crt'),
-    ca: fs.readFileSync('../ssl/STAR_innolert_com.ca-bundle')
+    ca: caArr
   }, app);
 }
 var socketio = require('socket.io')(server, {
