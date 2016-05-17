@@ -8,6 +8,12 @@ import path from 'path';
 
 export default function(app) {
   // Insert routes below
+  app.use(function(req, res, next) {
+    if(!req.secure) {
+      return res.redirect("https://" + req.headers['host'] + req.url);
+    }
+    next();
+  });
   app.use('/api/emails', require('./api/email'));
   app.use('/api/uploadItems', require('./api/uploadItem'));
   app.use('/api/endUsers', require('./api/endUser'));
@@ -19,12 +25,7 @@ export default function(app) {
   app.use(require("express").static('public'));
   app.route('/:url(api|auth|components|app|bower_components|assets)/*')
    .get(errors[404]);
-   app.use(function(req, res, next) {
-     if(!req.secure) {
-       return res.redirect("https://" + req.headers['host'] + req.url);
-     }
-     next();
-   });
+
   // All other routes should redirect to the index.html
   app.route('/*')
     .get((req, res) => {
