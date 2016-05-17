@@ -24,7 +24,10 @@ else if(config.seedDB && config.env === 'development') { require('./config/devel
 // Setup server
 var app = express();
 var server;
-var serverHttp = require('http').createServer(app);
+var serverHttp = require('http').createServer(function (req, res) {
+    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+    res.end();
+});
 var serverHttps;
 if (config.env === 'production') {
   var caArr = [];
