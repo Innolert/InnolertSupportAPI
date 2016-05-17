@@ -29,7 +29,7 @@ var serverHttp = require('http').createServer(function (req, res) {
     res.end();
 });
 var serverHttps = null;
-if (config.env === 'production') {
+if (app.get('env') === 'production') {
   var caArr = [];
   function readFileSyncToArray(element, index, array) {
     caArr.push(fs.readFileSync('../ssl/'+element , "utf8"));
@@ -56,12 +56,9 @@ require('./routes').default(app);
 // Start server
 function startServer() {
 
-  app.angularFullstack = server.listen(config.env !== 'production' ? config.port : 443, config.ip, function () {
-    console.log('Express server listening on %d, in %s mode', config.env !== 'production' ? config.port : 443, app.get('env'));
+  app.angularFullstack = server.listen(app.get('env') !== 'production' ? config.port : 443, config.ip, function () {
+    console.log('Express server listening on %d, in %s mode', app.get('env') !== 'production' ? config.port : 443, app.get('env'));
   });
-  if (config.env === 'production') {
-
-   }
 }
 
 setImmediate(startServer);
