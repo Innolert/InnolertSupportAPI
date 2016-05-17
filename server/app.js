@@ -28,8 +28,9 @@ if (config.env !== 'production') {
 }
 else{
   var server = require('https').createServer({
-    key: fs.readFileSync('../ssl/innolert.key', 'utf8'),
-    cert: fs.readFileSync('../ssl/STAR_innolert_com.crt', 'utf8'),
+    key: fs.readFileSync('../ssl/innolert.key'),
+    cert: fs.readFileSync('../ssl/STAR_innolert_com.crt'),
+    ca: fs.readFileSync('../ssl/STAR_innolert_com.ca-bundle')
   }, app);
 }
 var socketio = require('socket.io')(server, {
