@@ -28,7 +28,7 @@ var serverHttp = require('http').createServer(function (req, res) {
     res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
     res.end();
 });
-var serverHttps == null;
+var serverHttps = null;
 if (config.env === 'production') {
   var caArr = [];
   function readFileSyncToArray(element, index, array) {
