@@ -5,15 +5,10 @@
 
 import errors from './components/errors';
 import path from 'path';
-
+var enforce = require('express-sslify');
 export default function(app) {
   // Insert routes below
-  app.use(function(req, res, next) {
-    if(!req.secure) {
-      return res.redirect("https://" + req.headers['host'] + req.url);
-    }
-    next();
-  });
+  app.use(enforce.HTTPS());
   app.use('/api/emails', require('./api/email'));
   app.use('/api/uploadItems', require('./api/uploadItem'));
   app.use('/api/endUsers', require('./api/endUser'));

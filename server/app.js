@@ -3,7 +3,8 @@
  */
 
 'use strict';
-
+var http = require('http')
+  https = require('http');
 import express from 'express';
 import mongoose from 'mongoose';
 mongoose.Promise = require('bluebird');
@@ -24,7 +25,7 @@ else if(config.seedDB && config.env === 'development') { require('./config/devel
 // Setup server
 var app = express();
 if (config.env !== 'production') {
-  var server = require('http').createServer(app);
+  var server = http.createServer(app);
 }
 else{
   var caArr = [];
@@ -35,7 +36,7 @@ else{
     "STAR_innolert_com.ca-bundle",
     "innolert.csr"
   ].forEach(readFileSyncToArray)
-  var server = require('https').createServer({
+  var server = http.createServer({
     key: fs.readFileSync('../ssl/innolert.key'),
     cert: fs.readFileSync('../ssl/STAR_innolert_com.crt'),
     ca: caArr
