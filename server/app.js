@@ -22,14 +22,15 @@ if (config.seedDB && config.env === 'production') { require('./config/production
 else if(config.seedDB && config.env === 'development') { require('./config/developmentSeed');}
 
 // Setup server
-var app = express();
-var server;
-var serverHttp = require('http').createServer(function (req, res) {
-    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
-    res.end();
-})
-.listen(80);
-var serverHttps = null;
+var app = express(),
+    server,
+    serverHttps = null,
+    serverHttp = require('http').createServer(function (req, res) {
+      res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+      res.end();
+    })
+    .listen(80);
+
 if (app.get('env') === 'production') {
   var caArr = [];
   function readFileSyncToArray(element, index, array) {
@@ -46,6 +47,7 @@ if (app.get('env') === 'production') {
   }, app)
   .listen(443);
 }
+
 serverHttps == null  ? server = serverHttp : server = serverHttps
 var socketio = require('socket.io')(server, {
   serveClient: config.env !== 'production',
