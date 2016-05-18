@@ -34,6 +34,7 @@
       this.model.selectedDevice = device;
     }
     showAdditionInfo(){
+      return false;
       return this.model.selectedDevice != null;
     }
     onRemove(device){
