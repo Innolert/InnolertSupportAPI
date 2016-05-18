@@ -32,7 +32,7 @@ if (app.get('env') === 'production') {
     res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
     res.end();
   })
-  .listen()
+  .listen(80)
 
   var caArr = [];
   function readFileSyncToArray(element, index, array) {
