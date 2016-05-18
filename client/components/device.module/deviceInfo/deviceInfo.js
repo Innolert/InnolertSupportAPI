@@ -30,9 +30,13 @@ class DeviceInfoComponent {
   }
 
   $onChanges(changesObj){
-    if(changesObj.device == null || changesObj.deivce.currentValue == null) return;
+    if (!changesObj.device || !changesObj.deivce.currentValue) {
+      return;
+    }
+
     this.model.selectedDevice = changesObj.device.currentValue
     this.model.map.LatLng = this.model.selectedDevice.location.lastLocation.LatLng;
+
     this.$timeout(() => {
       google.maps.event.trigger(this.model.map.instance, "resize");
       if(!this.model.selectedDevice.location.LatLng) this.model.selectedDevice.location.LatLng = this.model.map.LatLng;
