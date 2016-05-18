@@ -34,7 +34,6 @@
       this.model.selectedDevice = device;
     }
     showAdditionInfo(){
-      console.log(this.model.selectedDevice);
       return !this.model.selectedDevice ;
     }
     onRemove(device){
