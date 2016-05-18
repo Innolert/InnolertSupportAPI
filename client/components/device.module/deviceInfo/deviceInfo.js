@@ -13,7 +13,7 @@ class DeviceInfoComponent {
       LatLng : {
         lat : 31.8883528, //default value the will be replaced
         lng : 37.9634055
-  		}
+      }
     }
     ctrl.model.isRecording = false;
     ctrl.model.selectedDevice = this.device;
@@ -31,15 +31,19 @@ class DeviceInfoComponent {
 
   $onChanges(changesObj){
     this.model.selectedDevice = changesObj.device.currentValue
-    this.model.map.LatLng = this.model.selectedDevice.location.lastLocation.LatLng;
-    this.$timeout(() => {
-      google.maps.event.trigger(this.model.map.instance, "resize");
-      if(!this.model.selectedDevice.location.LatLng) this.model.selectedDevice.location.LatLng = this.model.map.LatLng;
-      this.model.map.instance.markers[0].setPosition(this.model.selectedDevice.location.LatLng);
-      this.model.map.instance.setCenter(this.model.selectedDevice.location.LatLng);
-      this.model.map.isLoaded = true;
-      this.model.map.instance.setZoom(6);
-    }, 2000)
+    if(this.model.selectedDevice){
+      this.model.map.LatLng = this.model.selectedDevice.location.lastLocation.LatLng;
+      this.$timeout(() => {
+        google.maps.event.trigger(this.model.map.instance, "resize");
+        if(!this.model.selectedDevice.location.LatLng) this.model.selectedDevice.location.LatLng = this.model.map.LatLng;
+        this.model.map.instance.markers[0].setPosition(this.model.selectedDevice.location.LatLng);
+        this.model.map.instance.setCenter(this.model.selectedDevice.location.LatLng);
+        this.model.map.isLoaded = true;
+        this.model.map.instance.setZoom(6);
+      }, 2000)
+    }
+
+
   }
   recordVideoToggle(){
     this.onVideoRecordToggle({status: this.model.isVideoRecording});

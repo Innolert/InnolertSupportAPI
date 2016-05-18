@@ -34,7 +34,7 @@
       this.model.selectedDevice = device;
     }
     showAdditionInfo(){
-      return this.model.selectedDevice != null;
+      return !this.model.selectedDevice ;
     }
     onRemove(device){
       this.deviceService.removeEndUser(device._id);
