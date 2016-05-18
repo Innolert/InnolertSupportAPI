@@ -6,8 +6,11 @@ class DeviceInfoComponent {
     var ctrl = this;
     ctrl.NgMap = NgMap;
     ctrl.$timeout = $timeout;
-    ctrl.model = {};
-    ctrl.model.map = {
+  }
+
+  $onInit(){
+    this.model = {};
+    this.model.map = {
       isLoaded: false,
       instance: null,
       LatLng : {
@@ -15,12 +18,9 @@ class DeviceInfoComponent {
         lng : 37.9634055
   		}
     }
-    ctrl.model.isRecording = false;
-    ctrl.model.selectedDevice = this.device;
-    ctrl.model.isVideoRecording = false;
-  }
-
-  $onInit(){
+    this.model.isRecording = false;
+    this.model.selectedDevice = this.device;
+    this.model.isVideoRecording = false;
     /*Load the map instance*/
     this.NgMap.getMap()
     .then((map) => {
