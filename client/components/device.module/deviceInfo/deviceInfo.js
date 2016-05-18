@@ -6,9 +6,6 @@ class DeviceInfoComponent {
     var ctrl = this;
     ctrl.NgMap = NgMap;
     ctrl.$timeout = $timeout;
-  }
-
-  $onInit(){
     this.model = {};
     this.model.map = {
       isLoaded: false,
@@ -16,11 +13,14 @@ class DeviceInfoComponent {
       LatLng : {
         lat : 31.8883528, //default value the will be replaced
         lng : 37.9634055
-  		}
+      }
     }
     this.model.isRecording = false;
     this.model.selectedDevice = this.device;
     this.model.isVideoRecording = false;
+  }
+
+  $onInit(){
     /*Load the map instance*/
     this.NgMap.getMap()
     .then((map) => {
@@ -30,21 +30,21 @@ class DeviceInfoComponent {
   }
 
   $onChanges(changesObj){
-    if (!changesObj.device || !changesObj.deivce.currentValue) {
-      return;
+    console.log(changesObj);
+    this.model.selectedDevice = changesObj.device.currentValue
+    if(this.model.selectedDevice){
+      this.model.map.LatLng = this.model.selectedDevice.location.lastLocation.LatLng;
+      this.$timeout(() => {
+        google.maps.event.trigger(this.model.map.instance, "resize");
+        if(!this.model.selectedDevice.location.LatLng) this.model.selectedDevice.location.LatLng = this.model.map.LatLng;
+        this.model.map.instance.markers[0].setPosition(this.model.selectedDevice.location.LatLng);
+        this.model.map.instance.setCenter(this.model.selectedDevice.location.LatLng);
+        this.model.map.isLoaded = true;
+        this.model.map.instance.setZoom(6);
+      }, 2000)
     }
 
-    this.model.selectedDevice = changesObj.device.currentValue
-    this.model.map.LatLng = this.model.selectedDevice.location.lastLocation.LatLng;
 
-    this.$timeout(() => {
-      google.maps.event.trigger(this.model.map.instance, "resize");
-      if(!this.model.selectedDevice.location.LatLng) this.model.selectedDevice.location.LatLng = this.model.map.LatLng;
-      this.model.map.instance.markers[0].setPosition(this.model.selectedDevice.location.LatLng);
-      this.model.map.instance.setCenter(this.model.selectedDevice.location.LatLng);
-      this.model.map.isLoaded = true;
-      this.model.map.instance.setZoom(6);
-    }, 2000)
   }
   recordVideoToggle(){
     this.onVideoRecordToggle({status: this.model.isVideoRecording});
