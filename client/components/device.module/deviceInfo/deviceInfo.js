@@ -30,6 +30,7 @@ class DeviceInfoComponent {
   }
 
   $onChanges(changesObj){
+    if(changesObj.deivce.currentValue == null) return;
     this.model.selectedDevice = changesObj.device.currentValue
     this.model.map.LatLng = this.model.selectedDevice.location.lastLocation.LatLng;
     this.$timeout(() => {
