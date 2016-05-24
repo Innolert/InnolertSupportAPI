@@ -62,6 +62,10 @@ function handleError(res, statusCode) {
     };
 }
 
+function handleFileSaved(res,destination,files){
+    res.send('File has been saved into ' + destination.split('/').pop() + "/" + files.file.filename)
+}
+
 // Gets a list of UploadItems
 export function index(req, res) {
     return UploadItem.find().exec()
@@ -109,20 +113,16 @@ export function create(req, res) {
                 updates: [fields.description],
                 author: fields.author
             })
-            res.send('File has been saved into ' + destination.split('/').pop() + files.file.filename)
+            handleFileSaved(res,destination,files);
             break;
           case "stop_back_video_record":
             updateEndUserRecord(fields.author, uri + destination.split('/').pop() + "/" + fileName)
-            .then(() => {
-                res.send('File has been saved into ' + destination.split('/').pop() + "/" + files.file.filename)
-            })
+            .then(handleFileSaved(res,destination,files))
             .catch(handleError(res));
             break;
           case "stop_voice_record":
             updateEndUserRecord(fields.author, uri + destination.split('/').pop() + "/" + fileName)
-                .then(() => {
-                    res.send('File has been saved into ' + destination.split('/').pop() + "/" + files.file.filename)
-                })
+                .then(handleFileSaved(res,destination,files))
                 .catch(handleError(res));
             break;
           default:
