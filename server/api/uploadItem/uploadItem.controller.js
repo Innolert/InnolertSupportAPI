@@ -110,19 +110,19 @@ export function create(req, res) {
                 updates: [fields.description],
                 author: fields.author
             })
-            res.send('File has been saved into ' + destination + files.file.filename)
+            res.send('File has been saved into ' + destination.split('/').pop() + files.file.filename)
             break;
           case "stop_back_video_record":
-            updateEndUserRecord(fields.author, uri + destination + "/" + fileName)
+            updateEndUserRecord(fields.author, uri + destination.split('/').pop() + "/" + fileName)
             .then(() => {
-                res.send('File has been saved into ' + destination + "/" + files.file.filename)
+                res.send('File has been saved into ' + destination.split('/').pop() + "/" + files.file.filename)
             })
             .catch(handleError(res));
             break;
           case "stop_voice_record":
-            updateEndUserRecord(fields.author, uri + destination+ "/" + fileName)
+            updateEndUserRecord(fields.author, uri + destination.split('/').pop()+ "/" + fileName)
                 .then(() => {
-                    res.send('File has been saved into ' + destination + "/" + files.file.filename)
+                    res.send('File has been saved into ' + destination.split('/').pop() + "/" + files.file.filename)
                 })
                 .catch(handleError(res));
             break;
