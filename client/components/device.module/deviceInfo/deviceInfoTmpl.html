@@ -29,12 +29,12 @@
 			<div class="col-md-6">
 				<ul>
 					<li ng-repeat="file in vm.model.selectedDevice.files.video">
-						<a ng-href={{file}} download>{{file}}</a>
+						<a ng-href={{file}} target="_blank">{{file}}</a>
 					</li>
 				</ul>
 				<ul>
 					<li ng-repeat="file in vm.model.selectedDevice.files.voice">
-						<a ng-href={{file}} download>{{file}}</a>
+						<a ng-href={{file}} target="_blank">{{file}}</a>
 					</li>
 				</ul>
 			</div>
