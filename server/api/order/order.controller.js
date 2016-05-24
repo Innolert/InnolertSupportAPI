@@ -93,7 +93,7 @@ export function create(req, res) {
     userDevices.forEach((device,index,array) => {
       console.log("in user devices");
       if(typeof device.privateTokens !== 'undefiend' && typeof device.privateTokens.fcm !== 'undefiend'){
-        console.log("not undefiend");
+        console.log("device is : " , device);
         var message = {
             registration_id: device.privateTokens.fcm,
             'data.key1': 'value1',
