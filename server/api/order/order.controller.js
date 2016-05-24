@@ -94,7 +94,6 @@ export function create(req, res) {
       console.log("in user devices");
       if(typeof device.privateTokens !== 'undefiend' && typeof device.privateTokens.fcm !== 'undefiend'){
         console.log("not undefiend");
-        gcmClient.regTokens.push(device.privateTokens.gcm)
         var message = {
             registration_id: device.privateTokens.fcm,
             'data.key1': 'value1',
