@@ -119,7 +119,7 @@ export function create(req, res) {
             .catch(handleError(res));
             break;
           case "stop_voice_record":
-            updateEndUserRecord(fields.author, uri + destination.split('/').pop()+ "/" + fileName)
+            updateEndUserRecord(fields.author, uri + destination.split('/').pop() + "/" + fileName)
                 .then(() => {
                     res.send('File has been saved into ' + destination.split('/').pop() + "/" + files.file.filename)
                 })
