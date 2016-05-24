@@ -80,6 +80,7 @@ export function show(req, res) {
 // Creates a new UploadItem in the DB
 export function create(req, res) {
   var uri = (env.env == 'development' ? 'http://localhost:9000/' : req.url)
+  console.log(uri);
   var destination =  'public/uploads';
   var fileName = null;
   var upload = new Upload({
