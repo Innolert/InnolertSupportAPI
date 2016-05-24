@@ -11,6 +11,9 @@
 import EndUser from '../endUser/endUser.model';
 import _ from 'lodash';
 import Order from './order.model';
+var FCM = require('fcm').FCM;
+var fcmApiKey  = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8')).fcm;
+var fcm = new FCM(apiKey);
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -78,7 +81,6 @@ export function show(req, res) {
 
 // Creates a new Order in the DB
 export function create(req, res) {
-  var gcmClient = new (require(__base + '/config/gcm.config.js'))()
   var parent = req.user._id;
   //TO-DO : verify req.body.message is authorized key word
   EndUser.findOne({parentUser: req.user._id , _id : req.body.endUser})
@@ -86,18 +88,24 @@ export function create(req, res) {
   .then((user) => {
     var userDevices = user.device;
     userDevices.forEach((device,index,array) => {
-      if(typeof device.privateTokens !== 'undefiend' && typeof device.privateTokens.gcm !== 'undefiend'){
+      if(typeof device.privateTokens !== 'undefiend' && typeof device.privateTokens.fcm !== 'undefiend'){
         gcmClient.regTokens.push(device.privateTokens.gcm)
-        var message = new gcmClient.gcm.Message({
-          data: {
-            message: {
-              operation: req.body.message
+        var message = {
+            registration_id: device.privateTokens.fcm,
+            'data.key1': 'value1',
+            'data.key2': 'value2'
+        };
+          // data: {
+          //   message: {
+          //     operation: req.body.message
+          //   }
+          // }
+        fcm.send(message, function(err, messageId){
+            if (err) {
+                console.log("Something has gone wrong!");
+            } else {
+                console.log("Sent with message ID: ", messageId);
             }
-          }
-        });
-        gcmClient.sender.send(message, { registrationTokens: gcmClient.regTokens }, function (err, response) {
-          if(err) console.error(err);
-          else 	console.log(response);
         });
       }
       else{
