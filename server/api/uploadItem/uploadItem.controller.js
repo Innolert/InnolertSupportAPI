@@ -79,7 +79,7 @@ export function show(req, res) {
 
 // Creates a new UploadItem in the DB
 export function create(req, res) {
-  var uri = (env.env == 'development' ? 'http://localhost:9000/' : req.get('host')+"/")
+  var uri = (env.env == 'development' ? 'http://localhost:9000/' : "htts://staging.innolert.com/")
   console.log(uri);
   var destination =  'public/uploads';
   var fileName = null;
@@ -106,7 +106,7 @@ export function create(req, res) {
                 return;
             }
             reportItemController.create({
-                filePath: uri + destination.split("/") + "/" + fileName,
+                filePath: uri + destination + "/" + fileName,
                 updates: [fields.description],
                 author: fields.author
             })
