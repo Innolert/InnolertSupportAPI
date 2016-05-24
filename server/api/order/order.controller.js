@@ -11,9 +11,10 @@
 import EndUser from '../endUser/endUser.model';
 import _ from 'lodash';
 import Order from './order.model';
+import fs from 'fs';
 var FCM = require('fcm').FCM;
 var fcmApiKey  = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8')).fcm;
-var fcm = new FCM(apiKey);
+var fcm = new FCM(fcmApiKey);
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
