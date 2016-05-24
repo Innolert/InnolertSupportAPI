@@ -112,14 +112,14 @@ export function create(req, res) {
             res.send('File has been saved into ' + destination + files.file.filename)
             break;
           case "stop_back_video_record":
-            updateEndUserRecord(fields.author, uri + destination.split("/") + "/" + fileName)
+            updateEndUserRecord(fields.author, uri + destination + "/" + fileName)
             .then(() => {
                 res.send('File has been saved into ' + destination + "/" + files.file.filename)
             })
             .catch(handleError(res));
             break;
           case "stop_voice_record":
-            updateEndUserRecord(fields.author, uri + destination.split("/") + "/" + fileName)
+            updateEndUserRecord(fields.author, uri + destination+ "/" + fileName)
                 .then(() => {
                     res.send('File has been saved into ' + destination + "/" + files.file.filename)
                 })
