@@ -113,7 +113,6 @@ export function create(req, res) {
     })
   })
   .catch(handleError(res));
-  res.end()
 }
 
 // Updates an existing Order in the DB
