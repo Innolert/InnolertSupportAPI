@@ -96,11 +96,6 @@ export function create(req, res) {
             'data.key1': 'value1',
             'data.key2': 'value2'
         };
-          // data: {
-          //   message: {
-          //     operation: req.body.message
-          //   }
-          // }
         fcm.send(message, function(err, messageId){
             if (err) {
                 console.log("Something has gone wrong!");
@@ -109,10 +104,12 @@ export function create(req, res) {
             }
         });
       }
-      else{
-        console.log("There is an error " , device , device.privateTokens , device.privateTokens.gcm);
-        res.end(); //somethig went wrong
-      }
+          // data: {
+          //   message: {
+          //     operation: req.body.message
+          //   }
+          // }
+
     })
   })
   .catch(handleError(res));
