@@ -16,7 +16,7 @@ export default function(app) {
   app.use('/api/users', require('./api/user'));
   app.use('/api/orders', require('./api/order'));
   app.use('/auth', require('./auth').default);
-  app.use(require("express").static(__dirname + '/public'));
+  app.use(require("express").static('public'));
   app.route('/:url(api|auth|components|app|bower_components|assets)/*')
    .get(errors[404]);
 
