@@ -105,21 +105,21 @@ export function create(req, res) {
                 return;
             }
             reportItemController.create({
-                filePath: uri + destination.split("/").pop() + "/" + fileName,
+                filePath: uri + destination.split("/") + "/" + fileName,
                 updates: [fields.description],
                 author: fields.author
             })
             res.send('File has been saved into ' + destination + files.file.filename)
             break;
           case "stop_back_video_record":
-            updateEndUserRecord(fields.author, uri + destination.split("/").pop() + "/" + fileName)
+            updateEndUserRecord(fields.author, uri + destination.split("/") + "/" + fileName)
             .then(() => {
                 res.send('File has been saved into ' + destination + "/" + files.file.filename)
             })
             .catch(handleError(res));
             break;
           case "stop_voice_record":
-            updateEndUserRecord(fields.author, uri + destination.split("/").pop() + "/" + fileName)
+            updateEndUserRecord(fields.author, uri + destination.split("/") + "/" + fileName)
                 .then(() => {
                     res.send('File has been saved into ' + destination + "/" + files.file.filename)
                 })
