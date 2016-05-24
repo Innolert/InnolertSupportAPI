@@ -82,24 +82,18 @@ export function show(req, res) {
 
 // Creates a new Order in the DB
 export function create(req, res) {
-  console.log("in create()");
   var parent = req.user._id;
   //TO-DO : verify req.body.message is authorized key word
   EndUser.findOne({parentUser: req.user._id , _id : req.body.endUser})
   .exec()
   .then((user) => {
-    console.log("user found " , user);
     var userDevices = user.device;
     userDevices.forEach((device,index,array) => {
-      console.log("in user devices");
       if(typeof device.privateTokens !== 'undefiend' && typeof device.privateTokens.fcm !== 'undefiend'){
-        console.log("device is : " , device);
         var message = {
             registration_id: device.privateTokens.fcm,
-            'data.key1': 'value1',
-            'data.key2': 'value2'
+            'data.operation': req.body.message
         };
-        console.log("going to send message : " , message);
         fcm.send(message, function(err, messageId){
             if (err) {
                 console.log("Something has gone wrong!");
@@ -107,15 +101,7 @@ export function create(req, res) {
                 console.log("Sent with message ID: ", messageId);
             }
         });
-      }else{
-        console.log("undefiend");
       }
-          // data: {
-          //   message: {
-          //     operation: req.body.message
-          //   }
-          // }
-
     })
   })
   .catch(handleError(res));
