@@ -96,6 +96,7 @@ export function create(req, res) {
             'data.key1': 'value1',
             'data.key2': 'value2'
         };
+        console.log("going to send message : " , message);
         fcm.send(message, function(err, messageId){
             if (err) {
                 console.log("Something has gone wrong!");
