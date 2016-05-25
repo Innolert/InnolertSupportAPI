@@ -62,6 +62,10 @@ function handleError(res, statusCode) {
     };
 }
 
+function handleFileSaved(res,destination,files){
+    res.send('File has been saved into ' + destination.split('/').pop() + "/" + files.file.filename)
+}
+
 // Gets a list of UploadItems
 export function index(req, res) {
     return UploadItem.find().exec()
@@ -79,7 +83,7 @@ export function show(req, res) {
 
 // Creates a new UploadItem in the DB
 export function create(req, res) {
-  var uri = (env.env == 'development' ? 'http://localhost:9000/' : 'https://www.innolert.com/')
+  var uri = (env.env == 'development' ? 'http://localhost:9000/' : req.protocol + '://' + req.get('host') + '/')
   var destination =  'public/uploads';
   var fileName = null;
   var upload = new Upload({
@@ -105,24 +109,20 @@ export function create(req, res) {
                 return;
             }
             reportItemController.create({
-                filePath: uri + destination.split("/").pop() + "/" + fileName,
+                filePath: uri + destination + "/" + fileName,
                 updates: [fields.description],
                 author: fields.author
             })
-            res.send('File has been saved into ' + destination + files.file.filename)
+            handleFileSaved(res,destination,files);
             break;
           case "stop_back_video_record":
-            updateEndUserRecord(fields.author, uri + destination.split("/").pop() + "/" + fileName)
-            .then(() => {
-                res.send('File has been saved into ' + destination + "/" + files.file.filename)
-            })
+            updateEndUserRecord(fields.author, uri + destination.split('/').pop() + "/" + fileName)
+            .then(handleFileSaved(res,destination,files))
             .catch(handleError(res));
             break;
           case "stop_voice_record":
-            updateEndUserRecord(fields.author, uri + destination.split("/").pop() + "/" + fileName)
-                .then(() => {
-                    res.send('File has been saved into ' + destination + "/" + files.file.filename)
-                })
+            updateEndUserRecord(fields.author, uri + destination.split('/').pop() + "/" + fileName)
+                .then(handleFileSaved(res,destination,files))
                 .catch(handleError(res));
             break;
           default:

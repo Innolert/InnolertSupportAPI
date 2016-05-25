@@ -28,7 +28,7 @@ var EndUserSchema = new mongoose.Schema({
     imei: String,
     permissions: [mongoose.Schema.Types.Mixed],
     privateTokens :{
-      gcm : String
+      fcm : String
     }
   }],
   parentUser: mongoose.Schema.Types.ObjectId,

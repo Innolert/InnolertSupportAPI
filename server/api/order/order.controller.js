@@ -11,6 +11,9 @@
 import EndUser from '../endUser/endUser.model';
 import _ from 'lodash';
 import Order from './order.model';
+import fs from 'fs';
+var FCM = require('fcm').FCM,
+    fcm = new FCM(JSON.parse(fs.readFileSync('../apis.key.json', 'utf8')).fcm);
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -78,7 +81,6 @@ export function show(req, res) {
 
 // Creates a new Order in the DB
 export function create(req, res) {
-  var gcmClient = new (require(__base + '/config/gcm.config.js'))()
   var parent = req.user._id;
   //TO-DO : verify req.body.message is authorized key word
   EndUser.findOne({parentUser: req.user._id , _id : req.body.endUser})
@@ -86,28 +88,22 @@ export function create(req, res) {
   .then((user) => {
     var userDevices = user.device;
     userDevices.forEach((device,index,array) => {
-      if(typeof device.privateTokens !== 'undefiend' && typeof device.privateTokens.gcm !== 'undefiend'){
-        gcmClient.regTokens.push(device.privateTokens.gcm)
-        var message = new gcmClient.gcm.Message({
-          data: {
-            message: {
-              operation: req.body.message
+      if(typeof device.privateTokens !== 'undefiend' && typeof device.privateTokens.fcm !== 'undefiend'){
+        var message = {
+            registration_id: device.privateTokens.fcm,
+            'data.operation': req.body.message
+        };
+        fcm.send(message, function(err, messageId){
+            if (err) {
+                console.log("Something has gone wrong!");
+            } else {
+                console.log("Sent with message ID: ", messageId);
             }
-          }
         });
-        gcmClient.sender.send(message, { registrationTokens: gcmClient.regTokens }, function (err, response) {
-          if(err) console.error(err);
-          else 	console.log(response);
-        });
-      }
-      else{
-        console.log("There is an error " , device , device.privateTokens , device.privateTokens.gcm);
-        res.end(); //somethig went wrong
       }
     })
   })
   .catch(handleError(res));
-  res.end()
 }
 
 // Updates an existing Order in the DB
