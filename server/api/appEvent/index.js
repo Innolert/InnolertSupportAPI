@@ -1,5 +1,5 @@
 'use strict';
-
+import * as auth from '../../auth/auth.service';
 var express = require('express');
 var controller = require('./appEvent.controller');
 
