@@ -80,9 +80,10 @@ export function show(req, res) {
     .then(function(user){
       var json = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8'))[req.query.type];
       if(typeof device.privateTokens !== 'undefiend' && typeof device.privateTokens.fcm !== 'undefiend' && json.shareable){
+        delete json.shareable
         var message = {
             registration_id: device.privateTokens.fcm,
-            'data.result':
+            'data.result': json
         };
         fcm.send(message, function(err, messageId){
             if (err) {
