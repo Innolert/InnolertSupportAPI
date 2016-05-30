@@ -64,8 +64,6 @@ function handleError(res, statusCode) {
 
 // Gets a list of Orders
 export function index(req, res) {
-  console.log(req.query);
-
   return Order.find().exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
@@ -73,9 +71,28 @@ export function index(req, res) {
 
 // Gets a single Order from the DB
 export function show(req, res) {
-  return Order.findById(req.params.id).exec()
+  // return res.status(200).json()
+  // return res.status(200).json(req.query.type)
+  // res.status(200).json({test:123});
+  //
+  return EndUser.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
-    .then(respondWithResult(res))
+    .then(function(user){
+      var json = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8'))[req.query.type];
+      if(typeof device.privateTokens !== 'undefiend' && typeof device.privateTokens.fcm !== 'undefiend' && json.shareable){
+        var message = {
+            registration_id: device.privateTokens.fcm,
+            'data.result':
+        };
+        fcm.send(message, function(err, messageId){
+            if (err) {
+                console.log("Something has gone wrong!");
+            } else {
+                console.log("Sent with message ID: ", messageId);
+            }
+        });
+      }
+    })
     .catch(handleError(res));
 }
 
