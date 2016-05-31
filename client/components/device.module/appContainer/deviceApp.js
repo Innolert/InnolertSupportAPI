@@ -49,6 +49,10 @@
       this.deviceService.toggleVideoRecord(status,this.model.selectedDevice._id);
     }
 
+    chagneDeviceLockStatus(toLockDevice,withPassword){
+      this.deviceService.changeDeviceLockStatus(toLockDevice,withPassword,this.model.selectedDevice._id);
+    }
+
     toggleResitration() {
       var deviceService = this.deviceService;
       var registrationModelInstance = this.$uibModal.open({

@@ -22,13 +22,17 @@ var EndUserSchema = new mongoose.Schema({
     instegram: String
   },
   mobileNumber: String,
-  device: [{
+  devices: [{
     brand: String,
     id: String,
     imei: String,
     permissions: [mongoose.Schema.Types.Mixed],
     privateTokens :{
       fcm : String
+    },
+    isLocked: {
+      type: Boolean,
+      default: false
     }
   }],
   parentUser: mongoose.Schema.Types.ObjectId,
