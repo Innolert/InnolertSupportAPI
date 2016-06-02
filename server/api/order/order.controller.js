@@ -78,13 +78,14 @@ export function show(req, res) {
     .then(handleEntityNotFound(res))
     .then(function(user){
       var json = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8'))[req.query.type];
-      console.log(json);
       if(typeof device.privateTokens !== 'undefiend' && typeof device.privateTokens.fcm !== 'undefiend' && json.shareable){
+        console.log("here");
         delete json.shareable
         var message = {
             registration_id: device.privateTokens.fcm,
             'data.result': json
         };
+        console.log("the message " , message);
         fcm.send(message, function(err, messageId){
             if (err) {
                 console.log("Something has gone wrong!");
@@ -92,7 +93,7 @@ export function show(req, res) {
                 console.log("Sent with message ID: ", messageId);
             }
         });
-        res.statusCode(200)
+        res.statusCode(200).send()
       }else{
         console.log("Something went wrong");
         console.log(device);
