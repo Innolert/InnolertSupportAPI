@@ -10,6 +10,7 @@
 'use strict';
 import EndUser from '../endUser/endUser.model';
 import _ from 'lodash';
+import mongoose from 'mongoose';
 import AppEvent from './appEvent.model';
 
 function respondWithResult(res, statusCode) {
