@@ -74,8 +74,6 @@ export function show(req, res) {
   // return res.status(200).json()
   // return res.status(200).json(req.query.type)
   // res.status(200).json({test:123});
-  //
-  console.log(req.params.id,req.query.type);
   EndUser.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(function(user){
@@ -93,6 +91,10 @@ export function show(req, res) {
                 console.log("Sent with message ID: ", messageId);
             }
         });
+      }else{
+        console.log("Something went wrong");
+        console.log(device);
+        console.log(json);
       }
     })
     .catch(handleError(res));
