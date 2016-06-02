@@ -103,7 +103,7 @@ export function show(req, res) {
           console.log(device);
           console.log(json);
         }
-      }
+      })
     })
     .catch(handleError(res));
 }
