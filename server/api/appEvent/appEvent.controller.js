@@ -68,7 +68,7 @@ export function index(req, res) {
 
 // Gets a single AppEvent from the DB
 export function show(req, res) {
-  return AppEvent.findById(req.params.id).exec()
+  return AppEvent.find({ author : req.params.id }).exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
