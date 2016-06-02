@@ -78,6 +78,7 @@ export function show(req, res) {
     .then(handleEntityNotFound(res))
     .then(function(user){
       var json = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8'))[req.query.type];
+      console.log("the json is " , json);
       if(typeof device.privateTokens !== 'undefiend' && typeof device.privateTokens.fcm !== 'undefiend' && json.shareable){
         console.log("here");
         delete json.shareable
@@ -93,12 +94,13 @@ export function show(req, res) {
                 console.log("Sent with message ID: ", messageId);
             }
         });
-        res.statusCode(200).send()
+
       }else{
         console.log("Something went wrong");
         console.log(device);
         console.log(json);
       }
+      res.statusCode(200).send()
     })
     .catch(handleError(res));
 }
