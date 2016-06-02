@@ -10,6 +10,7 @@
 'use strict';
 import EndUser from '../endUser/endUser.model';
 import _ from 'lodash';
+import mongoose from 'mongoose';
 import AppEvent from './appEvent.model';
 
 function respondWithResult(res, statusCode) {
@@ -68,7 +69,9 @@ export function index(req, res) {
 
 // Gets a single AppEvent from the DB
 export function show(req, res) {
-  return AppEvent.findById(req.params.id).exec()
+  var id = mongoose.Types.ObjectId(req.params.id);
+  console.log(id,req.params.id);
+  return AppEvent.find({ author : id }).exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
