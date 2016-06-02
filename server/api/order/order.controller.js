@@ -75,7 +75,7 @@ export function show(req, res) {
   // return res.status(200).json(req.query.type)
   // res.status(200).json({test:123});
   //
-  console.log("here");
+  console.log(req.params.id,req.query.type);
   EndUser.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(function(user){
