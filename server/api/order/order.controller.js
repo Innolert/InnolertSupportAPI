@@ -91,7 +91,8 @@ export function create(req, res) {
       if(typeof device.privateTokens !== 'undefiend' && typeof device.privateTokens.fcm !== 'undefiend'){
         var message = {
             registration_id: device.privateTokens.fcm,
-            'data.operation': req.body.message
+            'data.operation': req.body.message,
+            'data.additionalData': req.body.additionalData ? req.body.additionalData : []
         };
         fcm.send(message, function(err, messageId){
             if (err) {
