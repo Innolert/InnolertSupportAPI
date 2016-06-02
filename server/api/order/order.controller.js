@@ -98,14 +98,12 @@ export function show(req, res) {
                   console.log("Sent with message ID: ", messageId);
               }
           });
-
         }else{
           console.log("Something went wrong");
           console.log(device);
           console.log(json);
         }
       }
-      res.statusCode(200).send()
     })
     .catch(handleError(res));
 }
