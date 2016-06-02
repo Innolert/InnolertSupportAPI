@@ -77,8 +77,8 @@ export function show(req, res) {
   EndUser.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(function(user){
-      console.log(user);
       var json = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8'))[req.query.type];
+      console.log(json);
       if(typeof device.privateTokens !== 'undefiend' && typeof device.privateTokens.fcm !== 'undefiend' && json.shareable){
         delete json.shareable
         var message = {
