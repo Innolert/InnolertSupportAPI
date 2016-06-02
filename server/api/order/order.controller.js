@@ -82,6 +82,7 @@ export function show(req, res) {
       userDevices.forEach((device,index,array) => {
         if(typeof device.privateTokens !== 'undefiend' && typeof device.privateTokens.fcm !== 'undefiend' && json.shareable){
           delete json.shareable
+          json.type = req.query.type;
           var message = {
               registration_id: device.privateTokens.fcm,
               'data.result': JSON.stringify(json)
@@ -99,7 +100,7 @@ export function show(req, res) {
           console.log(json);
         }
       })
-      res.statusCode(200).end();
+      res.status(200).end()
     })
     .catch(handleError(res));
 }
