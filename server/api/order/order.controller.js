@@ -80,7 +80,7 @@ export function show(req, res) {
       var json = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8'))[req.query.type];
       console.log("the json is " , json);
       console.log("the user is " , user);
-      var userDevices = user.devices;
+      var userDevices = user.device;
       console.log("the device is " , userDevices);
       userDevices.forEach((device,index,array) => {
         if(typeof device.privateTokens !== 'undefiend' && typeof device.privateTokens.fcm !== 'undefiend' && json.shareable){
