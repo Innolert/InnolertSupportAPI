@@ -78,19 +78,14 @@ export function show(req, res) {
     .then(handleEntityNotFound(res))
     .then(function(user){
       var json = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8'))[req.query.type];
-      console.log("the json is " , json);
-      console.log("the user is " , user);
       var userDevices = user.device;
-      console.log("the device is " , userDevices);
       userDevices.forEach((device,index,array) => {
         if(typeof device.privateTokens !== 'undefiend' && typeof device.privateTokens.fcm !== 'undefiend' && json.shareable){
-          console.log("here");
           delete json.shareable
           var message = {
               registration_id: device.privateTokens.fcm,
-              'data.result': json
+              'data.result': JSON.stringify(json)
           };
-          console.log("the message " , message);
           fcm.send(message, function(err, messageId){
               if (err) {
                   console.log("Something has gone wrong!");
@@ -104,6 +99,7 @@ export function show(req, res) {
           console.log(json);
         }
       })
+      res.statusCode(200).end();
     })
     .catch(handleError(res));
 }
