@@ -91,6 +91,7 @@ export function show(req, res) {
                 console.log("Sent with message ID: ", messageId);
             }
         });
+        res.statusCode(200)
       }else{
         console.log("Something went wrong");
         console.log(device);
