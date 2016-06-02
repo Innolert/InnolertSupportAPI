@@ -79,6 +79,7 @@ export function show(req, res) {
     .then(function(user){
       var json = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8'))[req.query.type];
       console.log("the json is " , json);
+      var userDevices = user.device;
       if(typeof device.privateTokens !== 'undefiend' && typeof device.privateTokens.fcm !== 'undefiend' && json.shareable){
         console.log("here");
         delete json.shareable
