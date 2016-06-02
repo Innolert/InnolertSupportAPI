@@ -54,6 +54,15 @@ class DeviceInfoComponent {
     this.model.isRecording = !this.model.isRecording;
   }
 
+  changeDeviceLockStatus(toLockDevice){
+    // console.log(newStatus , this.model.lockDevicePassword);
+    if(toLockDevice){
+      this.onDeviceLockStatusChanged({toLockDevice: true, withPassword: this.model.lockDevicePassword})
+    }else{
+      this.onDeviceLockStatusChanged({toLockDevice: false})
+    }
+  }
+
 }
 angular.module('innolertApiApp.device')
   .component('deviceInfo', {
@@ -65,7 +74,8 @@ angular.module('innolertApiApp.device')
       onUpdate: '&',
       onVideoRecordToggle: '&',
       onRecordToggle: '&',
-      onLocationUpdate: '&'
+      onLocationUpdate: '&',
+      onDeviceLockStatusChanged: '&'
     }
   });
 

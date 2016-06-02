@@ -8,21 +8,21 @@
 	<div class="panel-body">
 		<div class="row">
 			<div class="col-md-6">
-				<div>
+				<div >
 					<button type="button" class="btn btn-primary" ng-click="vm.onLocationUpdate()">
-						Get location
+					Get location
 					</button>
 					<button type="button" class="btn btn-primary" ng-show="!vm.model.isVideoRecording" ng-click="vm.recordVideoToggle()">
-						Start video recording
+					Start video recording
 					</button>
 					<button type="button" class="btn btn-primary" ng-show="vm.model.isVideoRecording" ng-click="vm.recordVideoToggle()">
-							Stop video recording
+					Stop video recording
 					</button>
 					<button type="button" class="btn btn-primary" ng-show="!vm.model.isRecording" ng-click="vm.recordToggle()">
-						Start recording
+					Start recording
 					</button>
 					<button type="button" class="btn btn-primary" ng-show="vm.model.isRecording" ng-click="vm.recordToggle()">
-							Stop recording
+					Stop recording
 					</button>
 				</div>
 			</div>
@@ -38,19 +38,45 @@
 					</li>
 				</ul>
 			</div>
-			<div class="col-md-6">
+		</div>
+		<p></p>
+		<div class="row">
+			<div class="col-md-9" >
+				<form name="lockDeviceForm" class="form-inline" ng-submit="vm.changeDeviceLockStatus(true)" novalidate>
+					<button type="submit" class="btn btn-danger" ng-disabled="lockDeviceForm.$invalid" ng-hide="vm.model.selectedDevice.isLocked">Lock screen</button>
+					<div class="form-group">
+						<input
+							ng-hide="vm.model.selectedDevice.isLocked"
+							name="password"
+							type="text"
+							class="form-control"
+							placeholder="Enter password"
+							ng-model="vm.model.lockDevicePassword"
+							ng-minlength="4"
+							ng-maxlength="4"
+							ng-pattern="/^\d+$/"
+							required/>
+					</div>
+					<div ng-show="lockDeviceForm.password.$dirty" style="color:maroon" role="alert">
+						<div ng-show="lockDeviceForm.password.$error.minlength">The password is too short</div>
+						<div ng-show="lockDeviceForm.password.$error.maxlength">The password is too long</div>
+						<div ng-show="lockDeviceForm.password.$error.pattern">The password may contain only numbers </div>
+					</div>
+					<label ng-show="vm.model.selectedDevice.isLocked">The device is locked!</label>
+					<button type="button" class="btn btn-warning" ng-click="vm.changeDeviceLockStatus()" ng-show="vm.model.selectedDevice.isLocked">Unlock</button>
+				</form>
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-3">
 				<div class="btn-group btn-group-lg">
 					<button class="btn btn-default" type="button" ng-repeat="btn in vm.model.operations">
-						{{btn.title}}
-						<i ng-class="btn.icon" aria-hidden="true"></i>
+					{{btn.title}}
+					<i ng-class="btn.icon" aria-hidden="true"></i>
 					</button>
 				</div>
 			</div>
 			<div class="col-md-6">
-
 			</div>
 			<div class="col-md-3">
 			</div>

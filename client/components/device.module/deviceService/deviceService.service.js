@@ -29,4 +29,9 @@ angular.module('innolertApiApp.device')
       return networkService.POST('orders', {endUser: deviceId , message: 'get_location'})
     }
 
+    this.changeDeviceLockStatus = function(toLockDevice,withPassword,deviceId){
+      console.log("sending : " , {endUser: deviceId , message: toLockDevice ? 'lock_device' : 'reset_password' , additionalData : toLockDevice ? withPassword : []});
+      return networkService.POST('orders', {endUser: deviceId , message: toLockDevice ? 'lock_device' : 'reset_password' , additionalData : toLockDevice ? withPassword : []})
+    }
+
   }]);

@@ -29,6 +29,10 @@ var EndUserSchema = new mongoose.Schema({
     permissions: [mongoose.Schema.Types.Mixed],
     privateTokens :{
       fcm : String
+    },
+    isLocked: {
+      type: Boolean,
+      default: false
     }
   }],
   parentUser: mongoose.Schema.Types.ObjectId,
