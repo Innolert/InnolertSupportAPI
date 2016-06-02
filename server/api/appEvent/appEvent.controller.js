@@ -70,7 +70,7 @@ export function index(req, res) {
 // Gets a single AppEvent from the DB
 export function show(req, res) {
   var id = mongoose.Schema.Types.ObjectId(req.params.id);
-  console.log(id);
+  console.log(id,req.params.id);
   return AppEvent.find({ author : id }).exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
