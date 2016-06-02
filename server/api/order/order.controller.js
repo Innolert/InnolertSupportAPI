@@ -75,7 +75,8 @@ export function show(req, res) {
   // return res.status(200).json(req.query.type)
   // res.status(200).json({test:123});
   //
-  return EndUser.findById(req.params.id).exec()
+  console.log("here");
+  EndUser.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(function(user){
       var json = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8'))[req.query.type];
