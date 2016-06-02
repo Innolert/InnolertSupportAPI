@@ -22,7 +22,7 @@ var EndUserSchema = new mongoose.Schema({
     instegram: String
   },
   mobileNumber: String,
-  devices: [{
+  device: [{
     brand: String,
     id: String,
     imei: String,
