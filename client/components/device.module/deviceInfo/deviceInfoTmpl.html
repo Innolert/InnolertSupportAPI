@@ -12,16 +12,28 @@
 					<button type="button" class="btn btn-primary" ng-click="vm.onLocationUpdate()">
 					Get location
 					</button>
-					<button type="button" class="btn btn-primary" ng-hide="vm.model.selectedDevice.device[0].state.isVideoRecording" ng-click="vm.recordVideoToggle()">
+					<button type="button" class="btn btn-primary"
+						ng-hide="vm.model.selectedDevice.device[0].state.videoRecorded.isVideoRecording"
+					 	ng-click="vm.recordVideoToggle()"
+						ng-disabled="vm.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice">
 					Start video recording
 					</button>
-					<button type="button" class="btn btn-primary" ng-show="vm.model.selectedDevice.device[0].state.isVideoRecording" ng-click="vm.recordVideoToggle()">
+					<button type="button" class="btn btn-primary"
+						ng-show="vm.model.selectedDevice.device[0].state.videoRecorded.isVideoRecording"
+						ng-click="vm.recordVideoToggle"
+						ng-disabled="vm.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice">
 					Stop video recording
 					</button>
-					<button type="button" class="btn btn-primary" ng-hide="vm.model.selectedDevice.device[0].state.isAudioRecording" ng-click="vm.recordToggle()">
+					<button type="button" class="btn btn-primary"
+					ng-hide="vm.model.selectedDevice.device[0].state.audioRecorded.isAudioRecording"
+					ng-click="vm.recordToggle()"
+					ng-disabled="vm.model.selectedDevice.device[0].state.audioRecorded.isEventPassedToDevice">
 					Start recording audio
 					</button>
-					<button type="button" class="btn btn-primary" ng-show="vm.model.selectedDevice.device[0].state.isAudioRecording" ng-click="vm.recordToggle()">
+					<button type="button" class="btn btn-primary"
+					ng-show="vm.model.selectedDevice.device[0].state.audioRecorded.isAudioRecording"
+					ng-click="vm.recordToggle()"
+					ng-disabled="vm.model.selectedDevice.device[0].state.audioRecorded.isEventPassedToDevice">
 					Stop recording audio
 					</button>
 				</div>
@@ -43,10 +55,15 @@
 		<div class="row">
 			<div class="col-md-9" ng-show="vm.isDeviceAttached()">
 				<form name="lockDeviceForm" class="form-inline" ng-submit="vm.changeDeviceLockStatus(true)" novalidate>
-					<button type="submit" class="btn btn-danger" ng-disabled="lockDeviceForm.$invalid" ng-hide="vm.model.selectedDevice.device[0].state.isLocked">Lock screen</button>
+					<button type="submit" class="btn btn-danger"
+					ng-disabled="lockDeviceForm.$invalid || vm.model.selectedDevice.device[0].state.deviceLocked.isEventPassedToDevice"
+					ng-hide="vm.model.selectedDevice.device[0].state.deviceLocked.isLocked">
+						Lock screen
+					</button>
 					<div class="form-group">
 						<input
-							ng-hide="vm.model.selectedDevice.device[0].state.isLocked"
+							ng-hide="vm.model.selectedDevice.device[0].state.deviceLocked.isLocked"
+							ng-disabled="vm.model.selectedDevice.device[0].state.deviceLocked.isEventPassedToDevice"
 							name="password"
 							type="text"
 							class="form-control"
@@ -62,8 +79,10 @@
 						<div ng-show="lockDeviceForm.password.$error.maxlength">The password is too long</div>
 						<div ng-show="lockDeviceForm.password.$error.pattern">The password may contain only numbers </div>
 					</div>
-					<label ng-show="vm.model.selectedDevice.device[0].state.isLocked">The device is locked!</label>
-					<button type="button" class="btn btn-warning" ng-click="vm.changeDeviceLockStatus()" ng-show="vm.model.selectedDevice.device[0].state.isLocked">Unlock</button>
+					<label ng-show="vm.model.selectedDevice.device[0].state.deviceLocked.isLocked">
+						The device is locked!
+					</label>
+					<button type="button" class="btn btn-warning" ng-click="vm.changeDeviceLockStatus()" ng-show="vm.model.selectedDevice.device[0].state.deviceLocked.isLocked">Unlock</button>
 				</form>
 			</div>
 		</div>

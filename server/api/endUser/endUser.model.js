@@ -31,17 +31,35 @@ var EndUserSchema = new mongoose.Schema({
       fcm : String
     },
     state: {
-      isLocked: {
-        type: Boolean,
-        default: false
+      deviceLocked:{
+        isDeviceLocked: {
+          type: Boolean,
+          default: false
+        },
+        isEventPassedToDevice: {
+          type: Boolean,
+          default: false
+        }
       },
-      isVideoRecording: {
-        type: Boolean,
-        default: false
+      videoRecorded: {
+        isVideoRecording: {
+          type: Boolean,
+          default: false
+        },
+        isEventPassedToDevice: {
+          type: Boolean,
+          default: false
+        }
       },
-      isAudioRecording: {
-        type: Boolean,
-        default: false
+      audioRecorded: {
+        isAudioRecording: {
+          type: Boolean,
+          default: false
+        },
+        isEventPassedToDevice: {
+          type: Boolean,
+          default: false
+        }
       }
     }
   }],

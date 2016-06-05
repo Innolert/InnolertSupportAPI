@@ -29,7 +29,15 @@ class DeviceInfoComponent {
   $onChanges(changesObj){
     var selectedDevice = this.model.selectedDevice = changesObj.device.currentValue;
     if(selectedDevice){
-      console.log(selectedDevice);
+      if(!changesObj.device.previousValue && changesObj.device.currentValue){
+        console.log("First time attached");
+      }
+      else if(changesObj.device.currentValue._id != changesObj.device.previousValue._id){
+        console.log("new device");
+      }
+      else{
+        console.log("same device with changes");
+      }
       this.model.map.LatLng = this.model.selectedDevice.location.lastLocation.LatLng;
       this.$timeout(() => {
         google.maps.event.trigger(this.model.map.instance, "resize");
@@ -44,19 +52,19 @@ class DeviceInfoComponent {
 
   }
   recordVideoToggle(){
-    this.onVideoRecordToggle({status: this.model.selectedDevice.device[0].state.isVideoRecording});
-    // this.model.isVideoRecording = !this.model.isVideoRecording;
+    this.onVideoRecordToggle({status: this.model.selectedDevice.device[0].state.videoRecorded.isVideoRecording});
+    this.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice = true;
   }
   recordToggle(){
-    this.onRecordToggle({status : this.model.selectedDevice.device[0].state.isAudioRecording});
-    // this.model.isAudioRecording = !this.model.isAudioRecording;
+    this.onRecordToggle({status : this.model.selectedDevice.device[0].state.audioRecorded.isAudioRecording});
+    this.model.selectedDevice.device[0].state.audioRecorded.isEventPassedToDevice = true;
   }
   isDeviceAttached(){
     return this.model.selectedDevice && this.model.selectedDevice.device[0].hasOwnProperty('privateTokens') && this.model.selectedDevice.device[0].privateTokens.hasOwnProperty('fcm')
   }
 
   changeDeviceLockStatus(toLockDevice){
-    // console.log(newStatus , this.model.lockDevicePassword);
+    this.model.selectedDevice.device[0].state.deviceLocked.isEventPassedToDevice = true;
     if(toLockDevice){
       this.onDeviceLockStatusChanged({toLockDevice: true, withPassword: this.model.lockDevicePassword})
     }else{
