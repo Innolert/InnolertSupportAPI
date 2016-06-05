@@ -107,5 +107,4 @@ function handleChangesInDeviceState(user){
   var resetDeviceLocked = user.device[0].state.deviceLocked.isDeviceLocked && user.device[0].state.deviceLocked.isEventPassedToDevice,
       resetAudioRecording = user.device[0].state.audioRecorded.isAudioRecording && user.device[0].state.audioRecorded.isEventPassedToDevice,
       resetVideo = user.device[0].state.videoRecorded.isVideoRecording && user.device[0].state.videoRecorded.isEventPassedToDevice
-
 }
