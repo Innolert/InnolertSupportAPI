@@ -128,11 +128,6 @@ export function create(req, res) {
             }
         });
       }
-      device = updateUserDeviceState(device,req.body.message);
-    })
-    user.save()
-    .then(( updated )=>{
-      return updated
     })
   })
   .catch(handleError(res));
@@ -156,29 +151,4 @@ export function destroy(req, res) {
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));
-}
-
-function updateUserDeviceState(device,message){
-  switch (message) {
-    case "stop_back_video_record":
-      device.state.isVideoRecording = false;
-      break;
-    case "start_back_video_record":
-      device.state.isVideoRecording = true;
-      break;
-    case "stop_voice_record":
-      device.state.isAudioRecording = false;
-      break;
-    case "start_voice_record":
-      device.state.isAudioRecording = true;
-      break;
-    case "lock_device":
-      device.state.isLocked = true;
-      break;
-    case "reset_password":
-      device.state.isLocked = false;
-      break;
-    default:
-  }
-  return device;
 }
