@@ -25,8 +25,14 @@ function networkService($http,$location) {
       GET : function(endPoint){
         return $http.get(this.buildPath()+endPoint)
       },
-      PULL   : {},
-      DELETE : function(endPoint , id){
+      PULL   : function(endPoint, id, data){
+        return $http({
+          method: 'PUT',
+          url: this.buildPath()+endPoint+"/"+id,
+          data: data
+        })
+      },
+      DELETE : function(endPoint, id){
         $http({
           method: 'DELETE',
           url: this.buildPath()+endPoint+"/"+id

@@ -30,9 +30,19 @@ var EndUserSchema = new mongoose.Schema({
     privateTokens :{
       fcm : String
     },
-    isLocked: {
-      type: Boolean,
-      default: false
+    state: {
+      isLocked: {
+        type: Boolean,
+        default: false
+      },
+      isVideoRecording: {
+        type: Boolean,
+        default: false
+      },
+      isAudioRecording: {
+        type: Boolean,
+        default: false
+      }
     }
   }],
   parentUser: mongoose.Schema.Types.ObjectId,

@@ -15,9 +15,7 @@ class DeviceInfoComponent {
         lng : 37.9634055
       }
     }
-    ctrl.model.isRecording = false;
     ctrl.model.selectedDevice = this.device;
-    ctrl.model.isVideoRecording = false;
   }
 
   $onInit(){
@@ -25,13 +23,13 @@ class DeviceInfoComponent {
     this.NgMap.getMap()
     .then((map) => {
       this.model.map.instance = map;
-      console.log(map);
     })
   }
 
   $onChanges(changesObj){
-    this.model.selectedDevice = changesObj.device.currentValue
-    if(this.model.selectedDevice){
+    var selectedDevice = this.model.selectedDevice = changesObj.device.currentValue;
+    if(selectedDevice){
+      console.log(selectedDevice);
       this.model.map.LatLng = this.model.selectedDevice.location.lastLocation.LatLng;
       this.$timeout(() => {
         google.maps.event.trigger(this.model.map.instance, "resize");
@@ -46,12 +44,15 @@ class DeviceInfoComponent {
 
   }
   recordVideoToggle(){
-    this.onVideoRecordToggle({status: this.model.isVideoRecording});
-    this.model.isVideoRecording = !this.model.isVideoRecording;
+    this.onVideoRecordToggle({status: this.model.selectedDevice.device[0].state.isVideoRecording});
+    // this.model.isVideoRecording = !this.model.isVideoRecording;
   }
   recordToggle(){
-    this.onRecordToggle({status : this.model.isRecording});
-    this.model.isRecording = !this.model.isRecording;
+    this.onRecordToggle({status : this.model.selectedDevice.device[0].state.isAudioRecording});
+    // this.model.isAudioRecording = !this.model.isAudioRecording;
+  }
+  isDeviceAttached(){
+    return this.model.selectedDevice && this.model.selectedDevice.device[0].hasOwnProperty('privateTokens') && this.model.selectedDevice.device[0].privateTokens.hasOwnProperty('fcm')
   }
 
   changeDeviceLockStatus(toLockDevice){
