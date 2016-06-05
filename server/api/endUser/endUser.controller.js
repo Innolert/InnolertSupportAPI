@@ -23,6 +23,7 @@ function respondWithResult(res, statusCode) {
 
 function saveUpdates(updates) {
   return function(entity) {
+    console.log("the updates is" , updates);
     console.log("before merge " , entity.device[0].state);
     var updated = _.merge(entity, updates);
     console.log("after update" , updated.device[0].state);
