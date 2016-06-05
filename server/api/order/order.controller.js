@@ -135,8 +135,8 @@ export function create(req, res) {
     .then((updated) => {
       return updated;
     })
+    res.statusCode
   })
-  .then(respondWithResult(res))
   .catch(handleError(res));
 }
 
