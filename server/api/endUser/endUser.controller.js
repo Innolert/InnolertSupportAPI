@@ -23,6 +23,7 @@ function respondWithResult(res, statusCode) {
 
 function saveUpdates(updates) {
   return function(entity) {
+    console.log("going to update" , updates , entity);
     if(typeof updates.device !== 'undefiend' && typeof updates.device[0].state !== 'undefiend'){
       updates.device[0].state = handleChangesInDeviceState(updates.device[0].state);
       console.log("after handling" , updates.device[0].state);
@@ -112,15 +113,19 @@ function handleChangesInDeviceState(state){
   var resetDeviceLocked = false,
       resetAudioRecording = false,
       resetVideoRecording = false;
-  if(typeof state.deviceLocked !== 'undefiend' && typeof state.deviceLocked.isDeviceLocked !== 'undefiend')
+  if(typeof state.deviceLocked !== 'undefiend' && state.deviceLocked.isEventPassedToDevice){
+    console.log("deviceLocked");
     state.deviceLocked.isEventPassedToDevice = false;
-  else if(typeof state.audioRecorded !== 'undefiend' && typeof state.audioRecorded.isAudioRecording !== 'undefiend')
+  }
+  else if(typeof state.audioRecorded !== 'undefiend' && state.audioRecorded.isEventPassedToDevice){
+    console.log("audioRecorded");
     state.audioRecorded.isEventPassedToDevice = false;
-  else if(typeof state.videoRecorded !== 'undefiend' && typeof state.videoRecorded.isVideoRecording !== 'undefiend')
+  }
+  else if(typeof state.videoRecorded !== 'undefiend' && state.videoRecorded.isEventPassedToDevice){
+    console.log("videoRecorded");
     state.videoRecorded.isEventPassedToDevice = false;
+  }
   else console.log("Nothing matched");
-
   console.log(resetDeviceLocked , resetAudioRecording , resetVideoRecording);
-
   return state;
 }
