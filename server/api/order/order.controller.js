@@ -130,6 +130,10 @@ export function create(req, res) {
       }
       device = updateUserDeviceState(device,req.body.message);
     })
+    user.save()
+    .then((updated) => {
+      return updated;
+    })
   })
   .catch(handleError(res));
 }
