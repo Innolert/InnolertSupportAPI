@@ -27,7 +27,7 @@ function saveUpdates(updates) {
     console.log("before merge " , entity.device[0].state);
     var updated = _.merge(entity, updates);
     console.log("after update" , updated.device[0].state);
-    updated.device[0].state = handleChangesInDeviceState(updated);
+    // updated.device[0].state = handleChangesInDeviceState(updated);
     return updated.save()
       .then(updated => {
         return updated;
