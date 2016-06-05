@@ -106,9 +106,9 @@ export function destroy(req, res) {
 
 function handleChangesInDeviceState(state){
   console.log("the update is " , state);
-  var resetDeviceLocked = state.deviceLocked,
-      resetAudioRecording = state.audioRecorded,
-      resetVideoRecording = state.videoRecorded;
+  var resetDeviceLocked = state.deviceLocked && state.deviceLocked.isDeviceLocked,
+      resetAudioRecording = state.audioRecorded && state.audioRecorded.isAudioRecording,
+      resetVideoRecording = state.videoRecorded && state.videoRecorded.isVideoRecording;
   if(resetDeviceLocked)
     state.deviceLocked.isEventPassedToDevice = false;
   if(resetAudioRecording)
