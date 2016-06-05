@@ -23,9 +23,12 @@ function respondWithResult(res, statusCode) {
 
 function saveUpdates(updates) {
   return function(entity) {
-    if(updates.device && updates.device[0].state)
+    if(updates.device && updates.device[0].state){
       updates.device[0].state = handleChangesInDeviceState(updates.device[0].state);
+      console.log("after handling" , updates.device[0].state);
+    }
     var updated = _.merge(entity, updates);
+    console.log("after merging" , updated.device[0].state);
     return updated.save()
       .then(updated => {
         return updated;
@@ -109,6 +112,7 @@ function handleChangesInDeviceState(state){
   var resetDeviceLocked = state.deviceLocked && state.deviceLocked.isDeviceLocked,
       resetAudioRecording = state.audioRecorded && state.audioRecorded.isAudioRecording,
       resetVideoRecording = state.videoRecorded && state.videoRecorded.isVideoRecording;
+  console.log("states" , resetDeviceLocked , resetVideoRecording , resetAudioRecording);
   if(resetDeviceLocked)
     state.deviceLocked.isEventPassedToDevice = false;
   if(resetAudioRecording)
