@@ -80,7 +80,7 @@ export function show(req, res) {
       var json = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8'))[req.query.type];
       var userDevices = user.device;
       userDevices.forEach((device,index,array) => {
-        if(typeof device.privateTokens !== 'undefiend' && typeof device.privateTokens.fcm !== 'undefiend' && json.shareable){
+        if(typeof device.privateTokens !== 'undefined' && typeof device.privateTokens.fcm !== 'undefined' && json.shareable){
           delete json.shareable
           json.type = req.query.type;
           var message = {
@@ -114,7 +114,7 @@ export function create(req, res) {
   .then((user) => {
     var userDevices = user.device;
     userDevices.forEach((device,index,array) => {
-      if(typeof device.privateTokens !== 'undefiend' && typeof device.privateTokens.fcm !== 'undefiend'){
+      if(typeof device.privateTokens !== 'undefined' && typeof device.privateTokens.fcm !== 'undefined'){
         console.log("Sending message to" , user , "with message " ,req.body.message );
         var message = {
             registration_id: device.privateTokens.fcm,

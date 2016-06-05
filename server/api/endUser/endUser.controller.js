@@ -114,15 +114,15 @@ function handleChangesInDeviceState(state){
   var resetDeviceLocked = false,
       resetAudioRecording = false,
       resetVideoRecording = false;
-  if(typeof state.deviceLocked !== 'undefiend'){
+  if(typeof state.deviceLocked !== 'undefined'){
     console.log("deviceLocked" , typeof state.deviceLocked);
     state.deviceLocked.isEventPassedToDevice = false;
   }
-  else if(typeof state.audioRecorded !== 'undefiend'){
+  else if(typeof state.audioRecorded !== 'undefined'){
     console.log("audioRecorded" , typeof state.audioRecorded);
     state.audioRecorded.isEventPassedToDevice = false;
   }
-  else if(typeof state.videoRecorded !== 'undefiend'){
+  else if(typeof state.videoRecorded !== 'undefined'){
     console.log("videoRecorded" , typeof state.videoRecorded);
     state.videoRecorded.isEventPassedToDevice = false;
   }
