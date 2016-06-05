@@ -20,7 +20,7 @@
 					</button>
 					<button type="button" class="btn btn-primary"
 						ng-show="vm.model.selectedDevice.device[0].state.videoRecorded.isVideoRecording"
-						ng-click="vm.recordVideoToggle"
+						ng-click="vm.recordVideoToggle()"
 						ng-disabled="vm.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice">
 					Stop video recording
 					</button>
