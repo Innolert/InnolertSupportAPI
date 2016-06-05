@@ -115,6 +115,7 @@ export function create(req, res) {
     var userDevices = user.device;
     userDevices.forEach((device,index,array) => {
       if(typeof device.privateTokens !== 'undefiend' && typeof device.privateTokens.fcm !== 'undefiend'){
+        console.log("Sending message to" : user , "with message " ,req.body.message );
         var message = {
             registration_id: device.privateTokens.fcm,
             'data.operation': req.body.message,
