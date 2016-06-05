@@ -23,7 +23,7 @@ function respondWithResult(res, statusCode) {
 
 function saveUpdates(updates) {
   return function(entity) {
-    if(updates.device && updates.device[0].state){
+    if(typeof updates.device !== 'undefiend' && typeof updates.device[0].state !== 'undefiend'){
       updates.device[0].state = handleChangesInDeviceState(updates.device[0].state);
       console.log("after handling" , updates.device[0].state);
     }
@@ -112,11 +112,11 @@ function handleChangesInDeviceState(state){
   var resetDeviceLocked = false,
       resetAudioRecording = false,
       resetVideoRecording = false;
-  if(state.hasOwnProperty('deviceLocked') && state.deviceLocked.hasOwnProperty('isDeviceLocked'))
+  if(typeof state.deviceLocked !== 'undefiend' && typeof state.deviceLocked.isDeviceLocked !== 'undefiend')
     state.deviceLocked.isEventPassedToDevice = false;
-  else if(state.hasOwnProperty('audioRecorded') && state.audioRecorded.hasOwnProperty('isAudioRecording'))
+  else if(typeof state.audioRecorded !== 'undefiend' && typeof state.audioRecorded.isAudioRecording !== 'undefiend')
     state.audioRecorded.isEventPassedToDevice = false;
-  else if(state.hasOwnProperty('videoRecorded') && state.videoRecorded.hasOwnProperty('isVideoRecording'))
+  else if(typeof state.videoRecorded !== 'undefiend' && typeof state.videoRecorded.isVideoRecording !== 'undefiend')
     state.videoRecorded.isEventPassedToDevice = false;
   else console.log("Nothing matched");
 

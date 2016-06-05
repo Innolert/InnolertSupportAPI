@@ -52,10 +52,12 @@ class DeviceInfoComponent {
 
   }
   recordVideoToggle(){
+    console.log("calling recordVideoToggle" , {status: this.model.selectedDevice.device[0].state.videoRecorded.isVideoRecording});
     this.onVideoRecordToggle({status: this.model.selectedDevice.device[0].state.videoRecorded.isVideoRecording});
     this.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice = true;
   }
   recordToggle(){
+    console.log("calling recordToggle" , {status : this.model.selectedDevice.device[0].state.audioRecorded.isAudioRecording});
     this.onRecordToggle({status : this.model.selectedDevice.device[0].state.audioRecorded.isAudioRecording});
     this.model.selectedDevice.device[0].state.audioRecorded.isEventPassedToDevice = true;
   }
@@ -64,6 +66,7 @@ class DeviceInfoComponent {
   }
 
   changeDeviceLockStatus(toLockDevice){
+    console.log("calling changeDeviceLockStatus" ,{toLockDevice: true, withPassword: this.model.lockDevicePassword});
     this.model.selectedDevice.device[0].state.deviceLocked.isEventPassedToDevice = true;
     if(toLockDevice){
       this.onDeviceLockStatusChanged({toLockDevice: true, withPassword: this.model.lockDevicePassword})

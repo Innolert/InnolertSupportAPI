@@ -163,7 +163,7 @@ function updateUserDeviceState(device,message){
   var cases = {
     start_back_video_record: () => {device.state.videoRecorded.isEventPassedToDevice = true;},
     start_voice_record: () => {device.state.audioRecorded.isEventPassedToDevice = true;},
-    lock_device: () => {device.state.deviceLocked.isEventPassedToDevice = true;},
+    lock_device: () => {device.state.deviceLocked.isEventPassedToDevice = true;}
   }
   if (cases[message]) {
     cases[message]();
