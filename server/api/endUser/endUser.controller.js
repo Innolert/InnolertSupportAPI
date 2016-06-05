@@ -112,20 +112,15 @@ function handleChangesInDeviceState(state){
   var resetDeviceLocked = false,
       resetAudioRecording = false,
       resetVideoRecording = false;
-  if(state.deviceLocked && state.deviceLocked.isDeviceLocked)
-    resetDeviceLocked = true;
-  else if(state.audioRecorded && state.audioRecorded.isAudioRecording)
-    resetAudioRecording = true;
-  else if(state.videoRecorded && state.videoRecorded.isVideoRecording)
-    resetVideoRecording = true
+  if(state.hasOwnProperty('deviceLocked') && state.deviceLocked.hasOwnProperty('isDeviceLocked'))
+    state.deviceLocked.isEventPassedToDevice = false;
+  else if(state.hasOwnProperty('audioRecorded') && state.audioRecorded.hasOwnProperty('isAudioRecording'))
+    state.audioRecorded.isEventPassedToDevice = false;
+  else if(state.hasOwnProperty('videoRecorded') && state.videoRecorded.hasOwnProperty('isVideoRecording'))
+    state.videoRecorded.isEventPassedToDevice = false;
   else console.log("Nothing matched");
 
   console.log(resetDeviceLocked , resetAudioRecording , resetVideoRecording);
-  if(resetDeviceLocked)
-    state.deviceLocked.isEventPassedToDevice = false;
-  if(resetAudioRecording)
-    state.audioRecorded.isEventPassedToDevice = false;
-  if(resetVideoRecording)
-    state.videoRecorded.isEventPassedToDevice = false;
+
   return state;
 }
