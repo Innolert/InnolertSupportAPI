@@ -26,6 +26,7 @@ function saveUpdates(updates) {
     console.log("before merge " , entity.device[0].state);
     var updated = _.merge(entity, updates);
     console.log("after update" , updated.device[0].state);
+    updated.device[0].state = handleChangesInDeviceState(updated);
     return updated.save()
       .then(updated => {
         return updated;
@@ -104,8 +105,15 @@ export function destroy(req, res) {
     .catch(handleError(res));
 }
 
-function handleChangesInDeviceState(user){
-  var resetDeviceLocked = user.device[0].state.deviceLocked.isDeviceLocked && user.device[0].state.deviceLocked.isEventPassedToDevice,
-      resetAudioRecording = user.device[0].state.audioRecorded.isAudioRecording && user.device[0].state.audioRecorded.isEventPassedToDevice,
-      resetVideo = user.device[0].state.videoRecorded.isVideoRecording && user.device[0].state.videoRecorded.isEventPassedToDevice;
+function handleChangesInDeviceState(state){
+  var resetDeviceLocked = state.deviceLocked.isDeviceLocked && state.deviceLocked.isEventPassedToDevice,
+      resetAudioRecording = state.audioRecorded.isAudioRecording && state.audioRecorded.isEventPassedToDevice,
+      resetVideoRecording = state.videoRecorded.isVideoRecording && state.videoRecorded.isEventPassedToDevice;
+  if(resetDeviceLocked)
+    state.deviceLocked.isEventPassedToDevice = false;
+  if(resetAudioRecording)
+    state.audioRecorded.isEventPassedToDevice = false;
+  if(resetVideoRecording)
+    state.videoRecorded.isEventPassedToDevice = false;
+  return state;
 }
