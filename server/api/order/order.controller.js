@@ -136,6 +136,7 @@ export function create(req, res) {
       return updated;
     })
   })
+  .then(respondWithResult(res))
   .catch(handleError(res));
 }
 
