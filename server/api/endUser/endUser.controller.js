@@ -24,7 +24,8 @@ function respondWithResult(res, statusCode) {
 function saveUpdates(updates) {
   return function(entity) {
     console.log("going to update" , updates , entity);
-    if(typeof updates.device !== 'undefiend' && typeof updates.device[0].state !== 'undefiend'){
+    if(updates.device && updates.device[0].state){
+      console.log("before handleChangesInDeviceState sending" , updates.device[0].state);
       updates.device[0].state = handleChangesInDeviceState(updates.device[0].state);
       console.log("after handling" , updates.device[0].state);
     }
