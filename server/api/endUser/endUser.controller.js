@@ -24,10 +24,9 @@ function respondWithResult(res, statusCode) {
 function saveUpdates(updates) {
   return function(entity) {
     console.log("the updates is" , updates);
-    console.log("before merge " , entity.device[0].state);
     var updated = _.merge(entity, updates);
-    console.log("after update" , updated.device[0].state);
-    // updated.device[0].state = handleChangesInDeviceState(updated);
+    if(updates.device && updates.device[0].state)
+      updated.device[0].state = handleChangesInDeviceState(updates.device[0].state);
     return updated.save()
       .then(updated => {
         return updated;
@@ -107,9 +106,10 @@ export function destroy(req, res) {
 }
 
 function handleChangesInDeviceState(state){
-  var resetDeviceLocked = state.deviceLocked.isDeviceLocked && state.deviceLocked.isEventPassedToDevice,
-      resetAudioRecording = state.audioRecorded.isAudioRecording && state.audioRecorded.isEventPassedToDevice,
-      resetVideoRecording = state.videoRecorded.isVideoRecording && state.videoRecorded.isEventPassedToDevice;
+  console.log("the update is " , state);
+  var resetDeviceLocked = state.deviceLocked,
+      resetAudioRecording = state.audioRecorded,
+      resetVideoRecording = state.videoRecorded;
   if(resetDeviceLocked)
     state.deviceLocked.isEventPassedToDevice = false;
   if(resetAudioRecording)
