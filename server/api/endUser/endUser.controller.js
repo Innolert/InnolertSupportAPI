@@ -112,7 +112,7 @@ function handleChangesInDeviceState(state){
   var resetDeviceLocked = state.deviceLocked && state.deviceLocked.isDeviceLocked,
       resetAudioRecording = state.audioRecorded && state.audioRecorded.isAudioRecording,
       resetVideoRecording = state.videoRecorded && state.videoRecorded.isVideoRecording;
-  console.log("states" , resetDeviceLocked , resetVideoRecording , resetAudioRecording);
+  console.log(resetVideoRecording , !state.videoRecorded , state.videoRecorded , !state.videoRecorded.isVideoRecording , state.videoRecorded.isVideoRecording);
   if(resetDeviceLocked)
     state.deviceLocked.isEventPassedToDevice = false;
   if(resetAudioRecording)
