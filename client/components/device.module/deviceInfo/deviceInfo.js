@@ -44,7 +44,7 @@ class DeviceInfoComponent {
             this.showNotification("New audio file has been uploaded");
         if(!changesObj.device.currentValue.device[0].state.videoRecorded.isVideoRecording &&
             changesObj.device.previousValue.device[0].state.videoRecorded.isVideoRecording)
-            this.showNotification("New audio file has been uploaded");
+            this.showNotification("New video file has been uploaded");
       }
 
       this.model.map.LatLng = this.model.selectedDevice.location.lastLocation.LatLng;
