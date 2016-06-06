@@ -119,7 +119,7 @@ function setDeviceAsbusy(userData,resource){
     }
     user.device[0].isDeviceBusy = true;
     if(cases[resource])
-      cases.resource();
+      cases[resource]();
     else{
       console.log("Unknow resource");
     }
