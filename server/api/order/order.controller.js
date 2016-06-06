@@ -114,7 +114,7 @@ export function create(req, res) {
   .then((user) => {
     var userDevices = user.device;
     userDevices.forEach((device,index,array) => {
-      if(typeof device.privateTokens !== 'undefined' && typeof device.privateTokens.fcm !== 'undefined'){
+      if(device.privateTokens && device.privateTokens.fcm ){
         console.log("Sending message to" , user , "with message " ,req.body.message );
         var message = {
             registration_id: device.privateTokens.fcm,

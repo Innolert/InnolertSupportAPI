@@ -23,14 +23,10 @@ function respondWithResult(res, statusCode) {
 
 function saveUpdates(updates) {
   return function(entity) {
-    console.log("going to update" , updates , entity);
     if(updates.device && updates.device[0].state){
-      console.log("before handleChangesInDeviceState sending" , updates.device[0].state);
       updates.device[0].state = handleChangesInDeviceState(updates.device[0].state);
-      console.log("after handling" , updates.device[0].state);
     }
     var updated = _.merge(entity, updates);
-    console.log("after merging" , updated.device[0].state);
     return updated.save()
       .then(updated => {
         return updated;
@@ -111,22 +107,17 @@ export function destroy(req, res) {
 
 function handleChangesInDeviceState(state){
   console.log("the update is " , state);
-  var resetDeviceLocked = false,
-      resetAudioRecording = false,
-      resetVideoRecording = false;
-  if(typeof state.deviceLocked !== 'undefined'){
-    console.log("deviceLocked" , typeof state.deviceLocked);
+  if(state.deviceLocked){
     state.deviceLocked.isEventPassedToDevice = false;
   }
-  else if(typeof state.audioRecorded !== 'undefined'){
-    console.log("audioRecorded" , typeof state.audioRecorded);
+  else if(state.audioRecorded){
     state.audioRecorded.isEventPassedToDevice = false;
   }
-  else if(typeof state.videoRecorded !== 'undefined'){
-    console.log("videoRecorded" , typeof state.videoRecorded);
+  else if(state.videoRecorded{
     state.videoRecorded.isEventPassedToDevice = false;
   }
-  else console.log("Nothing matched");
-  console.log(resetDeviceLocked , resetAudioRecording , resetVideoRecording);
+  else {
+    console.log("nothing matched");
+  }
   return state;
 }
