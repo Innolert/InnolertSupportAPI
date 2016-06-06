@@ -123,6 +123,7 @@ export function create(req, res) {
             'data.additionalData': req.body.additionalData ? req.body.additionalData : []
         };
         if(!deviceAlreadyInProgress(device)){
+          console.log("The device is able to receive this message");
           fcm.send(message, function(err, messageId){
               if (err) {
                   console.log("Something has gone wrong!");
