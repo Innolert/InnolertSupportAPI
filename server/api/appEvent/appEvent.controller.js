@@ -9,7 +9,7 @@
 
 'use strict';
 import EndUser from '../endUser/endUser.model';
-import endUserController from '../endUser/endUser.controller';
+var endUserController = require('../endUser/endUser.controller');
 import _ from 'lodash';
 import mongoose from 'mongoose';
 import AppEvent from './appEvent.model';
