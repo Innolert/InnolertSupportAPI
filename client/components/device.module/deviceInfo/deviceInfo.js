@@ -39,7 +39,7 @@ class DeviceInfoComponent {
       }
       else{
         console.log("same device with changes");
-        if(changesObj.currentValue.device[0].state.isDeviceBusy)
+        if(changesObj.device.currentValue.device[0].state.isDeviceBusy)
           this.showNotification("The device is currently busy, please try again later");
       }
       this.model.map.LatLng = this.model.selectedDevice.location.lastLocation.LatLng;
