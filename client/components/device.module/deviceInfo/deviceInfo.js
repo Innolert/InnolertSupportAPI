@@ -41,10 +41,10 @@ class DeviceInfoComponent {
           this.showNotification("The device is currently busy, please try again later");
         if(!changesObj.device.currentValue.device[0].state.audioRecorded.isAudioRecording &&
             changesObj.device.previousValue.device[0].state.audioRecorded.isAudioRecording)
-            this.showNotification("New audio file has been uploaded");
+            this.showNotification("New audio file will be uploaded soon");
         if(!changesObj.device.currentValue.device[0].state.videoRecorded.isVideoRecording &&
             changesObj.device.previousValue.device[0].state.videoRecorded.isVideoRecording)
-            this.showNotification("New video file has been uploaded");
+            this.showNotification("New video file will be uploaded soon");
       }
 
       this.model.map.LatLng = this.model.selectedDevice.location.lastLocation.LatLng;
