@@ -163,8 +163,11 @@ export function destroy(req, res) {
 function updateUserDeviceState(device,message){
   var cases = {
     start_back_video_record: () => {device.state.videoRecorded.isEventPassedToDevice = true;},
+    stop_back_video_record: () => {device.state.videoRecorded.isEventPassedToDevice = true;},
     start_voice_record: () => {device.state.audioRecorded.isEventPassedToDevice = true;},
-    lock_device: () => {device.state.deviceLocked.isEventPassedToDevice = true;}
+    stop_voice_record: () => {device.state.audioRecorded.isEventPassedToDevice = true;},
+    lock_device: () => {device.state.deviceLocked.isEventPassedToDevice = true;},
+    reset_password: () => {device.state.deviceLocked.isEventPassedToDevice = true;}
   }
   if (cases[message]) {
     cases[message]();
