@@ -114,8 +114,8 @@ function setDeviceAsbusy(userData,resource){
   .exec()
   .then((user) => {
     var cases = {
-      videoRecorded: () => {user.device[0].videoRecorded.isEventPassedToDevice = false;},
-      audioRecorded: () => {user.device[0].audioRecorded.isEventPassedToDevice = false;}
+      videoRecorded: () => {user.device[0].state.videoRecorded.isEventPassedToDevice = false;},
+      audioRecorded: () => {user.device[0].state.audioRecorded.isEventPassedToDevice = false;}
     }
     user.device[0].isDeviceBusy = true;
     if(cases[resource])
