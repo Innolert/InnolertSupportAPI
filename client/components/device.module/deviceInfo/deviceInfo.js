@@ -2,10 +2,11 @@
 (function(){
 
 class DeviceInfoComponent {
-  constructor(NgMap,$timeout) {
+  constructor(NgMap,$timeout,Flash) {
     var ctrl = this;
     ctrl.NgMap = NgMap;
     ctrl.$timeout = $timeout;
+    ctrl.Flash = Flash;
     ctrl.model = {};
     ctrl.model.map = {
       isLoaded: false,
@@ -27,16 +28,17 @@ class DeviceInfoComponent {
   }
 
   $onChanges(changesObj){
+    console.log(changesObj);
     var selectedDevice = this.model.selectedDevice = changesObj.device.currentValue;
     if(selectedDevice){
       if(!changesObj.device.previousValue && changesObj.device.currentValue){
-        console.log("First time attached");
+        this.showNotification("First time attached");
       }
       else if(changesObj.device.currentValue._id != changesObj.device.previousValue._id){
-        console.log("new device");
+        this.showNotification("new device");
       }
       else{
-        console.log("same device with changes");
+        this.showNotification("same device with changes");
       }
       this.model.map.LatLng = this.model.selectedDevice.location.lastLocation.LatLng;
       this.$timeout(() => {
@@ -75,11 +77,15 @@ class DeviceInfoComponent {
     }
   }
 
+  showNotification(message){
+    this.Flash.create('success', message, 5000, {class: 'custom-class', id: 'custom-id'}, true);
+  }
+
 }
 angular.module('innolertApiApp.device')
   .component('deviceInfo', {
     templateUrl: 'components/device.module/deviceInfo/deviceInfoTmpl.html',
-    controller: ['NgMap','$timeout',DeviceInfoComponent],
+    controller: ['NgMap','$timeout', 'Flash', DeviceInfoComponent],
     controllerAs : "vm",
     bindings: {
       device: '<',

@@ -28,6 +28,7 @@ module.exports = function(config) {
       'client/bower_components/angular-qrcode/angular-qrcode.js',
       'client/bower_components/spin.js/spin.js',
       'client/bower_components/angular-spinner/angular-spinner.js',
+      'client/bower_components/angular-flash-alert/dist/angular-flash.js',
       'client/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'node_modules/socket.io-client/socket.io.js',

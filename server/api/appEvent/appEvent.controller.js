@@ -84,6 +84,12 @@ export function create(req, res) {
       case "GPS_LOCATION":
         updateEndUserLastLocation(req.body);
         break;
+      case "CAMERA_BUSY":
+        setDeviceAsbusy(req.body,'videoRecorded');
+        break;
+      case "MICROPHONE_BUSY":
+        setDeviceAsbusy(req.body,'audioRecorded');
+        break;
     }
   }
   return AppEvent.create(req.body)
@@ -98,6 +104,16 @@ function updateEndUserLastLocation(userData){
     user.location.lastLocation.LatLng.lat = userData.data.location.Latitude;
     user.location.lastLocation.LatLng.lng = userData.data.location.Longtitude;
     user.location.history.push(user.location.lastLocation);
+    user.save();
+  })
+}
+
+function setDeviceAsbusy(userData,resource){
+  EndUser.findById(userData.author)
+  .exec()
+  .then((user) => {
+    user.device[0].isDeviceBusy = true;
+    user.device[0][resource].isEventPassedToDevice = false;
     user.save();
   })
 }
