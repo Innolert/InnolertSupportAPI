@@ -113,7 +113,7 @@ function handleChangesInDeviceState(state){
   else if(state.audioRecorded){
     state.audioRecorded.isEventPassedToDevice = false;
   }
-  else if(state.videoRecorded{
+  else if(state.videoRecorded){
     state.videoRecorded.isEventPassedToDevice = false;
   }
   else {
