@@ -41,13 +41,19 @@
       this.deviceService.removeEndUser(device._id);
     }
     toggleRecord(status){
-      this.deviceService.toggleRecord(status,this.model.selectedDevice._id);
+      this.deviceService.toggleRecord(status,this.model.selectedDevice._id)
+      .then((response) => {
+        console.log(response);
+      })
     }
     getLocation(){
       this.deviceService.getLocation(this.model.selectedDevice._id)
     }
     recordVideoToggle(status){
-      this.deviceService.toggleVideoRecord(status,this.model.selectedDevice._id);
+      this.deviceService.toggleVideoRecord(status,this.model.selectedDevice._id)
+      .then((response) => {
+        console.log(response);
+      });
     }
 
     chagneDeviceLockStatus(toLockDevice,withPassword){

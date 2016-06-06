@@ -122,7 +122,7 @@ export function create(req, res) {
             'data.operation': req.body.message,
             'data.additionalData': req.body.additionalData ? req.body.additionalData : []
         };
-        if(!deviceAlreadyInProgress(device)){
+        if(deviceIsAbleToGetOperation(device,req.body.message)){
           console.log("The device is able to receive this message");
           fcm.send(message, function(err, messageId){
               if (err) {
@@ -131,6 +131,9 @@ export function create(req, res) {
                   console.log("Sent with message ID: ", messageId);
               }
           });
+        }
+        else{
+              res.status(200).send("The device is busy");
         }
       }
       device = updateUserDeviceState(device,req.body.message);
@@ -181,9 +184,34 @@ function updateUserDeviceState(device,message){
   return device;
 }
 
-function deviceAlreadyInProgress(device){
-  return device.state.videoRecorded.isEventPassedToDevice ||
-         device.state.videoRecorded.isVideoRecording ||
-         device.state.audioRecorded.isEventPassedToDevice ||
-         device.state.audioRecorded.isAudioRecording
+function deviceIsAbleToGetOperation(device,message){
+  var cases = {
+    start_back_video_record: () => {
+        return !device.state.videoRecorded.isEventPassedToDevice ||
+               !device.state.videoRecorded.isVideoRecording;
+    },
+    stop_back_video_record: () => {
+      return !device.state.videoRecorded.isEventPassedToDevice ||
+              device.state.videoRecorded.isVideoRecording;
+    },
+    start_voice_record: () => {
+      return !device.state.audioRecorded.isEventPassedToDevice ||
+             !device.state.audioRecorded.isAudioRecording
+    },
+    stop_voice_record: () => {
+      return !device.state.audioRecorded.isEventPassedToDevice ||
+             device.state.audioRecorded.isAudioRecording
+    },
+    lock_device: () => {
+        return !device.state.deviceLocked.isDeviceLocked &&
+               !device.state.deviceLocked.isEventPassedToDevice
+    },
+    reset_password: () => {
+      return device.state.deviceLocked.isDeviceLocked &&
+             !device.state.deviceLocked.isEventPassedToDevice
+    }
+  }
+  if (cases[message]) {
+    return cases[message]();
+  }
 }
