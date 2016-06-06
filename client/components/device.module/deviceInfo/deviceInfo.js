@@ -27,29 +27,35 @@ class DeviceInfoComponent {
   }
 
   $onChanges(changesObj){
-    console.log(changesObj);
     var selectedDevice = this.model.selectedDevice = changesObj.device.currentValue;
     if(selectedDevice){
       if(!changesObj.device.previousValue && changesObj.device.currentValue){
-        this.model.map.LatLng = this.model.selectedDevice.location.lastLocation.LatLng;
-        this.$timeout(() => {
-          google.maps.event.trigger(this.model.map.instance, "resize");
-          if(!this.model.selectedDevice.location.LatLng) this.model.selectedDevice.location.LatLng = this.model.map.LatLng;
-          this.model.map.instance.markers[0].setPosition(this.model.selectedDevice.location.LatLng);
-          this.model.map.instance.setCenter(this.model.selectedDevice.location.LatLng);
-          this.model.map.isLoaded = true;
-          this.model.map.instance.setZoom(6);
-        }, 2000)
+
       }
       else if(changesObj.device.currentValue._id != changesObj.device.previousValue._id){
         // NEW DEVICE ATTACHED
       }
       else{
         // THE SAVE DEVICE WITH CHANGES
-        console.log("inelse" , changesObj);
         if(changesObj.device.currentValue.device[0].state.isDeviceBusy)
           this.showNotification("The device is currently busy, please try again later");
+        if(!changesObj.device.currentValue.device[0].state.audioRecorded.isAudioRecording &&
+            changesObj.device.previousValue.device[0].state.audioRecorded.isAudioRecording)
+            this.showNotification("New audio file has been uploaded");
+        if(!changesObj.device.currentValue.device[0].state.videoRecorded.isVideoRecording &&
+            changesObj.device.previousValue.device[0].state.videoRecorded.isVideoRecording)
+            this.showNotification("New audio file has been uploaded");
       }
+
+      this.model.map.LatLng = this.model.selectedDevice.location.lastLocation.LatLng;
+      this.$timeout(() => {
+        google.maps.event.trigger(this.model.map.instance, "resize");
+        if(!this.model.selectedDevice.location.LatLng) this.model.selectedDevice.location.LatLng = this.model.map.LatLng;
+        this.model.map.instance.markers[0].setPosition(this.model.selectedDevice.location.LatLng);
+        this.model.map.instance.setCenter(this.model.selectedDevice.location.LatLng);
+        this.model.map.isLoaded = true;
+        this.model.map.instance.setZoom(6);
+      }, 2000)
 
     }
 
