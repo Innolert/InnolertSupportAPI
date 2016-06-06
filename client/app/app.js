@@ -13,7 +13,6 @@ angular.module('innolertApiApp', [
   'validation.match',
   'angularSpinner',
   'ngFlash',
-  'afklStickyElement',
   'innolertApiApp.device'
 
 ])
