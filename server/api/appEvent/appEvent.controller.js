@@ -117,9 +117,10 @@ function setDeviceAsbusy(userData,resource){
       videoRecorded: () => {user.device[0].state.videoRecorded.isEventPassedToDevice = false;},
       audioRecorded: () => {user.device[0].state.audioRecorded.isEventPassedToDevice = false;}
     }
-    user.device[0].isDeviceBusy = true;
-    if(cases[resource])
+    if(cases[resource]){
       cases[resource]();
+      user.device[0].state.isDeviceBusy = true;
+    }
     else{
       console.log("Unknow resource");
     }
