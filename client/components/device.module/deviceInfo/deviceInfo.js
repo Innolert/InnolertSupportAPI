@@ -80,8 +80,8 @@ class DeviceInfoComponent {
     }
   }
 
-  showNotification(message){
-    this.onNotification({message: message,type: 'success',duration: 3000});
+  showNotification(message,type){
+    this.onNotification({message: message, type: type || 'success', duration: 3000});
   }
 
 }
