@@ -46,6 +46,7 @@ class DeviceInfoComponent {
       }
       else{
         // THE SAVE DEVICE WITH CHANGES
+        console.log("inelse" , changesObj);
         if(changesObj.device.currentValue.device[0].state.isDeviceBusy)
           this.showNotification("The device is currently busy, please try again later");
       }
