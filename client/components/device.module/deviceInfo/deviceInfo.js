@@ -2,11 +2,10 @@
 (function(){
 
 class DeviceInfoComponent {
-  constructor(NgMap,$timeout,Flash) {
+  constructor(NgMap,$timeout) {
     var ctrl = this;
     ctrl.NgMap = NgMap;
     ctrl.$timeout = $timeout;
-    ctrl.Flash = Flash;
     ctrl.model = {};
     ctrl.model.map = {
       isLoaded: false,
@@ -33,9 +32,11 @@ class DeviceInfoComponent {
     if(selectedDevice){
       if(!changesObj.device.previousValue && changesObj.device.currentValue){
         console.log("First time attached");
+        this.showNotification("The device is currently busy, please try again later");
       }
       else if(changesObj.device.currentValue._id != changesObj.device.previousValue._id){
         console.log("new device");
+        this.showNotification("new device");
       }
       else{
         console.log("same device with changes");
@@ -80,14 +81,14 @@ class DeviceInfoComponent {
   }
 
   showNotification(message){
-    this.Flash.create('success', message, 5000, {class: 'custom-class', id: 'custom-id'}, true);
+    this.onNotification({message: message,type: 'success',duration: 3000});
   }
 
 }
 angular.module('innolertApiApp.device')
   .component('deviceInfo', {
     templateUrl: 'components/device.module/deviceInfo/deviceInfoTmpl.html',
-    controller: ['NgMap','$timeout', 'Flash', DeviceInfoComponent],
+    controller: ['NgMap','$timeout', DeviceInfoComponent],
     controllerAs : "vm",
     bindings: {
       device: '<',
@@ -95,7 +96,8 @@ angular.module('innolertApiApp.device')
       onVideoRecordToggle: '&',
       onRecordToggle: '&',
       onLocationUpdate: '&',
-      onDeviceLockStatusChanged: '&'
+      onDeviceLockStatusChanged: '&',
+      onNotification: '&'
     }
   });
 

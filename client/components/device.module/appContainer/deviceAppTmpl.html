@@ -12,7 +12,16 @@
 		<div class="col-md-2">
 		</div>
 		<div class="col-md-8">
-      <device-info ng-hide="vm.showAdditionInfo()" device="vm.model.selectedDevice" on-update="vm.updateDeviceInfo()" on-record-toggle="vm.toggleRecord(status)" on-video-record-toggle="vm.recordVideoToggle(status)" on-location-update="vm.getLocation()" on-device-lock-status-changed="vm.chagneDeviceLockStatus(toLockDevice,withPassword)"></device-info>
+      <device-info
+				ng-hide="vm.showAdditionInfo()"
+				device="vm.model.selectedDevice"
+				on-update="vm.updateDeviceInfo()"
+				on-record-toggle="vm.toggleRecord(status)"
+				on-video-record-toggle="vm.recordVideoToggle(status)"
+				on-location-update="vm.getLocation()"
+				on-notification="vm.showNotification(message,type,duration)"
+				on-device-lock-status-changed="vm.chagneDeviceLockStatus(toLockDevice,withPassword)">
+			</device-info>
 		</div>
 		<div class="col-md-2">
 		</div>
@@ -21,6 +30,7 @@
 		<div class="col-md-10">
 		</div>
 		<div class="col-md-2">
+				<flash-message></flash-message>
         <new-device new-device-resigtration="vm.toggleResitration()"></new-device>
 		</div>
 	</div>
