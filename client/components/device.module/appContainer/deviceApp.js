@@ -2,10 +2,10 @@
 (function() {
 
   class DeviceComponent {
-    constructor($uibModal, socket, deviceService, Flash) {
+    constructor($uibModal, socket, deviceService, notificationService) {
       var ctrl = this;
       ctrl.socket = socket;
-      ctrl.Flash = Flash;
+      ctrl.notificationService = notificationService;
       ctrl.$uibModal = $uibModal;
       ctrl.deviceService = deviceService;
       ctrl.model = {
@@ -102,14 +102,14 @@
     }
 
     showNotification(message,type,duration){
-      this.Flash.create(type, message, duration, {class: 'custom-class', id: 'custom-id'}, true);
+      this.notificationService.showInfo(message);
     }
   }
 
   angular.module('innolertApiApp.device')
     .component('deviceAppContainer', {
       templateUrl: 'components/device.module/appContainer/deviceAppTmpl.html',
-      controller: ['$uibModal','socket','deviceService','Flash',DeviceComponent],
+      controller: ['$uibModal','socket','deviceService','notificationService',DeviceComponent],
       controllerAs: "vm"
     });
 

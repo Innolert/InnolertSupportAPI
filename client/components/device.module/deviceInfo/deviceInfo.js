@@ -31,38 +31,34 @@ class DeviceInfoComponent {
     var selectedDevice = this.model.selectedDevice = changesObj.device.currentValue;
     if(selectedDevice){
       if(!changesObj.device.previousValue && changesObj.device.currentValue){
-        console.log("First time attached");
-        this.showNotification("The device is currently busy, please try again later");
+        this.model.map.LatLng = this.model.selectedDevice.location.lastLocation.LatLng;
+        this.$timeout(() => {
+          google.maps.event.trigger(this.model.map.instance, "resize");
+          if(!this.model.selectedDevice.location.LatLng) this.model.selectedDevice.location.LatLng = this.model.map.LatLng;
+          this.model.map.instance.markers[0].setPosition(this.model.selectedDevice.location.LatLng);
+          this.model.map.instance.setCenter(this.model.selectedDevice.location.LatLng);
+          this.model.map.isLoaded = true;
+          this.model.map.instance.setZoom(6);
+        }, 2000)
       }
       else if(changesObj.device.currentValue._id != changesObj.device.previousValue._id){
-        console.log("new device");
-        this.showNotification("new device");
+        // NEW DEVICE ATTACHED
       }
       else{
-        console.log("same device with changes");
+        // THE SAVE DEVICE WITH CHANGES
         if(changesObj.device.currentValue.device[0].state.isDeviceBusy)
           this.showNotification("The device is currently busy, please try again later");
       }
-      this.model.map.LatLng = this.model.selectedDevice.location.lastLocation.LatLng;
-      this.$timeout(() => {
-        google.maps.event.trigger(this.model.map.instance, "resize");
-        if(!this.model.selectedDevice.location.LatLng) this.model.selectedDevice.location.LatLng = this.model.map.LatLng;
-        this.model.map.instance.markers[0].setPosition(this.model.selectedDevice.location.LatLng);
-        this.model.map.instance.setCenter(this.model.selectedDevice.location.LatLng);
-        this.model.map.isLoaded = true;
-        this.model.map.instance.setZoom(6);
-      }, 2000)
+
     }
 
 
   }
   recordVideoToggle(){
-    console.log("calling recordVideoToggle" , {status: this.model.selectedDevice.device[0].state.videoRecorded.isVideoRecording});
     this.onVideoRecordToggle({status: this.model.selectedDevice.device[0].state.videoRecorded.isVideoRecording});
     this.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice = true;
   }
   recordToggle(){
-    console.log("calling recordToggle" , {status : this.model.selectedDevice.device[0].state.audioRecorded.isAudioRecording});
     this.onRecordToggle({status : this.model.selectedDevice.device[0].state.audioRecorded.isAudioRecording});
     this.model.selectedDevice.device[0].state.audioRecorded.isEventPassedToDevice = true;
   }
@@ -71,7 +67,6 @@ class DeviceInfoComponent {
   }
 
   changeDeviceLockStatus(toLockDevice){
-    console.log("calling changeDeviceLockStatus" ,{toLockDevice: true, withPassword: this.model.lockDevicePassword});
     this.model.selectedDevice.device[0].state.deviceLocked.isEventPassedToDevice = true;
     if(toLockDevice){
       this.onDeviceLockStatusChanged({toLockDevice: true, withPassword: this.model.lockDevicePassword})

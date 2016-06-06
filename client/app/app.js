@@ -12,7 +12,7 @@ angular.module('innolertApiApp', [
   'ui.bootstrap',
   'validation.match',
   'angularSpinner',
-  'ngFlash',
+  'ui-notification',
   'innolertApiApp.device'
 
 ])
