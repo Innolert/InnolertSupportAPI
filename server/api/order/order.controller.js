@@ -213,5 +213,7 @@ function deviceIsAbleToGetOperation(device,message){
   }
   if (cases[message]) {
     return cases[message]();
+  }else{
+    return true;
   }
 }
