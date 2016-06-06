@@ -5,7 +5,7 @@
 			<i class="fa fa-pencil" aria-hidden="true"></i>
 		</h3>
 	</div>
-	<div class="panel-body">
+	<div class="panel-body" >
 		<div class="row">
 			<div class="col-md-6" ng-show="vm.isDeviceAttached()">
 				<div>
@@ -13,27 +13,43 @@
 					Get location
 					</button>
 					<button type="button" class="btn btn-primary"
+						us-spinner spinner-theme="smallButton"
+						spinner-on="vm.model.selectedDevice.device[0].state.audioRecorded.isEventPassedToDevice ||
+												vm.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice"
 						ng-hide="vm.model.selectedDevice.device[0].state.videoRecorded.isVideoRecording"
 					 	ng-click="vm.recordVideoToggle()"
-						ng-disabled="vm.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice">
+						ng-disabled="vm.model.selectedDevice.device[0].state.audioRecorded.isEventPassedToDevice ||
+												vm.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice">
 					Start video recording
 					</button>
 					<button type="button" class="btn btn-primary"
+						us-spinner spinner-theme="smallButton"
+						spinner-on="vm.model.selectedDevice.device[0].state.audioRecorded.isEventPassedToDevice ||
+												vm.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice"
 						ng-show="vm.model.selectedDevice.device[0].state.videoRecorded.isVideoRecording"
 						ng-click="vm.recordVideoToggle()"
-						ng-disabled="vm.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice">
+						ng-disabled="vm.model.selectedDevice.device[0].state.audioRecorded.isEventPassedToDevice ||
+												vm.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice">
 					Stop video recording
 					</button>
 					<button type="button" class="btn btn-primary"
+					us-spinner spinner-theme="smallButton"
+					spinner-on="vm.model.selectedDevice.device[0].state.audioRecorded.isEventPassedToDevice ||
+											vm.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice"
 					ng-hide="vm.model.selectedDevice.device[0].state.audioRecorded.isAudioRecording"
 					ng-click="vm.recordToggle()"
-					ng-disabled="vm.model.selectedDevice.device[0].state.audioRecorded.isEventPassedToDevice">
+					ng-disabled="vm.model.selectedDevice.device[0].state.audioRecorded.isEventPassedToDevice ||
+											vm.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice">
 					Start recording audio
 					</button>
 					<button type="button" class="btn btn-primary"
+					us-spinner spinner-theme="smallButton"
+					spinner-on="vm.model.selectedDevice.device[0].state.audioRecorded.isEventPassedToDevice ||
+											vm.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice"
 					ng-show="vm.model.selectedDevice.device[0].state.audioRecorded.isAudioRecording"
 					ng-click="vm.recordToggle()"
-					ng-disabled="vm.model.selectedDevice.device[0].state.audioRecorded.isEventPassedToDevice">
+					ng-disabled="vm.model.selectedDevice.device[0].state.audioRecorded.isEventPassedToDevice ||
+											vm.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice">
 					Stop recording audio
 					</button>
 				</div>
@@ -56,6 +72,8 @@
 			<div class="col-md-9" ng-show="vm.isDeviceAttached()">
 				<form name="lockDeviceForm" class="form-inline" ng-submit="vm.changeDeviceLockStatus(true)" novalidate>
 					<button type="submit" class="btn btn-danger"
+					us-spinner spinner-theme="smallButton"
+					spinner-on="vm.model.selectedDevice.device[0].state.deviceLocked.isEventPassedToDevice"
 					ng-disabled="lockDeviceForm.$invalid || vm.model.selectedDevice.device[0].state.deviceLocked.isEventPassedToDevice"
 					ng-hide="vm.model.selectedDevice.device[0].state.deviceLocked.isDeviceLocked">
 						Lock screen
@@ -82,7 +100,14 @@
 					<label ng-show="vm.model.selectedDevice.device[0].state.deviceLocked.isDeviceLocked">
 						The device is locked!
 					</label>
-					<button type="button" class="btn btn-warning" ng-click="vm.changeDeviceLockStatus()" ng-show="vm.model.selectedDevice.device[0].state.deviceLocked.isDeviceLocked">Unlock</button>
+					<button type="button" class="btn btn-warning"
+									us-spinner spinner-theme="smallButton"
+									spinner-on="vm.model.selectedDevice.device[0].state.deviceLocked.isEventPassedToDevice"
+									ng-click="vm.changeDeviceLockStatus()"
+									ng-disabled="vm.model.selectedDevice.device[0].state.deviceLocked.isEventPassedToDevice"
+									ng-show="vm.model.selectedDevice.device[0].state.deviceLocked.isDeviceLocked">
+										Unlock
+					</button>
 				</form>
 			</div>
 		</div>

@@ -31,6 +31,10 @@ var EndUserSchema = new mongoose.Schema({
       fcm : String
     },
     state: {
+      isDeviceBusy: {
+        type: Boolean,
+        default: false
+      },
       deviceLocked:{
         isDeviceLocked: {
           type: Boolean,
