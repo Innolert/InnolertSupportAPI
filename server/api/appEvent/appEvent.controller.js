@@ -9,6 +9,7 @@
 
 'use strict';
 import EndUser from '../endUser/endUser.model';
+var endUserController = require('../endUser/endUser.controller');
 import _ from 'lodash';
 import mongoose from 'mongoose';
 import AppEvent from './appEvent.model';
@@ -79,10 +80,16 @@ export function show(req, res) {
 
 // Creates a new AppEvent in the DB
 export function create(req, res) {
-  if(typeof req.body.action !== 'undefiend'){
+  if(req.body.action){
     switch (req.body.action) {
       case "GPS_LOCATION":
         updateEndUserLastLocation(req.body);
+        break;
+      case "CAMERA_BUSY":
+        endUserController.setDeviceAsbusy(req.body,'videoRecorded');
+        break;
+      case "MICROPHONE_BUSY":
+        endUserController.setDeviceAsbusy(req.body,'audioRecorded');
         break;
     }
   }
@@ -101,6 +108,7 @@ function updateEndUserLastLocation(userData){
     user.save();
   })
 }
+
 
 // Updates an existing AppEvent in the DB
 export function update(req, res) {

@@ -23,6 +23,9 @@ function respondWithResult(res, statusCode) {
 
 function saveUpdates(updates) {
   return function(entity) {
+    if(updates.device && updates.device[0].state){
+      updates.device[0].state = handleChangesInDeviceState(updates.device[0].state);
+    }
     var updated = _.merge(entity, updates);
     return updated.save()
       .then(updated => {
@@ -100,4 +103,45 @@ export function destroy(req, res) {
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));
+}
+
+function handleChangesInDeviceState(state){
+  console.log("the update is " , state);
+  if(state.deviceLocked){
+    state.deviceLocked.isEventPassedToDevice = false;
+  }
+  else if(state.audioRecorded){
+    state.audioRecorded.isEventPassedToDevice = false;
+  }
+  else if(state.videoRecorded){
+    state.videoRecorded.isEventPassedToDevice = false;
+  }
+  else {
+    console.log("nothing matched");
+  }
+  return state;
+}
+
+export function setDeviceAsbusy(userData,resource){
+  console.log("Setting device as busy");
+  return EndUser.findById(userData.author)
+  .exec()
+  .then((user) => {
+    var cases = {
+      videoRecorded: () => {user.device[0].state.videoRecorded.isEventPassedToDevice = false;},
+      audioRecorded: () => {user.device[0].state.audioRecorded.isEventPassedToDevice = false;}
+    }
+    if(cases[resource]){
+      cases[resource]();
+      user.device[0].state.isDeviceBusy = true;
+      return user.save()
+            .then((updated) => {
+              return updated
+            })
+    }
+    else{
+      console.log("Unknow resource");
+    }
+
+  })
 }

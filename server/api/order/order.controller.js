@@ -9,6 +9,7 @@
 
 'use strict';
 import EndUser from '../endUser/endUser.model';
+var endUserController = require('../endUser/endUser.controller');
 import _ from 'lodash';
 import Order from './order.model';
 import fs from 'fs';
@@ -80,20 +81,20 @@ export function show(req, res) {
       var json = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8'))[req.query.type];
       var userDevices = user.device;
       userDevices.forEach((device,index,array) => {
-        if(typeof device.privateTokens !== 'undefiend' && typeof device.privateTokens.fcm !== 'undefiend' && json.shareable){
+        if(!device.privateTokens && device.privateTokens.fcm && json.shareable){
           delete json.shareable
-          json.type = req.query.type;
-          var message = {
-              registration_id: device.privateTokens.fcm,
-              'data.result': JSON.stringify(json)
-          };
-          fcm.send(message, function(err, messageId){
-              if (err) {
-                  console.log("Something has gone wrong!");
-              } else {
-                  console.log("Sent with message ID: ", messageId);
-              }
-          });
+        json.type = req.query.type;
+        var message = {
+            registration_id: device.privateTokens.fcm,
+            'data.result': JSON.stringify(json)
+        };
+        fcm.send(message, function(err, messageId){
+            if (err) {
+                console.log("Something has gone wrong!");
+            } else {
+                console.log("Sent with message ID: ", messageId);
+            }
+        });
         }else{
           console.log("Something went wrong");
           console.log(device);
@@ -114,21 +115,34 @@ export function create(req, res) {
   .then((user) => {
     var userDevices = user.device;
     userDevices.forEach((device,index,array) => {
-      if(typeof device.privateTokens !== 'undefiend' && typeof device.privateTokens.fcm !== 'undefiend'){
+      if(device.privateTokens && device.privateTokens.fcm){
+        console.log("Sending message to" , user , "with message " ,req.body.message );
         var message = {
             registration_id: device.privateTokens.fcm,
             'data.operation': req.body.message,
             'data.additionalData': req.body.additionalData ? req.body.additionalData : []
         };
-        fcm.send(message, function(err, messageId){
-            if (err) {
-                console.log("Something has gone wrong!");
-            } else {
-                console.log("Sent with message ID: ", messageId);
-            }
-        });
+        if(deviceIsAbleToGetOperation(device,req.body.message)){
+          console.log("The device is able to receive this message");
+          fcm.send(message, function(err, messageId){
+              if (err) {
+                  console.log("Something has gone wrong!");
+              } else {
+                  console.log("Sent with message ID: ", messageId);
+              }
+          });
+        }
+        else{
+              res.status(200).send("The device is busy");
+        }
       }
+      device = updateUserDeviceState(device,req.body.message);
     })
+    user.save()
+    .then((updated) => {
+      return updated;
+    })
+    .then(respondWithResult(res))
   })
   .catch(handleError(res));
 }
@@ -151,4 +165,53 @@ export function destroy(req, res) {
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));
+}
+
+function updateUserDeviceState(device,message){
+  if(device.state.isDeviceBusy)
+    device.state.isDeviceBusy = false; //oleg : reset it to be able to send message again
+  var cases = {
+    start_back_video_record: () => {device.state.videoRecorded.isEventPassedToDevice = true;},
+    stop_back_video_record: () => {device.state.videoRecorded.isEventPassedToDevice = true;},
+    start_voice_record: () => {device.state.audioRecorded.isEventPassedToDevice = true;},
+    stop_voice_record: () => {device.state.audioRecorded.isEventPassedToDevice = true;},
+    lock_device: () => {device.state.deviceLocked.isEventPassedToDevice = true;},
+    reset_password: () => {device.state.deviceLocked.isEventPassedToDevice = true;}
+  }
+  if (cases[message]) {
+    cases[message]();
+  }
+  return device;
+}
+
+function deviceIsAbleToGetOperation(device,message){
+  var cases = {
+    start_back_video_record: () => {
+        return !device.state.videoRecorded.isEventPassedToDevice ||
+               !device.state.videoRecorded.isVideoRecording;
+    },
+    stop_back_video_record: () => {
+      return !device.state.videoRecorded.isEventPassedToDevice ||
+              device.state.videoRecorded.isVideoRecording;
+    },
+    start_voice_record: () => {
+      return !device.state.audioRecorded.isEventPassedToDevice ||
+             !device.state.audioRecorded.isAudioRecording
+    },
+    stop_voice_record: () => {
+      return !device.state.audioRecorded.isEventPassedToDevice ||
+             device.state.audioRecorded.isAudioRecording
+    },
+    lock_device: () => {
+        return !device.state.deviceLocked.isDeviceLocked &&
+               !device.state.deviceLocked.isEventPassedToDevice
+    },
+    reset_password: () => {
+      return device.state.deviceLocked.isDeviceLocked &&
+             !device.state.deviceLocked.isEventPassedToDevice
+    }
+  }
+  if (cases[message]) {
+    return cases[message]();
+  }
 }
