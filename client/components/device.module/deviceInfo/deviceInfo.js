@@ -32,13 +32,15 @@ class DeviceInfoComponent {
     var selectedDevice = this.model.selectedDevice = changesObj.device.currentValue;
     if(selectedDevice){
       if(!changesObj.device.previousValue && changesObj.device.currentValue){
-        this.showNotification("First time attached");
+        console.log("First time attached");
       }
       else if(changesObj.device.currentValue._id != changesObj.device.previousValue._id){
-        this.showNotification("new device");
+        console.log("new device");
       }
       else{
-        this.showNotification("same device with changes");
+        console.log("same device with changes");
+        if(changesObj.currentValue.device[0].state.isDeviceBusy)
+          this.showNotification("The device is currently busy, please try again later");
       }
       this.model.map.LatLng = this.model.selectedDevice.location.lastLocation.LatLng;
       this.$timeout(() => {

@@ -161,6 +161,8 @@ export function destroy(req, res) {
 }
 
 function updateUserDeviceState(device,message){
+  if(device.state.isDeviceBusy)
+    device.state.isDeviceBusy = false; //oleg : reset it to be able to send message again 
   var cases = {
     start_back_video_record: () => {device.state.videoRecorded.isEventPassedToDevice = true;},
     stop_back_video_record: () => {device.state.videoRecorded.isEventPassedToDevice = true;},
