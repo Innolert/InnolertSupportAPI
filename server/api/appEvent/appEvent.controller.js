@@ -109,6 +109,7 @@ function updateEndUserLastLocation(userData){
 }
 
 function setDeviceAsbusy(userData,resource){
+  console.log("setDeviceAsbusy , " , resource);
   EndUser.findById(userData.author)
   .exec()
   .then((user) => {
