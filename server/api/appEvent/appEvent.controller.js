@@ -112,8 +112,16 @@ function setDeviceAsbusy(userData,resource){
   EndUser.findById(userData.author)
   .exec()
   .then((user) => {
+    var cases = {
+      videoRecorded: () => {user.device[0].videoRecorded.isEventPassedToDevice = false;},
+      audioRecorded: () => {user.device[0].audioRecorded.isEventPassedToDevice = false;}
+    }
     user.device[0].isDeviceBusy = true;
-    user.device[0][resource].isEventPassedToDevice = false;
+    if(cases[resource])
+      cases.resource();
+    else{
+      console.log("Unknow resource");
+    }
     user.save();
   })
 }
