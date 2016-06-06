@@ -80,8 +80,7 @@ export function show(req, res) {
 
 // Creates a new AppEvent in the DB
 export function create(req, res) {
-  if(typeof req.body.action !== 'undefined'){
-    console.log(req.body.action);
+  if(req.body.action){
     switch (req.body.action) {
       case "GPS_LOCATION":
         updateEndUserLastLocation(req.body);
