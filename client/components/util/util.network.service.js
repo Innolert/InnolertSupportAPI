@@ -25,7 +25,7 @@ function networkService($http,$location) {
       GET : function(endPoint){
         return $http.get(this.buildPath()+endPoint)
       },
-      PULL   : function(endPoint, id, data){
+      PUT   : function(endPoint, id, data){
         return $http({
           method: 'PUT',
           url: this.buildPath()+endPoint+"/"+id,

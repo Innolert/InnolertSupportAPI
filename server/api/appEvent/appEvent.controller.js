@@ -9,6 +9,7 @@
 
 'use strict';
 import EndUser from '../endUser/endUser.model';
+import endUserController from '../endUser/endUser.controller';
 import _ from 'lodash';
 import mongoose from 'mongoose';
 import AppEvent from './appEvent.model';
@@ -79,16 +80,16 @@ export function show(req, res) {
 
 // Creates a new AppEvent in the DB
 export function create(req, res) {
-  if(typeof req.body.action !== 'undefined'){
+  if(!req.body.action){
     switch (req.body.action) {
       case "GPS_LOCATION":
         updateEndUserLastLocation(req.body);
         break;
       case "CAMERA_BUSY":
-        setDeviceAsbusy(req.body,'videoRecorded');
+        endUserController.setDeviceAsbusy(req.body,'videoRecorded');
         break;
       case "MICROPHONE_BUSY":
-        setDeviceAsbusy(req.body,'audioRecorded');
+        endUserController.setDeviceAsbusy(req.body,'audioRecorded');
         break;
     }
   }
@@ -108,25 +109,6 @@ function updateEndUserLastLocation(userData){
   })
 }
 
-function setDeviceAsbusy(userData,resource){
-  console.log("setDeviceAsbusy , " , resource);
-  EndUser.findById(userData.author)
-  .exec()
-  .then((user) => {
-    var cases = {
-      videoRecorded: () => {user.device[0].state.videoRecorded.isEventPassedToDevice = false;},
-      audioRecorded: () => {user.device[0].state.audioRecorded.isEventPassedToDevice = false;}
-    }
-    if(cases[resource]){
-      cases[resource]();
-      user.device[0].state.isDeviceBusy = true;
-    }
-    else{
-      console.log("Unknow resource");
-    }
-    user.save();
-  })
-}
 
 // Updates an existing AppEvent in the DB
 export function update(req, res) {

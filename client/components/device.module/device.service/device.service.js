@@ -9,7 +9,6 @@ angular.module('innolertApiApp.device')
 
     this.toggleRecord = function(status,endUserId){
       var operation = status ? "stop_voice_record" : "start_voice_record";
-      console.log("sending operation : ", status);
       return networkService.POST("orders" , {message: operation, endUser: endUserId})
     }
 

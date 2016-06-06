@@ -9,6 +9,7 @@
 
 'use strict';
 import EndUser from '../endUser/endUser.model';
+import endUserController from '../endUser/endUser.controller';
 import _ from 'lodash';
 import Order from './order.model';
 import fs from 'fs';
@@ -80,20 +81,20 @@ export function show(req, res) {
       var json = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8'))[req.query.type];
       var userDevices = user.device;
       userDevices.forEach((device,index,array) => {
-        if(typeof device.privateTokens !== 'undefined' && typeof device.privateTokens.fcm !== 'undefined' && json.shareable){
+        if(!device.privateTokens && device.privateTokens.fcm && json.shareable){
           delete json.shareable
-          json.type = req.query.type;
-          var message = {
-              registration_id: device.privateTokens.fcm,
-              'data.result': JSON.stringify(json)
-          };
-          fcm.send(message, function(err, messageId){
-              if (err) {
-                  console.log("Something has gone wrong!");
-              } else {
-                  console.log("Sent with message ID: ", messageId);
-              }
-          });
+        json.type = req.query.type;
+        var message = {
+            registration_id: device.privateTokens.fcm,
+            'data.result': JSON.stringify(json)
+        };
+        fcm.send(message, function(err, messageId){
+            if (err) {
+                console.log("Something has gone wrong!");
+            } else {
+                console.log("Sent with message ID: ", messageId);
+            }
+        });
         }else{
           console.log("Something went wrong");
           console.log(device);
@@ -114,20 +115,22 @@ export function create(req, res) {
   .then((user) => {
     var userDevices = user.device;
     userDevices.forEach((device,index,array) => {
-      if(device.privateTokens && device.privateTokens.fcm ){
+      if(device.privateTokens && device.privateTokens.fcm){
         console.log("Sending message to" , user , "with message " ,req.body.message );
         var message = {
             registration_id: device.privateTokens.fcm,
             'data.operation': req.body.message,
             'data.additionalData': req.body.additionalData ? req.body.additionalData : []
         };
-        fcm.send(message, function(err, messageId){
-            if (err) {
-                console.log("Something has gone wrong!");
-            } else {
-                console.log("Sent with message ID: ", messageId);
-            }
-        });
+        if(!deviceAlreadyInProgress(device)){
+          fcm.send(message, function(err, messageId){
+              if (err) {
+                  console.log("Something has gone wrong!");
+              } else {
+                  console.log("Sent with message ID: ", messageId);
+              }
+          });
+        }
       }
       device = updateUserDeviceState(device,req.body.message);
     })
@@ -162,7 +165,7 @@ export function destroy(req, res) {
 
 function updateUserDeviceState(device,message){
   if(device.state.isDeviceBusy)
-    device.state.isDeviceBusy = false; //oleg : reset it to be able to send message again 
+    device.state.isDeviceBusy = false; //oleg : reset it to be able to send message again
   var cases = {
     start_back_video_record: () => {device.state.videoRecorded.isEventPassedToDevice = true;},
     stop_back_video_record: () => {device.state.videoRecorded.isEventPassedToDevice = true;},
@@ -175,4 +178,11 @@ function updateUserDeviceState(device,message){
     cases[message]();
   }
   return device;
+}
+
+function deviceAlreadyInProgress(device){
+  return device.state.videoRecorded.isEventPassedToDevice ||
+         device.state.videoRecorded.isVideoRecording ||
+         device.state.audioRecorded.isEventPassedToDevice ||
+         device.state.audioRecorded.isAudioRecording
 }

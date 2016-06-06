@@ -121,3 +121,22 @@ function handleChangesInDeviceState(state){
   }
   return state;
 }
+
+export function setDeviceAsbusy(userData,resource){
+  EndUser.findById(userData.author)
+  .exec()
+  .then((user) => {
+    var cases = {
+      videoRecorded: () => {user.device[0].state.videoRecorded.isEventPassedToDevice = false;},
+      audioRecorded: () => {user.device[0].state.audioRecorded.isEventPassedToDevice = false;}
+    }
+    if(cases[resource]){
+      cases[resource]();
+      user.device[0].state.isDeviceBusy = true;
+    }
+    else{
+      console.log("Unknow resource");
+    }
+    user.save();
+  })
+}
