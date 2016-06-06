@@ -123,6 +123,7 @@ function handleChangesInDeviceState(state){
 }
 
 export function setDeviceAsbusy(userData,resource){
+  console.log("Setting device as busy");
   EndUser.findById(userData.author)
   .exec()
   .then((user) => {
