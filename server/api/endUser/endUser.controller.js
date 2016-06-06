@@ -124,7 +124,7 @@ function handleChangesInDeviceState(state){
 
 export function setDeviceAsbusy(userData,resource){
   console.log("Setting device as busy");
-  EndUser.findById(userData.author)
+  return EndUser.findById(userData.author)
   .exec()
   .then((user) => {
     var cases = {
@@ -134,10 +134,14 @@ export function setDeviceAsbusy(userData,resource){
     if(cases[resource]){
       cases[resource]();
       user.device[0].state.isDeviceBusy = true;
+      return user.save()
+            .then((updated) => {
+              return updated
+            })
     }
     else{
       console.log("Unknow resource");
     }
-    user.save();
+
   })
 }
