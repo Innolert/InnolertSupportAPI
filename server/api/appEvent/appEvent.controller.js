@@ -63,16 +63,14 @@ function handleError(res, statusCode) {
 
 // Gets a list of AppEvents
 export function index(req, res) {
-  return AppEvent.find().exec()
+  return AppEvent.find(req.user.role === 'admin' ? {} : { author: req.user._id }).exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
 // Gets a single AppEvent from the DB
 export function show(req, res) {
-  var id = mongoose.Types.ObjectId(req.params.id);
-  console.log(id,req.params.id);
-  return AppEvent.find({ author : id }).exec()
+  return AppEvent.findOne(Object.assign({ _id: req.params.id }, req.user.role === 'admin' ? {} : { author: req.user._id })).exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
