@@ -63,17 +63,39 @@ function handleError(res, statusCode) {
 
 // Gets a list of AppEvents
 export function index(req, res) {
-  return AppEvent.find(req.user.role === 'admin' ? {} : { author: req.user._id }).exec()
-    .then(respondWithResult(res))
-    .catch(handleError(res));
+  if (req.user.role === 'admin') {
+    return AppEvent.find().exec()
+      .then(respondWithResult(res))
+      .catch(handleError(res));
+  }
+  else {
+    EndUser.find({ parentUser: req.user._id }).exec()
+      .then(function(endUsers) {
+        return AppEvent.find({ author: { $in: _.map(endUsers, '_id') } }).exec()
+          .then(respondWithResult(res))
+          .catch(handleError(res));
+      })
+        .catch(handleError(res));
+  }
 }
 
 // Gets a single AppEvent from the DB
 export function show(req, res) {
-  return AppEvent.findOne(Object.assign({ _id: req.params.id }, req.user.role === 'admin' ? {} : { author: req.user._id })).exec()
-    .then(handleEntityNotFound(res))
-    .then(respondWithResult(res))
-    .catch(handleError(res));
+  if (req.user.role === 'admin') {
+    return AppEvent.findOne({ _id: req.params.id }).exec()
+      .then(handleEntityNotFound(res))
+      .then(respondWithResult(res))
+      .catch(handleError(res));
+  }
+  else {
+    EndUser.find({ parentUser: req.user._id }).exec()
+      .then(function(endUsers) {
+        return AppEvent.find({ _id: req.params.id, author: { $in: _.map(endUsers, '_id') } }).exec()
+          .then(respondWithResult(res))
+          .catch(handleError(res));
+      })
+        .catch(handleError(res));
+  }
 }
 
 // Creates a new AppEvent in the DB
