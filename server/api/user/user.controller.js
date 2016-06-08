@@ -33,6 +33,18 @@ export function index(req, res) {
 }
 
 /**
+ * Update details about the user like fcm
+ */
+export function updateFCMToken(req,res){
+  return User.find({ _id: req.user._id})
+        .then((user) => {
+          console.log(user);
+          res.sendStatus(200);
+        })
+        .catch(handleError(res));
+}
+
+/**
  * Creates a new user
  */
 export function create(req, res, next) {
