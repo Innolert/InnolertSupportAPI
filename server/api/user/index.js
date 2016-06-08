@@ -10,7 +10,7 @@ router.get('/verify/:id', controller.verify);
 router.get('/', auth.hasRole('admin'), controller.index);
 router.delete('/:id', auth.hasRole('admin'), controller.destroy);
 router.get('/me', auth.isAuthenticated(), controller.me);
-router.put('/:id/fcm', auth.isAuthenticated(), controller.updateFCMToken);
+router.get('/fcm', auth.isAuthenticated(), controller.updateFCMToken);
 router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
 router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/', controller.create);
