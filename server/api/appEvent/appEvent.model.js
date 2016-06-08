@@ -17,6 +17,7 @@ var AppEventSchema = new mongoose.Schema({
   action: String,
   data: [mongoose.Schema.Types.Mixed],
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'EndUser' },
+  accessToken: String
 });
 
 export default mongoose.model('AppEvent', AppEventSchema);
