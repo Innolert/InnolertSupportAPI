@@ -5,24 +5,52 @@
 			<i class="fa fa-pencil" aria-hidden="true"></i>
 		</h3>
 	</div>
-	<div class="panel-body">
+	<div class="panel-body" >
 		<div class="row">
-			<div class="col-md-6">
-				<div >
+			<div class="col-md-6" ng-show="vm.isDeviceAttached()">
+				<div>
 					<button type="button" class="btn btn-primary" ng-click="vm.onLocationUpdate()">
 					Get location
 					</button>
-					<button type="button" class="btn btn-primary" ng-show="!vm.model.isVideoRecording" ng-click="vm.recordVideoToggle()">
+					<button type="button" class="btn btn-primary"
+						us-spinner spinner-theme="smallButton"
+						spinner-on="vm.model.selectedDevice.device[0].state.audioRecorded.isEventPassedToDevice ||
+												vm.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice"
+						ng-hide="vm.model.selectedDevice.device[0].state.videoRecorded.isVideoRecording"
+					 	ng-click="vm.recordVideoToggle()"
+						ng-disabled="vm.model.selectedDevice.device[0].state.audioRecorded.isEventPassedToDevice ||
+												vm.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice">
 					Start video recording
 					</button>
-					<button type="button" class="btn btn-primary" ng-show="vm.model.isVideoRecording" ng-click="vm.recordVideoToggle()">
+					<button type="button" class="btn btn-primary"
+						us-spinner spinner-theme="smallButton"
+						spinner-on="vm.model.selectedDevice.device[0].state.audioRecorded.isEventPassedToDevice ||
+												vm.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice"
+						ng-show="vm.model.selectedDevice.device[0].state.videoRecorded.isVideoRecording"
+						ng-click="vm.recordVideoToggle()"
+						ng-disabled="vm.model.selectedDevice.device[0].state.audioRecorded.isEventPassedToDevice ||
+												vm.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice">
 					Stop video recording
 					</button>
-					<button type="button" class="btn btn-primary" ng-show="!vm.model.isRecording" ng-click="vm.recordToggle()">
-					Start recording
+					<button type="button" class="btn btn-primary"
+					us-spinner spinner-theme="smallButton"
+					spinner-on="vm.model.selectedDevice.device[0].state.audioRecorded.isEventPassedToDevice ||
+											vm.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice"
+					ng-hide="vm.model.selectedDevice.device[0].state.audioRecorded.isAudioRecording"
+					ng-click="vm.recordToggle()"
+					ng-disabled="vm.model.selectedDevice.device[0].state.audioRecorded.isEventPassedToDevice ||
+											vm.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice">
+					Start recording audio
 					</button>
-					<button type="button" class="btn btn-primary" ng-show="vm.model.isRecording" ng-click="vm.recordToggle()">
-					Stop recording
+					<button type="button" class="btn btn-primary"
+					us-spinner spinner-theme="smallButton"
+					spinner-on="vm.model.selectedDevice.device[0].state.audioRecorded.isEventPassedToDevice ||
+											vm.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice"
+					ng-show="vm.model.selectedDevice.device[0].state.audioRecorded.isAudioRecording"
+					ng-click="vm.recordToggle()"
+					ng-disabled="vm.model.selectedDevice.device[0].state.audioRecorded.isEventPassedToDevice ||
+											vm.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice">
+					Stop recording audio
 					</button>
 				</div>
 			</div>
@@ -41,12 +69,19 @@
 		</div>
 		<p></p>
 		<div class="row">
-			<div class="col-md-9" >
+			<div class="col-md-9" ng-show="vm.isDeviceAttached()">
 				<form name="lockDeviceForm" class="form-inline" ng-submit="vm.changeDeviceLockStatus(true)" novalidate>
-					<button type="submit" class="btn btn-danger" ng-disabled="lockDeviceForm.$invalid" ng-hide="vm.model.selectedDevice.isLocked">Lock screen</button>
+					<button type="submit" class="btn btn-danger"
+					us-spinner spinner-theme="smallButton"
+					spinner-on="vm.model.selectedDevice.device[0].state.deviceLocked.isEventPassedToDevice"
+					ng-disabled="lockDeviceForm.$invalid || vm.model.selectedDevice.device[0].state.deviceLocked.isEventPassedToDevice"
+					ng-hide="vm.model.selectedDevice.device[0].state.deviceLocked.isDeviceLocked">
+						Lock screen
+					</button>
 					<div class="form-group">
 						<input
-							ng-hide="vm.model.selectedDevice.isLocked"
+							ng-hide="vm.model.selectedDevice.device[0].state.deviceLocked.isDeviceLocked"
+							ng-disabled="vm.model.selectedDevice.device[0].state.deviceLocked.isEventPassedToDevice"
 							name="password"
 							type="text"
 							class="form-control"
@@ -62,8 +97,17 @@
 						<div ng-show="lockDeviceForm.password.$error.maxlength">The password is too long</div>
 						<div ng-show="lockDeviceForm.password.$error.pattern">The password may contain only numbers </div>
 					</div>
-					<label ng-show="vm.model.selectedDevice.isLocked">The device is locked!</label>
-					<button type="button" class="btn btn-warning" ng-click="vm.changeDeviceLockStatus()" ng-show="vm.model.selectedDevice.isLocked">Unlock</button>
+					<label ng-show="vm.model.selectedDevice.device[0].state.deviceLocked.isDeviceLocked">
+						The device is locked!
+					</label>
+					<button type="button" class="btn btn-warning"
+									us-spinner spinner-theme="smallButton"
+									spinner-on="vm.model.selectedDevice.device[0].state.deviceLocked.isEventPassedToDevice"
+									ng-click="vm.changeDeviceLockStatus()"
+									ng-disabled="vm.model.selectedDevice.device[0].state.deviceLocked.isEventPassedToDevice"
+									ng-show="vm.model.selectedDevice.device[0].state.deviceLocked.isDeviceLocked">
+										Unlock
+					</button>
 				</form>
 			</div>
 		</div>
@@ -83,7 +127,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-9">
-				<div map-lazy-load="https://maps.google.com/maps/api/js">
+				<div map-lazy-load="https://maps.google.com/maps/api/js" ng-show="vm.isDeviceAttached()">
 					<ng-map center="41,-87"  zoom-to-include-markers="true">
 						<marker animation="Animation.BOUNCE" centered="true" draggable="true"></marker>
 					</ng-map>

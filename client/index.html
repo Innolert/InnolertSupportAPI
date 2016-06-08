@@ -13,6 +13,7 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
+      <link rel="stylesheet" href="bower_components/angular-ui-notification/dist/angular-ui-notification.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -62,6 +63,9 @@
       <script src="bower_components/qrcode-generator/js/qrcode.js"></script>
       <script src="bower_components/qrcode-generator/js/qrcode_UTF8.js"></script>
       <script src="bower_components/angular-qrcode/angular-qrcode.js"></script>
+      <script src="bower_components/spin.js/spin.js"></script>
+      <script src="bower_components/angular-spinner/angular-spinner.js"></script>
+      <script src="bower_components/angular-ui-notification/dist/angular-ui-notification.js"></script>
       <!-- endbower -->
       <script src="socket.io-client/socket.io.js"></script>
     <!-- endbuild -->
@@ -105,6 +109,7 @@
       <script src="components/socket/socket.service.js"></script>
       <script src="app/admin/admin.controller.js"></script>
       <script src="components/util/util.network.service.js"></script>
+      <script src="components/util/util.notification.service.js"></script>
       <script src="components/util/util.service.js"></script>
       <!-- endinjector -->
     <!-- endbuild -->

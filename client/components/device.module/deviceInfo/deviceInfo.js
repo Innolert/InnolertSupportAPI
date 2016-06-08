@@ -15,9 +15,7 @@ class DeviceInfoComponent {
         lng : 37.9634055
       }
     }
-    ctrl.model.isRecording = false;
     ctrl.model.selectedDevice = this.device;
-    ctrl.model.isVideoRecording = false;
   }
 
   $onInit(){
@@ -25,13 +23,30 @@ class DeviceInfoComponent {
     this.NgMap.getMap()
     .then((map) => {
       this.model.map.instance = map;
-      console.log(map);
     })
   }
 
   $onChanges(changesObj){
-    this.model.selectedDevice = changesObj.device.currentValue
-    if(this.model.selectedDevice){
+    var selectedDevice = this.model.selectedDevice = changesObj.device.currentValue;
+    if(selectedDevice){
+      if(!changesObj.device.previousValue && changesObj.device.currentValue){
+
+      }
+      else if(changesObj.device.currentValue._id != changesObj.device.previousValue._id){
+        // NEW DEVICE ATTACHED
+      }
+      else{
+        // THE SAVE DEVICE WITH CHANGES
+        if(changesObj.device.currentValue.device[0].state.isDeviceBusy)
+          this.showNotification("The device is currently busy, please try again later");
+        if(!changesObj.device.currentValue.device[0].state.audioRecorded.isAudioRecording &&
+            changesObj.device.previousValue.device[0].state.audioRecorded.isAudioRecording)
+            this.showNotification("New audio file will be uploaded soon");
+        if(!changesObj.device.currentValue.device[0].state.videoRecorded.isVideoRecording &&
+            changesObj.device.previousValue.device[0].state.videoRecorded.isVideoRecording)
+            this.showNotification("New video file will be uploaded soon");
+      }
+
       this.model.map.LatLng = this.model.selectedDevice.location.lastLocation.LatLng;
       this.$timeout(() => {
         google.maps.event.trigger(this.model.map.instance, "resize");
@@ -41,21 +56,25 @@ class DeviceInfoComponent {
         this.model.map.isLoaded = true;
         this.model.map.instance.setZoom(6);
       }, 2000)
+
     }
 
 
   }
   recordVideoToggle(){
-    this.onVideoRecordToggle({status: this.model.isVideoRecording});
-    this.model.isVideoRecording = !this.model.isVideoRecording;
+    this.onVideoRecordToggle({status: this.model.selectedDevice.device[0].state.videoRecorded.isVideoRecording});
+    this.model.selectedDevice.device[0].state.videoRecorded.isEventPassedToDevice = true;
   }
   recordToggle(){
-    this.onRecordToggle({status : this.model.isRecording});
-    this.model.isRecording = !this.model.isRecording;
+    this.onRecordToggle({status : this.model.selectedDevice.device[0].state.audioRecorded.isAudioRecording});
+    this.model.selectedDevice.device[0].state.audioRecorded.isEventPassedToDevice = true;
+  }
+  isDeviceAttached(){
+    return this.model.selectedDevice && this.model.selectedDevice.device[0].hasOwnProperty('privateTokens') && this.model.selectedDevice.device[0].privateTokens.hasOwnProperty('fcm')
   }
 
   changeDeviceLockStatus(toLockDevice){
-    // console.log(newStatus , this.model.lockDevicePassword);
+    this.model.selectedDevice.device[0].state.deviceLocked.isEventPassedToDevice = true;
     if(toLockDevice){
       this.onDeviceLockStatusChanged({toLockDevice: true, withPassword: this.model.lockDevicePassword})
     }else{
@@ -63,11 +82,15 @@ class DeviceInfoComponent {
     }
   }
 
+  showNotification(message,type){
+    this.onNotification({message: message, type: type || 'success', duration: 3000});
+  }
+
 }
 angular.module('innolertApiApp.device')
   .component('deviceInfo', {
     templateUrl: 'components/device.module/deviceInfo/deviceInfoTmpl.html',
-    controller: ['NgMap','$timeout',DeviceInfoComponent],
+    controller: ['NgMap','$timeout', DeviceInfoComponent],
     controllerAs : "vm",
     bindings: {
       device: '<',
@@ -75,7 +98,8 @@ angular.module('innolertApiApp.device')
       onVideoRecordToggle: '&',
       onRecordToggle: '&',
       onLocationUpdate: '&',
-      onDeviceLockStatusChanged: '&'
+      onDeviceLockStatusChanged: '&',
+      onNotification: '&'
     }
   });
 

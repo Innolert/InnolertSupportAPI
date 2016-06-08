@@ -2,9 +2,10 @@
 (function() {
 
   class DeviceComponent {
-    constructor($uibModal, socket,deviceService) {
+    constructor($uibModal, socket, deviceService, notificationService) {
       var ctrl = this;
       ctrl.socket = socket;
+      ctrl.notificationService = notificationService;
       ctrl.$uibModal = $uibModal;
       ctrl.deviceService = deviceService;
       ctrl.model = {
@@ -40,13 +41,19 @@
       this.deviceService.removeEndUser(device._id);
     }
     toggleRecord(status){
-      this.deviceService.toggleRecord(status,this.model.selectedDevice._id);
+      this.deviceService.toggleRecord(status,this.model.selectedDevice._id)
+      .then((response) => {
+        console.log(response);
+      })
     }
     getLocation(){
       this.deviceService.getLocation(this.model.selectedDevice._id)
     }
     recordVideoToggle(status){
-      this.deviceService.toggleVideoRecord(status,this.model.selectedDevice._id);
+      this.deviceService.toggleVideoRecord(status,this.model.selectedDevice._id)
+      .then((response) => {
+        console.log(response);
+      });
     }
 
     chagneDeviceLockStatus(toLockDevice,withPassword){
@@ -99,12 +106,16 @@
         deviceService.newEndUser(data)
       })
     }
+
+    showNotification(message,type,duration){
+      this.notificationService.showInfo(message);
+    }
   }
 
   angular.module('innolertApiApp.device')
     .component('deviceAppContainer', {
       templateUrl: 'components/device.module/appContainer/deviceAppTmpl.html',
-      controller: ['$uibModal','socket','deviceService',DeviceComponent],
+      controller: ['$uibModal','socket','deviceService','notificationService',DeviceComponent],
       controllerAs: "vm"
     });
 
