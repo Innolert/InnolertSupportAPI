@@ -69,7 +69,7 @@ export function index(req, res) {
       .catch(handleError(res));
   }
   else {
-    EndUser.find({ parentUser: req.user._id }).exec()
+    return EndUser.find({ parentUser: req.user._id }).exec()
       .then(function(endUsers) {
         return AppEvent.find({ author: { $in: _.map(endUsers, '_id') } }).exec()
           .then(respondWithResult(res))
@@ -88,9 +88,9 @@ export function show(req, res) {
       .catch(handleError(res));
   }
   else {
-    EndUser.find({ parentUser: req.user._id }).exec()
+    return EndUser.find({ parentUser: req.user._id }).exec()
       .then(function(endUsers) {
-        return AppEvent.find({ _id: req.params.id, author: { $in: _.map(endUsers, '_id') } }).exec()
+        return AppEvent.findOne({ _id: req.params.id, author: { $in: _.map(endUsers, '_id') } }).exec()
           .then(respondWithResult(res))
           .catch(handleError(res));
       })
