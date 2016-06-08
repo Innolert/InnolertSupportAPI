@@ -39,15 +39,15 @@ export function index(req, res) {
 export function updateFCMToken(req,res){
   return User.find({ _id: req.user._id})
         .then((user) => {
-          if(!user.devices){
+          if(!user.devices)
             user.devices = [];
-            user.devices.push({privateTokens: {fcm: req.body.fcm}});
-          }
-          else{
-            if(req.body.imei){
-              console.log("Going to update device");
-            }
-          }
+          user.devices.push({privateTokens: {fcm: req.body.fcm}});
+          // }
+          // else{
+          //   if(req.body.imei){
+          //     console.log("Going to update device");
+          //   }
+          // }
           return user.save()
                 .then((updated) => {
                   return updated
