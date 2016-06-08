@@ -13,7 +13,7 @@ var UserSchema = new Schema({
     type: String,
     lowercase: true
   },
-  device: [{
+  devices: [{
     brand: String,
     id: String,
     imei: String,
