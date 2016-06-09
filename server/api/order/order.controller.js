@@ -14,7 +14,7 @@ import _ from 'lodash';
 import Order from './order.model';
 import fs from 'fs';
 var FCM2 = require('fcm-node');
-var serverKey = '';
+var serverKey = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8')).fcm;
 var fcm2 = new FCM(serverKey);
 var FCM = require('fcm').FCM,
     fcm = new FCM(JSON.parse(fs.readFileSync('../apis.key.json', 'utf8')).fcm);
