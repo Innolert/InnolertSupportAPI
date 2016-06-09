@@ -19,7 +19,7 @@ var UserSchema = new Schema({
     imei: String,
     privateTokens :{
       fcm : String
-    },
+    }
   }],
   role: {
     type: String,

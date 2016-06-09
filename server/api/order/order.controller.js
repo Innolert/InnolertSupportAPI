@@ -123,10 +123,10 @@ export function create(req, res) {
             'data.additionalData': req.body.additionalData ? req.body.additionalData : []
         };
         if(deviceIsAbleToGetOperation(device,req.body.message)){
-          console.log("The device is able to receive this message");
+          console.log("The device is able to receive this message" , messages);
           fcm.send(message, function(err, messageId){
               if (err) {
-                  console.log("Something has gone wrong!");
+                  console.log("Something has gone wrong!" , + err);
               } else {
                   console.log("Sent with message ID: ", messageId);
               }
