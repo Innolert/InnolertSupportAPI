@@ -122,7 +122,7 @@ export function create(req, res) {
             'data.additionalData': req.body.additionalData ? req.body.additionalData : []
         };
         if(deviceIsAbleToGetOperation(device,req.body.message)){
-          console.log("Sending message to" , user , "with message " ,message );
+          console.log("Sending message to" , user.name , "with message " ,message );
           fcm.send(message, function(err, messageId){
               if (err) {
                   console.log("Something has gone wrong!" , + err);
