@@ -49,11 +49,11 @@ export function updateFCMToken(req, res){
   console.log(req.body);
   return User.findOne({ _id: req.user._id})
         .then((user) => {
-          console.log(user);
-          user.devices.push(req.body.privateTokens);
-          console.log(user);
-          return user.save()
-                .then(respondWithResult(res))
+          if(user.devices.indexOf(req.body.privateTokens) > -1){
+            user.devices.push(req.body.privateTokens);
+            return user.save()
+                  .then(respondWithResult(res))
+          }
         })
         .then(respondWithResult(res))
         .catch(handleError(res));
