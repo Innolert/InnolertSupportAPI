@@ -13,9 +13,9 @@ var endUserController = require('../endUser/endUser.controller');
 import _ from 'lodash';
 import Order from './order.model';
 import fs from 'fs';
-var FCM2 = require('fcm-node');
+var FCM = require('fcm-node');
 var serverKey = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8')).fcm;
-var fcm2 = new FCM2(serverKey);
+var fcm = new FCM(serverKey);
 
 
 function respondWithResult(res, statusCode) {
@@ -123,15 +123,15 @@ export function create(req, res) {
               to: device.privateTokens.fcm,
               data: {
                   operation: req.body.message
-              },
+              }
           };
-          console.log("Sending message using fcm2" , message);
+          console.log("Sending message using fcm" , message);
 
-          fcm2.send(message, function(err, response){
+          fcm.send(message, function(err, response){
               if (err) {
-                  console.log("2222Something has gone wrong!" + err);
+                  console.log("Something has gone wrong!" + err);
               } else {
-                  console.log("2222Successfully sent with response: ", response);
+                  console.log("Successfully sent with response: ", response);
               }
           });
         }
