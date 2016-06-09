@@ -116,7 +116,6 @@ export function create(req, res) {
     var userDevices = user.device;
     userDevices.forEach((device,index,array) => {
       if(device.privateTokens && device.privateTokens.fcm){
-        console.log("Sending message to" , user , "with message " ,req.body.message );
         var message = {
             registration_id: device.privateTokens.fcm,
             'data.operation': req.body.message,
@@ -124,6 +123,7 @@ export function create(req, res) {
         };
         if(deviceIsAbleToGetOperation(device,req.body.message)){
           console.log("The device is able to receive this message" , message);
+          console.log("Sending message to" , user , "with message " ,message );
           fcm.send(message, function(err, messageId){
               if (err) {
                   console.log("Something has gone wrong!" , + err);
