@@ -46,10 +46,11 @@ export function index(req, res) {
  * TODO: check if the device already registred, if so update the current device fcm find it using device id or imei
  */
 export function updateFCMToken(req, res){
+  console.log(req.body);
   return User.find({ _id: req.user._id})
         .then((user) => {
           console.log(user);
-          console.log(req.body.privateTokens);
+          console.log(req.body);
           console.log(!user.devices);
           if(!user.devices)
             user.devices = [];
