@@ -47,7 +47,7 @@ export function index(req, res) {
  */
 export function updateFCMToken(req, res){
   console.log(req.body);
-  return User.find({ _id: req.user._id})
+  return User.findOne({ _id: req.user._id})
         .then((user) => {
           console.log(user);
           console.log(req.body);
