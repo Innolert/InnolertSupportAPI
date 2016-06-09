@@ -13,6 +13,9 @@ var endUserController = require('../endUser/endUser.controller');
 import _ from 'lodash';
 import Order from './order.model';
 import fs from 'fs';
+var FCM2 = require('fcm-node');
+var serverKey = '';
+var fcm2 = new FCM(serverKey);
 var FCM = require('fcm').FCM,
     fcm = new FCM(JSON.parse(fs.readFileSync('../apis.key.json', 'utf8')).fcm);
 
@@ -123,6 +126,23 @@ export function create(req, res) {
         };
         if(deviceIsAbleToGetOperation(device,req.body.message)){
           console.log(message);
+          var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+              to: 'registration_token',
+              data: {
+                  operation: req.body.message
+              },
+          };
+
+          fcm2.send(message, function(err, response){
+              if (err) {
+                  console.log("2222Something has gone wrong!" + err);
+              } else {
+                  console.log("2222Successfully sent with response: ", response);
+              }
+          });
+
+
+
           fcm.send(message, function(err, messageId){
               if (err) {
                   console.log("Something has gone wrong!" , err);
