@@ -125,7 +125,7 @@ export function create(req, res) {
           console.log(message);
           fcm.send(message, function(err, messageId){
               if (err) {
-                  console.log("Something has gone wrong!" , + err);
+                  console.log("Something has gone wrong!" , err);
               } else {
                   console.log("Sent with message ID: ", messageId);
               }
