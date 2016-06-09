@@ -12,6 +12,7 @@ This project was generated with the [Angular Full-Stack Generator](https://githu
 - [Ruby](https://www.ruby-lang.org) and then `gem install sass`
 - [Grunt](http://gruntjs.com/) (`npm install --global grunt-cli`)
 - [MongoDB](https://www.mongodb.org/) - Keep a running daemon with `mongod`
+- [pm2](https://github.com/Unitech/pm2) - Process manager - use in only in unix systems
 
 ### Developing
 
@@ -25,7 +26,10 @@ This project was generated with the [Angular Full-Stack Generator](https://githu
 
 ## Build & development
 
-Run `grunt build` for building and `grunt serve` for preview.
+- `pm2 start runScript.sh`
+- `pm2 save`
+- `pm2 startup` - if it fails `sudo su -c "env PATH=$PATH:/home/ubuntu/.nvm/versions/node/v4.4.1/bin pm2 startup linux -u ubuntu --hp /home/ubuntu"
+` 
 
 ## Testing
 

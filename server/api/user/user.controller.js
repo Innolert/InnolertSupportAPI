@@ -20,6 +20,15 @@ function handleError(res, statusCode) {
   };
 }
 
+function respondWithResult(res, statusCode) {
+    statusCode = statusCode || 200;
+    return function(entity) {
+        if (entity) {
+            res.status(statusCode).json(entity);
+        }
+    };
+}
+
 /**
  * Get list of users
  * restriction: 'admin'
@@ -36,24 +45,16 @@ export function index(req, res) {
  * Update details about the user like fcm
  * TODO: check if the device already registred, if so update the current device fcm find it using device id or imei
  */
-export function updateFCMToken(req,res){
-  return User.find({ _id: req.user._id})
+export function updateFCMToken(req, res){
+  return User.findOne({ _id: req.user._id})
         .then((user) => {
-          console.log(user);
-          if(!user.devices)
-            user.devices = [];
-          user.devices.push({privateTokens: {fcm: req.body.fcm}});
-          // }
-          // else{
-          //   if(req.body.imei){
-          //     console.log("Going to update device");
-          //   }
-          // }
-          return user.save()
-                .then((updated) => {
-                  return updated
-                })
+          if(!_.includes(user.devices, req.privateTokens)){
+            user.devices.push({privateTokens: {fcm : req.body.privateTokens.fcm}} );
+            return user.save()
+                  .then(respondWithResult(res))
+          }
         })
+        .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
