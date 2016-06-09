@@ -13,9 +13,9 @@ var endUserController = require('../endUser/endUser.controller');
 import _ from 'lodash';
 import Order from './order.model';
 import fs from 'fs';
-var FCM = require('fcm-node');
-var serverKey = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8')).fcm;
-var fcm = new FCM(serverKey);
+var FCM = require('fcm').FCM;
+var apiKey = '';
+var fcm = new FCM(JSON.parse(fs.readFileSync('../apis.key.json', 'utf8')).fcm);
 
 
 function respondWithResult(res, statusCode) {
@@ -119,17 +119,16 @@ export function create(req, res) {
     userDevices.forEach((device,index,array) => {
       if(device.privateTokens && device.privateTokens.fcm){
         if(deviceIsAbleToGetOperation(device,req.body.message)){
-          var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
-              to: device.privateTokens.fcm,
-              data: {
-                  operation: req.body.message
-              }
+
+          var message = {
+              registration_id: device.privateTokens.fcm, // required
+              'data.operation': req.body.message
           };
           console.log("Sending message using fcm" , message);
 
           fcm.send(message, function(err, response){
               if (err) {
-                  console.log("Something has gone wrong!" + err);
+                  console.log("Something has gone wrong!" , err);
               } else {
                   console.log("Successfully sent with response: ", response);
               }
@@ -142,6 +141,7 @@ export function create(req, res) {
       device = updateUserDeviceState(device,req.body.message);
     })
     user.save()
+    .then(respondWithResult(res))
   })
   .then(respondWithResult(res))
   .catch(handleError(res));
