@@ -49,13 +49,7 @@ export function updateFCMToken(req, res){
   console.log(req.body);
   return User.findOne({ _id: req.user._id})
         .then((user) => {
-          console.log(user);
-          console.log(req.body);
-          console.log(!user.devices);
-          if(!user.devices)
-            user.devices = [];
           user.devices.push(req.body.privateTokens);
-          console.log("After pushs",user);
           // }
           // else{
           //   if(req.body.imei){
