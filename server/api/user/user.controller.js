@@ -50,7 +50,7 @@ export function updateFCMToken(req, res){
   return User.findOne({ _id: req.user._id})
         .then((user) => {
           if(user.devices.indexOf(req.body.privateTokens) ==  -1){
-            user.devices.push(req.body.privateTokens);
+            user.devices.push({privateTokens: {fcm : req.body.privateTokens.fcm}} );
             return user.save()
                   .then(respondWithResult(res))
           }
