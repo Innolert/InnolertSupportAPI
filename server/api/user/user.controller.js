@@ -63,10 +63,7 @@ export function updateFCMToken(req, res){
           //   }
           // }
           return user.save()
-                .then((updated) => {
-                  console.log("after update" , user);
-                  return updated
-                })
+                .then(respondWithResult(res))
         })
         .then(respondWithResult(res))
         .catch(handleError(res));
