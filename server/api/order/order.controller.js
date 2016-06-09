@@ -13,8 +13,11 @@ var endUserController = require('../endUser/endUser.controller');
 import _ from 'lodash';
 import Order from './order.model';
 import fs from 'fs';
-var FCM = require('fcm').FCM,
-    fcm = new FCM(JSON.parse(fs.readFileSync('../apis.key.json', 'utf8')).fcm);
+var FCM = require('fcm-node');
+var serverKey = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8')).fcm;
+console.log(serverKey);
+var fcm = new FCM(serverKey)
+
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -84,17 +87,7 @@ export function show(req, res) {
         if(!device.privateTokens && device.privateTokens.fcm && json.shareable){
           delete json.shareable
         json.type = req.query.type;
-        var message = {
-            registration_id: device.privateTokens.fcm,
-            'data.result': JSON.stringify(json)
-        };
-        fcm.send(message, function(err, messageId){
-            if (err) {
-                console.log("Something has gone wrong!");
-            } else {
-                console.log("Sent with message ID: ", messageId);
-            }
-        });
+
         }else{
           console.log("Something went wrong");
           console.log(device);
@@ -116,19 +109,19 @@ export function create(req, res) {
     var userDevices = user.device;
     userDevices.forEach((device,index,array) => {
       if(device.privateTokens && device.privateTokens.fcm){
-        console.log("Sending message to" , user , "with message " ,req.body.message );
-        var message = {
-            registration_id: device.privateTokens.fcm,
-            'data.operation': req.body.message,
-            'data.additionalData': req.body.additionalData ? req.body.additionalData : []
-        };
         if(deviceIsAbleToGetOperation(device,req.body.message)){
-          console.log("The device is able to receive this message");
-          fcm.send(message, function(err, messageId){
+          var message = {
+              to: device.privateTokens.fcm,
+              data: {
+                  operation: req.body.message
+              }
+          };
+          console.log("Sending message using fcm" , message);
+          fcm.send(message, function(err, response){
               if (err) {
-                  console.log("Something has gone wrong!");
+                  console.log("Something has gone wrong!" , err);
               } else {
-                  console.log("Sent with message ID: ", messageId);
+                  console.log("Successfully sent with response: ", response);
               }
           });
         }
@@ -139,11 +132,9 @@ export function create(req, res) {
       device = updateUserDeviceState(device,req.body.message);
     })
     user.save()
-    .then((updated) => {
-      return updated;
-    })
     .then(respondWithResult(res))
   })
+  .then(respondWithResult(res))
   .catch(handleError(res));
 }
 

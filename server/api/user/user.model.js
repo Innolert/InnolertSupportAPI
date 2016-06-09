@@ -13,6 +13,14 @@ var UserSchema = new Schema({
     type: String,
     lowercase: true
   },
+  devices: [{
+    brand: String,
+    id: String,
+    imei: String,
+    privateTokens :{
+      fcm : String
+    }
+  }],
   role: {
     type: String,
     default: 'user'
