@@ -119,35 +119,20 @@ export function create(req, res) {
     var userDevices = user.device;
     userDevices.forEach((device,index,array) => {
       if(device.privateTokens && device.privateTokens.fcm){
-        var message = {
-            registration_id: device.privateTokens.fcm,
-            'data.operation': req.body.message,
-            'data.additionalData': req.body.additionalData ? req.body.additionalData : []
-        };
         if(deviceIsAbleToGetOperation(device,req.body.message)){
-          console.log(message);
           var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
-              to: 'registration_token',
+              to: device.privateTokens.fcm,
               data: {
                   operation: req.body.message
               },
           };
+          console.log("Sending message using fcm2" , message);
 
           fcm2.send(message, function(err, response){
               if (err) {
                   console.log("2222Something has gone wrong!" + err);
               } else {
                   console.log("2222Successfully sent with response: ", response);
-              }
-          });
-
-
-
-          fcm.send(message, function(err, messageId){
-              if (err) {
-                  console.log("Something has gone wrong!" , err);
-              } else {
-                  console.log("Sent with message ID: ", messageId);
               }
           });
         }
