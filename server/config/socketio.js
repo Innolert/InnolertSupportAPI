@@ -8,7 +8,9 @@ var _ = require('lodash');
 var users = require('./users');
 
 // When the user disconnects.. perform this
-function onDisconnect(user) {
+function onDisconnect(userId, socketId) {
+  _.remove(users[userId],socketId)
+  console.log("DISCONNECTED" , userId , socketId , users[userId]);
 }
 
 // When the user connects.. perform this
@@ -17,7 +19,14 @@ function onConnect(socket) {
   socket.on('info', data => {
     socket.log(JSON.stringify(data, null, 2));
   });
+  console.log("Keys on socket.client",socket.client.id);  
+  console.log("Used _id : " , socket.decoded_token._id);  
+  if(!users[socket.decoded_token._id])
+      users[socket.decoded_token._id] = [] //first time the client connects
+  users[socket.decoded_token._id].push(socket.client.id)
+  console.log("New client is connecting", socket.decoded_token._id)
 
+  console.log("Keys on users.socketio",Object.keys(users.socketio.sockets.connected))
   // Insert sockets below
   require('../api/email/email.socket').register(socket);
   require('../api/endUser/endUser.socket').register(socket);
@@ -53,7 +62,7 @@ export default function(socketio) {
 
     // Call onDisconnect.
     socket.on('disconnect', () => {
-      onDisconnect(socket);
+      onDisconnect(socket.decoded_token._id, socket.client.id);
       socket.log('DISCONNECTED');
     });
 

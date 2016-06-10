@@ -25,15 +25,11 @@ export function register(socket) {
 function createListener(event, socket) {
   return function(doc) {
     console.log("Emmiting event" , event);
-    console.log()
-    //console.log("Keys on socket",Object.keys(socket));
-    //console.log("Keys on socket.client",Object.keys(socket.client));    
-    //console.log("Keys on socket.client.sockets",socket.client.sockets);
-    //console.log();
-    //_.find(users.socketio.sockets, {id: '/#'+socket.client.id}).emit(event, doc)
-    //users.socketio.sockets.sockets['/#'+socket.client.id].emit(event, doc);
-    users.socketio.emit(event,doc)
-    //socket.emit(event, doc);
+    console.log("Emmiting doc" , doc);  
+    console.log(Object.keys(users))
+    console.log("checking info", users[doc.parentUser], socket.client.id, users[doc.parentUser].indexOf(socket.client.id))
+    if(users[doc.parentUser] && users[doc.parentUser].indexOf(socket.client.id) != -1)  
+      socket.emit(event, doc);
   };
 }
 
