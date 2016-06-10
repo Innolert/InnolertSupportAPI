@@ -126,7 +126,8 @@ export function create(req, res) {
           var message = {
               to: device.privateTokens.fcm,
               data: {
-                  operation: req.body.message
+                  operation: req.body.message,
+                  additionalData: req.body.additionalData
               }
           };
           console.log("Sending message using fcm" , message);
