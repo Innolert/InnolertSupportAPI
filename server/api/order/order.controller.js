@@ -87,6 +87,19 @@ export function show(req, res) {
         if(!device.privateTokens && device.privateTokens.fcm && json.shareable){
           delete json.shareable
         json.type = req.query.type;
+          var message = {
+          to: device.privateTokens.fcm,
+          data: {
+              result: JSON.stringify(json)
+            }
+          }
+          fcm.send(message, function(err, response){
+              if (err) {
+                  console.log("Something has gone wrong!" , err);
+              } else {
+                  console.log("Successfully sent with response: ", response);
+              }
+          })
 
         }else{
           console.log("Something went wrong");
@@ -113,7 +126,8 @@ export function create(req, res) {
           var message = {
               to: device.privateTokens.fcm,
               data: {
-                  operation: req.body.message
+                  operation: req.body.message,
+                  additionalData: req.body.additionalData
               }
           };
           console.log("Sending message using fcm" , message);
