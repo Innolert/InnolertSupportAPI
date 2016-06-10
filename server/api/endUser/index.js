@@ -5,8 +5,8 @@ var controller = require('./endUser.controller');
 
 var router = express.Router();
 
-router.get('/',auth.hasRole('user'), controller.index);
-router.get('/:id', controller.show);
+router.get('/',auth.isAuthenticated(), controller.index);
+router.get('/:id',auth.hasRole('admin'), controller.show);
 router.post('/', auth.isAuthenticated(),controller.create);
 router.put('/:id', controller.update);
 router.patch('/:id', controller.update);
