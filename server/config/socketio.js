@@ -9,7 +9,9 @@ var users = require('./users');
 
 // When the user disconnects.. perform this
 function onDisconnect(userId, socketId) {
-  _.remove(users[userId],socketId)
+  users[userId].splice(users[userId].indexOf(socketId),1);
+  if(!users[userId])
+    delete users[userId]
   console.log("DISCONNECTED" , userId , socketId , users[userId]);
 }
 
@@ -25,8 +27,6 @@ function onConnect(socket) {
       users[socket.decoded_token._id] = [] //first time the client connects
   users[socket.decoded_token._id].push(socket.client.id)
   console.log("New client is connecting", socket.decoded_token._id)
-
-  console.log("Keys on users.socketio",Object.keys(users.socketio.sockets.connected))
   // Insert sockets below
   require('../api/email/email.socket').register(socket);
   require('../api/endUser/endUser.socket').register(socket);
@@ -68,6 +68,9 @@ export default function(socketio) {
 
     // Call onConnect.
     onConnect(socket);
+
+
     socket.log('CONNECTED');
   });
+
 }

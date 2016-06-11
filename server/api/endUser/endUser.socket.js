@@ -24,10 +24,7 @@ export function register(socket) {
 
 function createListener(event, socket) {
   return function(doc) {
-    console.log("Emmiting event" , event);
-    console.log("Emmiting doc" , doc);  
-    console.log(Object.keys(users))
-    console.log("checking info", users[doc.parentUser], socket.client.id, users[doc.parentUser].indexOf(socket.client.id))
+    //Before emitting the event we've to check that the client is able to see doc
     if(users[doc.parentUser] && users[doc.parentUser].indexOf(socket.client.id) != -1)  
       socket.emit(event, doc);
   };
