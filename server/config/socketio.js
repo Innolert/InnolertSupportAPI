@@ -5,7 +5,7 @@
 
 import config from './environment';
 var _ = require('lodash');
-var users = require('./users');
+var users = require('./socketio.connections');
 
 // When the user disconnects.. perform this
 function onDisconnect(userId, socketId) {
@@ -46,7 +46,7 @@ export default function(socketio) {
   // 1. You will need to send the token in `client/components/socket/socket.service.js`
   //
   // 2. Require authentication here:
-  require('./users').socketio = socketio;
+  require('./socketio.connections').socketio = socketio;
    socketio.use(require('socketio-jwt').authorize({
      secret: config.secrets.session,
      handshake: true

@@ -3,7 +3,7 @@
  */
 
 'use strict';
-var users = require('../../config/users');
+var users = require('../../config/socketio.connections');
 var _ = require('lodash');
 import EndUserEvents from './endUser.events';
 
