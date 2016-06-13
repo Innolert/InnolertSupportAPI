@@ -5,7 +5,7 @@ import passport from 'passport';
 import config from '../../config/environment';
 var emailController = require(__base + '/api/email/email.controller');
 import jwt from 'jsonwebtoken';
-var _ = require('lodash');
+import _ from 'lodash';
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;

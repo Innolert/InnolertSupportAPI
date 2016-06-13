@@ -13,6 +13,7 @@ var endUserController = require('../endUser/endUser.controller');
 import _ from 'lodash';
 import Order from './order.model';
 import fs from 'fs';
+const fcmSender = require('../../components/fcm.sender');
 var FCM = require('fcm-node');
 var serverKey = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8')).fcm;
 console.log(serverKey);
@@ -130,14 +131,15 @@ export function create(req, res) {
                   additionalData: req.body.additionalData
               }
           };
+          fcmSender.default(message);
           console.log("Sending message using fcm" , message);
-          fcm.send(message, function(err, response){
-              if (err) {
-                  console.log("Something has gone wrong!" , err);
-              } else {
-                  console.log("Successfully sent with response: ", response);
-              }
-          });
+          // fcm.send(message, function(err, response){
+          //     if (err) {
+          //         console.log("Something has gone wrong!" , err);
+          //     } else {
+          //         console.log("Successfully sent with response: ", response);
+          //     }
+          // });
         }
         else{
               res.status(200).send("The device is busy");
