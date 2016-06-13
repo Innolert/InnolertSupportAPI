@@ -57,9 +57,7 @@ export function updateFCMToken(req, res){
                   })
                   .then(respondWithResult(res))
           }
-          else{
-            console.log("No need to update again");
-          }
+          return
         })
         .then(respondWithResult(res))
         .catch(handleError(res));
