@@ -9,26 +9,16 @@ export function sendWithMessage(message){
   send(message);
 }
 
-//data shlold be an object
-export function sendWithRegistrationIdAndData(registrationId, data){
-  if( !data instanceof Object)
-    throw "Data must be an object" ;
-  //TODO - oleg : if the registrationId is an array we should throw an error
-  var message = {
-      to: registrationId,
-      data: data
-  };
-  send(message)
-}
 
 export function sendToUserIdMessage(userId, docToSend){
-  console.log("In sendToUserIdMessage" , userId , docToSend);
   User.findById(userId)
   .then(user => {
       user.devices.forEach((device, index, array) => {
-        let message = {
+        var message = {
           to: device.privateTokens.fcm,
-          data: "Update"
+          data: {
+            isUser: true
+          }
         };
         send(message);
       })
