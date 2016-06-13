@@ -23,10 +23,15 @@ export function sendWithRegistrationIdAndData(registrationId, data){
 
 export function sendToUserIdMessage(userId, docToSend){
   console.log("In sendToUserIdMessage" , userId , docToSend);
-  console.log(User);
   User.findById(userId)
   .then(user => {
-    console.log(user);
+      user.devices.forEach((device, index, array) => {
+        let message = {
+          to: device.privateTokens.fcm,
+          data: JSON.stringify(docToSend)
+        };
+        send(message);
+      })
   })
 }
 
