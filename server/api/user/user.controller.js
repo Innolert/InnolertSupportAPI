@@ -52,7 +52,6 @@ export function updateFCMToken(req, res){
           if(!_.some(user.devices, req.privateTokens)){
             user.devices.push({privateTokens: {fcm : req.body.privateTokens.fcm}} );
             return user.save()
-                  .then(respondWithResult(res))
           }
         })
         .then(respondWithResult(res))
