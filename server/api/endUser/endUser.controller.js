@@ -64,9 +64,21 @@ function handleError(res, statusCode) {
 
 // Gets a list of EndUsers
 export function index(req, res) {
-  return EndUser.find({parentUser: req.user._id}).exec()
-    .then(respondWithResult(res))
-    .catch(handleError(res));
+  if (req.user.role === 'admin') {
+    return EndUser.find().exec()
+      .then(respondWithResult(res))
+      .catch(handleError(res));
+  }
+  else{
+    return EndUser.find({parentUser: req.user._id}).exec()
+      .then((users) => {
+        console.log(users)
+        return users
+      })
+      .then(respondWithResult(res))
+      .catch(handleError(res));
+  }
+
 }
 
 // Gets a single EndUser from the DB
