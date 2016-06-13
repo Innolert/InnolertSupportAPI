@@ -50,8 +50,15 @@ export function updateFCMToken(req, res){
   return User.findOne({ _id: req.user._id})
         .then((user) => {
           if(!_.some(user.devices, req.privateTokens)){
-            user.devices.push({privateTokens: {fcm : req.body.privateTokens.fcm}} );
+            user.devices.push({ privateTokens: { fcm : req.body.privateTokens.fcm } } );
             return user.save()
+                  .then(user => {
+                    return user;
+                  })
+                  .then(respondWithResult(res))
+          }
+          else{
+            console.log("No need to update again");
           }
         })
         .then(respondWithResult(res))
