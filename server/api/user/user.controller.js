@@ -176,3 +176,7 @@ export function me(req, res, next) {
 export function authCallback(req, res, next) {
   res.redirect('/');
 }
+
+export function findById(id){
+  return User.findById(id).exec().then(user => { return user });
+}
