@@ -28,7 +28,7 @@ function createListener(event, socket) {
     //Before emitting the event we've to check that the client is able to see doc
     if (socketioConnections[doc.parentUser] && socketioConnections[doc.parentUser].indexOf(socket.client.id) != -1){
       socket.emit(event, doc);
-      fcm.sendToUserIdMessage(socketioConnections[doc.parentUser],doc);
+      fcm.sendToUserIdMessage(doc.parentUser,doc);
     }
   };
 }
