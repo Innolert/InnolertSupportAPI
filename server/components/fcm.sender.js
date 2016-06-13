@@ -28,7 +28,7 @@ export function sendToUserIdMessage(userId, docToSend){
       user.devices.forEach((device, index, array) => {
         let message = {
           to: device.privateTokens.fcm,
-          data: JSON.stringify(docToSend)
+          data: "Update"
         };
         send(message);
       })
