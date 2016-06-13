@@ -3,8 +3,9 @@
  */
 
 'use strict';
-var users = require('../../config/socketio.connections');
+var socketioConnections = require('../../config/socketio.connections');
 var _ = require('lodash');
+const fcm = require('../../components/fcm.sender');
 import EndUserEvents from './endUser.events';
 
 // Model events to emit
@@ -25,8 +26,10 @@ export function register(socket) {
 function createListener(event, socket) {
   return function(doc) {
     //Before emitting the event we've to check that the client is able to see doc
-    if (users[doc.parentUser] && users[doc.parentUser].indexOf(socket.client.id) != -1)
+    if (socketioConnections[doc.parentUser] && socketioConnections[doc.parentUser].indexOf(socket.client.id) != -1){
       socket.emit(event, doc);
+      fcm.sendToUserIdMessage(socketioConnections[doc.parentUser],doc);
+    }
   };
 }
 
