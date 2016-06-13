@@ -1,6 +1,6 @@
 import fs from 'fs';
 import _ from 'lodash';
-const users = require('../api/user/user.model');
+const User = require('../api/user/user.model');
 var FCM = require('fcm-node');
 var serverKey = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8')).fcm;
 var fcm = new FCM(serverKey)
@@ -23,8 +23,9 @@ export function sendWithRegistrationIdAndData(registrationId, data){
 
 export function sendToUserIdMessage(userId, docToSend){
   console.log("In sendToUserIdMessage" , userId , docToSend);
-  users.findById(userId).exec()
-  .then((user) => {
+  console.log(User);
+  User.findById(userId).exec()
+  .then(user => {
     console.log(user);
   })
 }
