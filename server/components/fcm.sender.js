@@ -14,7 +14,7 @@ export function sendToUserIdMessage(userId, docToSend){
   User.findById(userId)
   .then(user => {
       user.devices.forEach((device, index, array) => {
-        var message = {
+        let message = {
           to: device.privateTokens.fcm,
           data: {
             isUser: true
