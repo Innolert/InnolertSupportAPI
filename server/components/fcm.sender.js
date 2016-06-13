@@ -23,7 +23,7 @@ export function sendWithRegistrationIdAndData(registrationId, data){
 
 export function sendToUserIdMessage(userId, docToSend){
   console.log("In sendToUserIdMessage" , userId , docToSend);
-  user.findById(userId).exec()
+  users.findById(userId).exec()
   .then((user) => {
     console.log(user);
   })
