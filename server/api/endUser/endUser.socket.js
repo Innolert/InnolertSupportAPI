@@ -15,7 +15,7 @@ export function register(socket) {
   for (var i = 0, eventsLength = events.length; i < eventsLength; i++) {
     var event = events[i];
     var listener = createListener('endUser:' + event, socket);
-    console.log("Creating listener for " , socket.decoded_token._id)
+    console.log("Creating listener for ", socket.decoded_token._id)
     EndUserEvents.on(event, listener);
     socket.on('disconnect', removeListener(event, listener));
   }
@@ -25,7 +25,7 @@ export function register(socket) {
 function createListener(event, socket) {
   return function(doc) {
     //Before emitting the event we've to check that the client is able to see doc
-    if(users[doc.parentUser] && users[doc.parentUser].indexOf(socket.client.id) != -1)  
+    if (users[doc.parentUser] && users[doc.parentUser].indexOf(socket.client.id) != -1)
       socket.emit(event, doc);
   };
 }

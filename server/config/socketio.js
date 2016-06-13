@@ -5,14 +5,13 @@
 
 import config from './environment';
 var _ = require('lodash');
-var users = require('./socketio.connections');
+var socketioConnections = require('./socketio.connections');
 
 // When the user disconnects.. perform this
 function onDisconnect(userId, socketId) {
-  users[userId].splice(users[userId].indexOf(socketId),1);
-  if(!users[userId])
-    delete users[userId]
-  console.log("DISCONNECTED" , userId , socketId , users[userId]);
+  socketioConnections[userId].splice(socketioConnections[userId].indexOf(socketId), 1);
+  if (!socketioConnections[userId])
+    delete socketioConnections[userId]
 }
 
 // When the user connects.. perform this
@@ -21,13 +20,10 @@ function onConnect(socket) {
   socket.on('info', data => {
     socket.log(JSON.stringify(data, null, 2));
   });
-  console.log("Keys on socket.client",socket.client.id);  
-  console.log("Used _id : " , socket.decoded_token._id);  
-  if(!users[socket.decoded_token._id])
-      users[socket.decoded_token._id] = [] //first time the client connects
-  users[socket.decoded_token._id].push(socket.client.id)
-  console.log("New client is connecting", socket.decoded_token._id)
-  // Insert sockets below
+  if (!socketioConnections[socket.decoded_token._id])
+    socketioConnections[socket.decoded_token._id] = [] //first time the client connects
+  socketioConnections[socket.decoded_token._id].push(socket.client.id)
+    // Insert sockets below
   require('../api/email/email.socket').register(socket);
   require('../api/endUser/endUser.socket').register(socket);
   require('../api/reportedItem/reportedItem.socket').register(socket);
@@ -41,16 +37,16 @@ export default function(socketio) {
   //
   // ex: DEBUG: "http*,socket.io:socket"
 
-  // We can authenticate socket.io users and access their token through socket.decoded_token
+  // We can authenticate socket.io socketioConnections and access their token through socket.decoded_token
   //
   // 1. You will need to send the token in `client/components/socket/socket.service.js`
   //
   // 2. Require authentication here:
   require('./socketio.connections').socketio = socketio;
-   socketio.use(require('socketio-jwt').authorize({
-     secret: config.secrets.session,
-     handshake: true
-   }));
+  socketio.use(require('socketio-jwt').authorize({
+    secret: config.secrets.session,
+    handshake: true
+  }));
 
   socketio.on('connection', function(socket) {
     socket.address = socket.request.connection.remoteAddress +
