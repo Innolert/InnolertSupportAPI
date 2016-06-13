@@ -50,8 +50,8 @@ export function updateFCMToken(req, res){
         .then((user) => {
           if(!_.includes(user.devices, req.privateTokens)){
             user.devices.push({privateTokens: {fcm : req.body.privateTokens.fcm}} );
-            return user.save()
-                  .then(respondWithResult(res))
+            user.save()
+            .then(respondWithResult(res))
           }
         })
         .then(respondWithResult(res))
