@@ -57,7 +57,7 @@ export function updateFCMToken(req, res){
                   })
                   .then(respondWithResult(res))
           }
-          return
+          return user;
         })
         .then(respondWithResult(res))
         .catch(handleError(res));
