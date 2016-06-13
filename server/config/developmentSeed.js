@@ -23,6 +23,20 @@ User.find({}).remove()
       email: 'admin@example.com',
       password: 'admin',
       isVerified: true
+    },
+    {
+      provider: 'local',
+      name: 'Test User',
+      email: 'oleg2807@gmail.com',
+      password: 'izumrud88',
+      isVerified: true
+    },
+    {
+      provider: 'local',
+      name: 'Test User',
+      email: 'max@gmail.com',
+      password: 'test',
+      isVerified: true
     })
     .then(() => {
       console.log('finished populating users');
