@@ -72,7 +72,6 @@ export function index(req, res) {
   else{
     return EndUser.find({parentUser: req.user._id}).exec()
       .then((users) => {
-        console.log(users)
         return users
       })
       .then(respondWithResult(res))

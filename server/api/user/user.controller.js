@@ -5,6 +5,7 @@ import passport from 'passport';
 import config from '../../config/environment';
 var emailController = require(__base + '/api/email/email.controller');
 import jwt from 'jsonwebtoken';
+import _ from 'lodash';
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
@@ -48,11 +49,16 @@ export function index(req, res) {
 export function updateFCMToken(req, res){
   return User.findOne({ _id: req.user._id})
         .then((user) => {
-          if(!_.includes(user.devices, req.privateTokens)){
-            user.devices.push({privateTokens: {fcm : req.body.privateTokens.fcm}} );
+          console.log(user.devices,req.body.privateTokens);
+          if(!_.some(user.devices, req.body.privateTokens)){
+            user.devices.push({ privateTokens: { fcm : req.body.privateTokens.fcm } } );
             return user.save()
+                  .then(user => {
+                    return user;
+                  })
                   .then(respondWithResult(res))
           }
+          return user;
         })
         .then(respondWithResult(res))
         .catch(handleError(res));
@@ -174,4 +180,8 @@ export function me(req, res, next) {
  */
 export function authCallback(req, res, next) {
   res.redirect('/');
+}
+
+export function findById(id){
+  return User.findById(id).exec().then(user => { return user });
 }

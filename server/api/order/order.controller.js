@@ -13,6 +13,7 @@ var endUserController = require('../endUser/endUser.controller');
 import _ from 'lodash';
 import Order from './order.model';
 import fs from 'fs';
+const fcmSender = require('../../components/fcm.sender');
 var FCM = require('fcm-node');
 var serverKey = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8')).fcm;
 console.log(serverKey);
@@ -76,33 +77,23 @@ export function index(req, res) {
 
 // Gets a single Order from the DB
 export function show(req, res) {
-  // return res.status(200).json()
-  // return res.status(200).json(req.query.type)
-  // res.status(200).json({test:123});
   EndUser.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
-    .then(function(user){
+    .then(function(user) {
       var json = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8'))[req.query.type];
       var userDevices = user.device;
-      userDevices.forEach((device,index,array) => {
-        if(!device.privateTokens && device.privateTokens.fcm && json.shareable){
+      userDevices.forEach((device, index, array) => {
+        if (device.privateTokens && device.privateTokens.fcm && json.shareable) {
           delete json.shareable
-        json.type = req.query.type;
+          json.type = req.query.type;
           var message = {
-          to: device.privateTokens.fcm,
-          data: {
+            to: device.privateTokens.fcm,
+            data: {
               result: JSON.stringify(json)
             }
           }
-          fcm.send(message, function(err, response){
-              if (err) {
-                  console.log("Something has gone wrong!" , err);
-              } else {
-                  console.log("Successfully sent with response: ", response);
-              }
-          })
-
-        }else{
+          fcmSender.sendWithMessage(message);
+        } else {
           console.log("Something went wrong");
           console.log(device);
           console.log(json);
@@ -117,40 +108,34 @@ export function show(req, res) {
 export function create(req, res) {
   var parent = req.user._id;
   //TO-DO : verify req.body.message is authorized key word
-  EndUser.findOne({parentUser: req.user._id , _id : req.body.endUser})
-  .exec()
-  .then((user) => {
-    var userDevices = user.device;
-    userDevices.forEach((device,index,array) => {
-      if(device.privateTokens && device.privateTokens.fcm){
-        if(deviceIsAbleToGetOperation(device,req.body.message)){
-          var message = {
+  EndUser.findOne({
+      parentUser: req.user._id,
+      _id: req.body.endUser
+    })
+    .exec()
+    .then((user) => {
+      var userDevices = user.device;
+      userDevices.forEach((device, index, array) => {
+        if (device.privateTokens && device.privateTokens.fcm) {
+          if (deviceIsAbleToGetOperation(device, req.body.message)) {
+            var message = {
               to: device.privateTokens.fcm,
               data: {
-                  operation: req.body.message,
-                  additionalData: req.body.additionalData
+                operation: req.body.message,
+                additionalData: req.body.additionalData
               }
-          };
-          console.log("Sending message using fcm" , message);
-          fcm.send(message, function(err, response){
-              if (err) {
-                  console.log("Something has gone wrong!" , err);
-              } else {
-                  console.log("Successfully sent with response: ", response);
-              }
-          });
+            };
+            fcmSender.sendWithMessage(message);
+          } else {
+            res.status(200).send("The device is busy");
+          }
         }
-        else{
-              res.status(200).send("The device is busy");
-        }
-      }
-      device = updateUserDeviceState(device,req.body.message);
+        device = updateUserDeviceState(device, req.body.message);
+      })
+      user.save()
+        .then(respondWithResult(res))
     })
-    user.save()
-    .then(respondWithResult(res))
-  })
-  .then(respondWithResult(res))
-  .catch(handleError(res));
+    .catch(handleError(res));
 }
 
 // Updates an existing Order in the DB
@@ -173,16 +158,28 @@ export function destroy(req, res) {
     .catch(handleError(res));
 }
 
-function updateUserDeviceState(device,message){
-  if(device.state.isDeviceBusy)
+function updateUserDeviceState(device, message) {
+  if (device.state.isDeviceBusy)
     device.state.isDeviceBusy = false; //oleg : reset it to be able to send message again
   var cases = {
-    start_back_video_record: () => {device.state.videoRecorded.isEventPassedToDevice = true;},
-    stop_back_video_record: () => {device.state.videoRecorded.isEventPassedToDevice = true;},
-    start_voice_record: () => {device.state.audioRecorded.isEventPassedToDevice = true;},
-    stop_voice_record: () => {device.state.audioRecorded.isEventPassedToDevice = true;},
-    lock_device: () => {device.state.deviceLocked.isEventPassedToDevice = true;},
-    reset_password: () => {device.state.deviceLocked.isEventPassedToDevice = true;}
+    start_back_video_record: () => {
+      device.state.videoRecorded.isEventPassedToDevice = true;
+    },
+    stop_back_video_record: () => {
+      device.state.videoRecorded.isEventPassedToDevice = true;
+    },
+    start_voice_record: () => {
+      device.state.audioRecorded.isEventPassedToDevice = true;
+    },
+    stop_voice_record: () => {
+      device.state.audioRecorded.isEventPassedToDevice = true;
+    },
+    lock_device: () => {
+      device.state.deviceLocked.isEventPassedToDevice = true;
+    },
+    reset_password: () => {
+      device.state.deviceLocked.isEventPassedToDevice = true;
+    }
   }
   if (cases[message]) {
     cases[message]();
@@ -190,37 +187,36 @@ function updateUserDeviceState(device,message){
   return device;
 }
 
-function deviceIsAbleToGetOperation(device,message){
+function deviceIsAbleToGetOperation(device, message) {
   var cases = {
     start_back_video_record: () => {
-        return !device.state.videoRecorded.isEventPassedToDevice ||
-               !device.state.videoRecorded.isVideoRecording;
+      return !device.state.videoRecorded.isEventPassedToDevice ||
+        !device.state.videoRecorded.isVideoRecording;
     },
     stop_back_video_record: () => {
       return !device.state.videoRecorded.isEventPassedToDevice ||
-              device.state.videoRecorded.isVideoRecording;
+        device.state.videoRecorded.isVideoRecording;
     },
     start_voice_record: () => {
       return !device.state.audioRecorded.isEventPassedToDevice ||
-             !device.state.audioRecorded.isAudioRecording
+        !device.state.audioRecorded.isAudioRecording
     },
     stop_voice_record: () => {
       return !device.state.audioRecorded.isEventPassedToDevice ||
-             device.state.audioRecorded.isAudioRecording
+        device.state.audioRecorded.isAudioRecording
     },
     lock_device: () => {
-        return !device.state.deviceLocked.isDeviceLocked &&
-               !device.state.deviceLocked.isEventPassedToDevice
+      return !device.state.deviceLocked.isDeviceLocked &&
+        !device.state.deviceLocked.isEventPassedToDevice
     },
     reset_password: () => {
       return device.state.deviceLocked.isDeviceLocked &&
-             !device.state.deviceLocked.isEventPassedToDevice
+        !device.state.deviceLocked.isEventPassedToDevice
     }
   }
   if (cases[message]) {
     return cases[message]();
-  }
-  else {
+  } else {
     return true;
   }
 }
