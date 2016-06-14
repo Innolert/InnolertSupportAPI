@@ -115,6 +115,7 @@ export function create(req, res) {
     .exec()
     .then((user) => {
       var userDevices = user.device;
+      let is
       userDevices.forEach((device, index, array) => {
         if (device.privateTokens && device.privateTokens.fcm) {
           if (deviceIsAbleToGetOperation(device, req.body.message)) {
@@ -126,8 +127,6 @@ export function create(req, res) {
               }
             };
             fcmSender.sendWithMessage(message);
-          } else {
-            res.status(200).send("The device is busy");
           }
         }
         device = updateUserDeviceState(device, req.body.message);
@@ -243,6 +242,7 @@ function deviceIsAbleToGetOperation(device, message) {
     }
   }
   if (cases[message]) {
+    console.log("Is device able to get " , message ," ? ", cases[message]);
     return cases[message]();
   } else {
     return true;
