@@ -19,7 +19,7 @@ var EndUserSchema = new mongoose.Schema({
     whatsapp: String,
     twitter: String,
     snapchat: String,
-    instegram: String
+    instagram: String
   },
   mobileNumber: String,
   device: [{
