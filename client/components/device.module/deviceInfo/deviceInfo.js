@@ -82,6 +82,16 @@ class DeviceInfoComponent {
     }
   }
 
+  wifiToggle(){
+    this.onWifiToggle({status: this.model.selectedDevice.device[0].state.wifi.isWifiOn});
+    this.model.selectedDevice.device[0].state.wifi.isEventPassedToDevice = true;
+  }
+
+  bluetoothToggle(){
+    this.onBluetoothToggle({status: this.model.selectedDevice.device[0].state.bluetooth.isBluetoothOn});
+    this.model.selectedDevice.device[0].state.bluetooth.isEventPassedToDevice = true;
+  }
+
   showNotification(message,type){
     this.onNotification({message: message, type: type || 'success', duration: 3000});
   }
@@ -99,7 +109,9 @@ angular.module('innolertApiApp.device')
       onRecordToggle: '&',
       onLocationUpdate: '&',
       onDeviceLockStatusChanged: '&',
-      onNotification: '&'
+      onNotification: '&',
+      onWifiToggle: '&',
+      onBluetoothToggle: '&'
     }
   });
 

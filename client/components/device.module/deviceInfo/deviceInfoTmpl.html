@@ -7,7 +7,7 @@
 	</div>
 	<div class="panel-body" >
 		<div class="row">
-			<div class="col-md-6" ng-show="vm.isDeviceAttached()">
+			<div class="col-md-6" ng-show="!vm.isDeviceAttached()">
 				<div>
 					<button type="button" class="btn btn-primary" ng-click="vm.onLocationUpdate()">
 					Get location
@@ -54,17 +54,42 @@
 					</button>
 				</div>
 			</div>
+		</div>
+		<p></p>
+		<div clas="row">
 			<div class="col-md-6">
-				<ul>
-					<li ng-repeat="file in vm.model.selectedDevice.files.video">
-						<a ng-href={{file}} target="_blank">{{file}}</a>
-					</li>
-				</ul>
-				<ul>
-					<li ng-repeat="file in vm.model.selectedDevice.files.voice">
-						<a ng-href={{file}} target="_blank">{{file}}</a>
-					</li>
-				</ul>
+				<button type="button" class="btn btn-primary"
+				us-spinner spinner-theme="smallButton"
+				spinner-on="vm.model.selectedDevice.device[0].state.wifi.isEventPassedToDevice"
+				ng-hide="vm.model.selectedDevice.device[0].state.wifi.isWifiOn"
+				ng-click="vm.wifiToggle()"
+				ng-disabled="vm.model.selectedDevice.device[0].state.wifi.isEventPassedToDevice">
+				Turn WIFI on
+				</button>
+				<button type="button" class="btn btn-primary"
+				us-spinner spinner-theme="smallButton"
+				spinner-on="vm.model.selectedDevice.device[0].state.wifi.isEventPassedToDevice"
+				ng-hide="!vm.model.selectedDevice.device[0].state.wifi.isWifiOn"
+				ng-click="vm.wifiToggle()"
+				ng-disabled="vm.model.selectedDevice.device[0].state.wifi.isEventPassedToDevice">
+				Turn WIFI off
+				</button>
+				<button type="button" class="btn btn-primary"
+				us-spinner spinner-theme="smallButton"
+				spinner-on="vm.model.selectedDevice.device[0].state.bluetooth.isEventPassedToDevice"
+				ng-hide="vm.model.selectedDevice.device[0].state.bluetooth.isBluetoothOn"
+				ng-click="vm.bluetoothToggle()"
+				ng-disabled="vm.model.selectedDevice.device[0].state.bluetooth.isEventPassedToDevice">
+				Turn Bluetooth on
+				</button>
+				<button type="button" class="btn btn-primary"
+				us-spinner spinner-theme="smallButton"
+				spinner-on="vm.model.selectedDevice.device[0].state.bluetooth.isEventPassedToDevice"
+				ng-hide="!vm.model.selectedDevice.device[0].state.bluetooth.isBluetoothOn"
+				ng-click="vm.bluetoothToggle()"
+				ng-disabled="vm.model.selectedDevice.device[0].state.bluetooth.isEventPassedToDevice">
+				Turn Bluetooth off
+				</button>
 			</div>
 		</div>
 		<p></p>
