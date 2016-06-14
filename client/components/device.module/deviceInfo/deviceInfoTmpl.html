@@ -7,7 +7,7 @@
 	</div>
 	<div class="panel-body" >
 		<div class="row">
-			<div class="col-md-6" ng-show="!vm.isDeviceAttached()">
+			<div class="col-md-6" ng-show="vm.isDeviceAttached()">
 				<div>
 					<button type="button" class="btn btn-primary" ng-click="vm.onLocationUpdate()">
 					Get location
@@ -57,7 +57,7 @@
 		</div>
 		<p></p>
 		<div clas="row">
-			<div class="col-md-6">
+			<div class="col-md-6" ng-show="vm.isDeviceAttached()">
 				<button type="button" class="btn btn-primary"
 				us-spinner spinner-theme="smallButton"
 				spinner-on="vm.model.selectedDevice.device[0].state.wifi.isEventPassedToDevice"
