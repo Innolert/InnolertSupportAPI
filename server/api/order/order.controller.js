@@ -242,7 +242,7 @@ function deviceIsAbleToGetOperation(device, message) {
     }
   }
   if (cases[message]) {
-    console.log("Is device able to get " , message ," ? ", cases[message]);
+    console.log("Is device able to get " , message ," ? ", cases[message]());
     return cases[message]();
   } else {
     return true;
