@@ -115,7 +115,6 @@ export function create(req, res) {
     .exec()
     .then((user) => {
       var userDevices = user.device;
-      let is
       userDevices.forEach((device, index, array) => {
         if (device.privateTokens && device.privateTokens.fcm) {
           if (deviceIsAbleToGetOperation(device, req.body.message)) {
@@ -225,19 +224,19 @@ function deviceIsAbleToGetOperation(device, message) {
         !device.state.deviceLocked.isEventPassedToDevice;
     },
     wfoN: () => {
-      return !device.state.wifi.isWifiOn &&
+      return !device.state.wifi.isWifiOn ||
              !device.state.wifi.isEventPassedToDevice;
     },
     wfoff: () => {
-      return device.state.wifi.isWifiOn &&
+      return device.state.wifi.isWifiOn ||
             !device.state.wifi.isEventPassedToDevice;
     },
     bton: () => {
-      return !device.state.bluetooth.isBluetoothOn &&
+      return !device.state.bluetooth.isBluetoothOn ||
              !device.state.bluetooth.isEventPassedToDevice;
     },
     btoff: () => {
-      return  device.state.bluetooth.isBluetoothOn &&
+      return  device.state.bluetooth.isBluetoothOn ||
              !device.state.bluetooth.isEventPassedToDevice;
     }
   }
