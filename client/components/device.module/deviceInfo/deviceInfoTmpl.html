@@ -94,7 +94,7 @@
 		</div>
 		<p></p>
 		<div class="row">
-			<div class="col-md-9" ng-show="vm.isDeviceAttached()">
+			<div class="col-md-6" ng-show="vm.isDeviceAttached()">
 				<form name="lockDeviceForm" class="form-inline" ng-submit="vm.changeDeviceLockStatus(true)" novalidate>
 					<button type="submit" class="btn btn-danger"
 					us-spinner spinner-theme="smallButton"
@@ -135,6 +135,9 @@
 					</button>
 				</form>
 			</div>
+			<div class="col-md-6">
+				<qrcode ng-show="!vm.isDeviceAttached()" data="{{vm.model.selectedDevice._id}}" size="150" download></qrcode>
+			</div>
 		</div>
 		<p></p>
 		<div class="row">
@@ -173,7 +176,6 @@
 					</ul>
 				</div>
 				<div class="col-md-6">
-					<qrcode data="{{vm.model.selectedDevice._id}}" size="150" download></qrcode>
 				</div>
 			</div>
 		</div>
