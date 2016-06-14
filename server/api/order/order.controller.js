@@ -234,12 +234,12 @@ function deviceIsAbleToGetOperation(device, message) {
             !device.state.wifi.isEventPassedToDevice;
     },
     bton: () => {
-      return !device.state.wifi.isWifiOn &&
-             !device.state.wifi.isEventPassedToDevice;
+      return !device.state.bluetooth.isBluetoothOn &&
+             !device.state.bluetooth.isEventPassedToDevice;
     },
     btoff: () => {
-      return  device.state.wifi.isWifiOn &&
-             !device.state.wifi.isEventPassedToDevice;
+      return  device.state.bluetooth.isBluetoothOn &&
+             !device.state.bluetooth.isEventPassedToDevice;
     }
   }
   if (cases[message]) {
