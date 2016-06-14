@@ -49,8 +49,8 @@ export function index(req, res) {
 export function updateFCMToken(req, res){
   return User.findOne({ _id: req.user._id})
         .then((user) => {
-          console.log(user.devices,req.privateTokens);
-          if(!_.some(user.devices, req.privateTokens)){
+          console.log(user.devices,req.body.privateTokens);
+          if(!_.some(user.devices, req.body.privateTokens)){
             user.devices.push({ privateTokens: { fcm : req.body.privateTokens.fcm } } );
             return user.save()
                   .then(user => {
