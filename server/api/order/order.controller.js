@@ -77,16 +77,13 @@ export function index(req, res) {
 
 // Gets a single Order from the DB
 export function show(req, res) {
-  // return res.status(200).json()
-  // return res.status(200).json(req.query.type)
-  // res.status(200).json({test:123});
   EndUser.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(function(user) {
       var json = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8'))[req.query.type];
       var userDevices = user.device;
       userDevices.forEach((device, index, array) => {
-        if (!device.privateTokens && device.privateTokens.fcm && json.shareable) {
+        if (device.privateTokens && device.privateTokens.fcm && json.shareable) {
           delete json.shareable
           json.type = req.query.type;
           var message = {
