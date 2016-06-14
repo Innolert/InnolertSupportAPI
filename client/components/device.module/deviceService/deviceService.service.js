@@ -39,7 +39,7 @@ angular.module('innolertApiApp.device')
     }
 
     this.toggleBluetooth = function(status, deviceId){
-      let operation = status ? "bton" : "btoff"
+      let operation = status ? "btoff" : "bton"
       return networkService.POST('orders', {endUser: deviceId, message: operation});
     }
   }]);
