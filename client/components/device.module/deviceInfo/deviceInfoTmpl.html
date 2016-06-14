@@ -136,6 +136,7 @@
 				</form>
 			</div>
 		</div>
+		<p></p>
 		<div class="row">
 			<div class="col-md-3">
 				<div class="btn-group btn-group-lg">
@@ -159,11 +160,19 @@
 				</div>
 			</div>
 			<div class="col-md-3">
-				<div class="col-md-4">
-					<i class="fa fa-phone fa-lg pull-left" aria-hidden="true"></i>
+				<div class="col-md-6">
+					<ul>
+						<li ng-repeat="file in vm.model.selectedDevice.files.video">
+							<a ng-href={{file}} target="_blank">{{file}}</a>
+						</li>
+					</ul>
+					<ul>
+						<li ng-repeat="file in vm.model.selectedDevice.files.voice">
+							<a ng-href={{file}} target="_blank">{{file}}</a>
+						</li>
+					</ul>
 				</div>
-				<div class="col-md-8">
-					<h4 class="pull-left">Call log</h4>
+				<div class="col-md-6">
 					<qrcode data="{{vm.model.selectedDevice._id}}" size="150" download></qrcode>
 				</div>
 			</div>
