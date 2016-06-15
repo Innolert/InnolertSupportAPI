@@ -31,6 +31,7 @@ function createListener(event, socket) {
     .then(endUser => {
       console.log("Found end user " , endUser._id , " with parent " , endUser.parentUser);
       if (socketioConnections[endUser.parentUser] && socketioConnections[endUser.parentUser].indexOf(socket.client.id) != -1){
+        console.log("Emitting the event");
         socket.emit(event, doc);
         // fcm.sendToUserIdAppEventUpdates(doc.parentUser,doc);
       }
