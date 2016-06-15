@@ -25,6 +25,10 @@ export function sendToUserIdEndUserUpdates(userId, docToSend){
   })
 }
 
+export function sendToUserIdAppEventUpdates(){
+  //TODO - implement it later , add also the singature
+}
+
 function send(message){
   console.log("Sending message using fcm" , message);
   fcm.send(message, function(err, response){

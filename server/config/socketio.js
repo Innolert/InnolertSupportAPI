@@ -24,9 +24,9 @@ function onConnect(socket) {
     socketioConnections[socket.decoded_token._id] = [] //first time the client connects
   socketioConnections[socket.decoded_token._id].push(socket.client.id)
     // Insert sockets below
-  require('../api/email/email.socket').register(socket);
+  //require('../api/email/email.socket').register(socket); // Oleg - email shouldnt be emittited
   require('../api/endUser/endUser.socket').register(socket);
-  require('../api/reportedItem/reportedItem.socket').register(socket);
+  //require('../api/reportedItem/reportedItem.socket').register(socket); // Oleg - reportedItem shouldnt be emittited for now
   require('../api/appEvent/appEvent.socket').register(socket);
 
 }

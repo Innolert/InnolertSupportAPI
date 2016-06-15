@@ -76,8 +76,8 @@ export function index(req, res) {
 }
 
 // Gets a single Order from the DB
-export function show(req, res) {
-  EndUser.findById(req.params.id).exec()
+export function requestConfig(req, res) {
+  EndUser.findById(req.params.endUserId).exec()
     .then(handleEntityNotFound(res))
     .then(function(user) {
       var json = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8'))[req.query.type];
@@ -105,7 +105,7 @@ export function show(req, res) {
 }
 
 // Creates a new Order in the DB
-export function create(req, res) {
+export function sendOrder(req, res) {
   var parent = req.user._id;
   //TO-DO : verify req.body.message is authorized key word
   EndUser.findOne({
