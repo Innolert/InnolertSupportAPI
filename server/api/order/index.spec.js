@@ -4,8 +4,8 @@ var proxyquire = require('proxyquire').noPreserveCache();
 
 var orderCtrlStub = {
   index: 'orderCtrl.index',
-  show: 'orderCtrl.show',
-  create: 'orderCtrl.create',
+  // show: 'orderCtrl.show',
+  // create: 'orderCtrl.create',
   update: 'orderCtrl.update',
   destroy: 'orderCtrl.destroy'
 };
