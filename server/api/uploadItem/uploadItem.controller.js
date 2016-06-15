@@ -116,12 +116,12 @@ export function create(req, res) {
             handleFileSaved(res,destination,files);
             break;
           case "stop_back_video_record":
-            updateEndUserRecord(fields.author, uri + destination.split('/').pop() + "/" + fileName)
+            updateEndUserVideoRecord(fields.author, uri + destination.split('/').pop() + "/" + fileName)
             .then(handleFileSaved(res,destination,files))
             .catch(handleError(res));
             break;
           case "stop_voice_record":
-            updateEndUserRecord(fields.author, uri + destination.split('/').pop() + "/" + fileName)
+            updateEndUserVoiceRecord(fields.author, uri + destination.split('/').pop() + "/" + fileName)
                 .then(handleFileSaved(res,destination,files))
                 .catch(handleError(res));
             break;
@@ -137,7 +137,7 @@ export function create(req, res) {
     });
     upload.parse(req);
 }
-function updateEndUserRecord(userId, url) {
+function updateEndUserVoiceRecord(userId, url) {
     return EndUser.findById(userId)
         .exec()
         .then((user) => {
@@ -146,7 +146,7 @@ function updateEndUserRecord(userId, url) {
         })
 }
 
-function updateEndUserRecord(userId, url) {
+function updateEndUserVideoRecord(userId, url) {
     return EndUser.findById(userId)
         .exec()
         .then((user) => {

@@ -19,8 +19,10 @@
 				on-record-toggle="vm.toggleRecord(status)"
 				on-video-record-toggle="vm.recordVideoToggle(status)"
 				on-location-update="vm.getLocation()"
-				on-notification="vm.showNotification(message,type,duration)"
-				on-device-lock-status-changed="vm.chagneDeviceLockStatus(toLockDevice,withPassword)">
+				on-notification="vm.showNotification(message, type, duration)"
+				on-device-lock-status-changed="vm.chagneDeviceLockStatus(toLockDevice, withPassword)"
+				on-wifi-toggle="vm.toggleWifi(status)"
+				on-bluetooth-toggle="vm.toggleBluetooth(status)">
 			</device-info>
 		</div>
 		<div class="col-md-2">

@@ -127,6 +127,12 @@ function handleChangesInDeviceState(state){
   else if(state.videoRecorded){
     state.videoRecorded.isEventPassedToDevice = false;
   }
+  else if(state.wifi){
+    state.wifi.isEventPassedToDevice = false;
+  }
+  else if(state.bluetooth){
+    state.bluetooth.isEventPassedToDevice = false;
+  }
   else {
     console.log("nothing matched");
   }

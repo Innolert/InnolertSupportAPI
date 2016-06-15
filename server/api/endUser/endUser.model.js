@@ -64,6 +64,26 @@ var EndUserSchema = new mongoose.Schema({
           type: Boolean,
           default: false
         }
+      },
+      wifi: {
+        isWifiOn: {
+          type: Boolean,
+          default: false
+        },
+        isEventPassedToDevice: {
+          type: Boolean,
+          default: false
+        }
+      },
+      bluetooth: {
+        isBluetoothOn: {
+          type: Boolean,
+          default: false
+        },
+        isEventPassedToDevice: {
+          type: Boolean,
+          default: false
+        }
       }
     }
   }],

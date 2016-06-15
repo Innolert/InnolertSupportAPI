@@ -126,8 +126,6 @@ export function create(req, res) {
               }
             };
             fcmSender.sendWithMessage(message);
-          } else {
-            res.status(200).send("The device is busy");
           }
         }
         device = updateUserDeviceState(device, req.body.message);
@@ -179,6 +177,18 @@ function updateUserDeviceState(device, message) {
     },
     reset_password: () => {
       device.state.deviceLocked.isEventPassedToDevice = true;
+    },
+    wfoN: () => {
+      device.state.wifi.isEventPassedToDevice = true;
+    },
+    wfoff: () => {
+      device.state.wifi.isEventPassedToDevice = true;
+    },
+    bton: () => {
+      device.state.bluetooth.isEventPassedToDevice = true;
+    },
+    btoff: () => {
+      device.state.bluetooth.isEventPassedToDevice = true;
     }
   }
   if (cases[message]) {
@@ -199,22 +209,39 @@ function deviceIsAbleToGetOperation(device, message) {
     },
     start_voice_record: () => {
       return !device.state.audioRecorded.isEventPassedToDevice ||
-        !device.state.audioRecorded.isAudioRecording
+        !device.state.audioRecorded.isAudioRecording;
     },
     stop_voice_record: () => {
       return !device.state.audioRecorded.isEventPassedToDevice ||
-        device.state.audioRecorded.isAudioRecording
+        device.state.audioRecorded.isAudioRecording;
     },
     lock_device: () => {
       return !device.state.deviceLocked.isDeviceLocked &&
-        !device.state.deviceLocked.isEventPassedToDevice
+        !device.state.deviceLocked.isEventPassedToDevice;
     },
     reset_password: () => {
       return device.state.deviceLocked.isDeviceLocked &&
-        !device.state.deviceLocked.isEventPassedToDevice
+        !device.state.deviceLocked.isEventPassedToDevice;
+    },
+    wfoN: () => {
+      return !device.state.wifi.isWifiOn ||
+             !device.state.wifi.isEventPassedToDevice;
+    },
+    wfoff: () => {
+      return device.state.wifi.isWifiOn ||
+            !device.state.wifi.isEventPassedToDevice;
+    },
+    bton: () => {
+      return !device.state.bluetooth.isBluetoothOn ||
+             !device.state.bluetooth.isEventPassedToDevice;
+    },
+    btoff: () => {
+      return  device.state.bluetooth.isBluetoothOn ||
+             !device.state.bluetooth.isEventPassedToDevice;
     }
   }
   if (cases[message]) {
+    console.log("Is device able to get " , message ," ? ", cases[message]());
     return cases[message]();
   } else {
     return true;
