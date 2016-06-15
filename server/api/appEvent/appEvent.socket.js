@@ -26,16 +26,13 @@ export function register(socket) {
 
 function createListener(event, socket) {
   return function(doc) {
-    if(doc.author){
       EndUser.findById(doc.author).exec()
       .then(endUser => {
-        if (socketioConnections[endUser.parentUser] && socketioConnections[endUser.parentUser].indexOf(socket.client.id) != -1){
+        if (endUser && socketioConnections[endUser.parentUser] && socketioConnections[endUser.parentUser].indexOf(socket.client.id) != -1){
           socket.emit(event, doc);
           // fcm.sendToUserIdAppEventUpdates(doc.parentUser,doc);
         }
       })
-    }
-
   };
 }
 
