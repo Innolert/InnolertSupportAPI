@@ -26,12 +26,20 @@ angular.module('innolertApiApp.device')
     }
 
     this.getLocation = function(deviceId){
-      return networkService.POST('orders', {endUser: deviceId , message: 'get_location'})
+      return networkService.POST('orders', {endUser: deviceId, message: 'get_location'})
     }
 
     this.changeDeviceLockStatus = function(toLockDevice,withPassword,deviceId){
-      console.log("sending : " , {endUser: deviceId , message: toLockDevice ? 'lock_device' : 'reset_password' , additionalData : toLockDevice ? withPassword : []});
-      return networkService.POST('orders', {endUser: deviceId , message: toLockDevice ? 'lock_device' : 'reset_password' , additionalData : toLockDevice ? withPassword : []})
+      return networkService.POST('orders', {endUser: deviceId, message: toLockDevice ? 'lock_device' : 'reset_password' , additionalData : toLockDevice ? withPassword : []})
     }
 
+    this.toggleWifi = function(status, deviceId) {
+      let operation = status ? "wfoff" : "wfoN"
+      return networkService.POST('orders', {endUser: deviceId, message: operation});
+    }
+
+    this.toggleBluetooth = function(status, deviceId){
+      let operation = status ? "btoff" : "bton"
+      return networkService.POST('orders', {endUser: deviceId, message: operation});
+    }
   }]);

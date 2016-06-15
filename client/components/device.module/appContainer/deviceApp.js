@@ -49,6 +49,7 @@
     getLocation(){
       this.deviceService.getLocation(this.model.selectedDevice._id)
     }
+
     recordVideoToggle(status){
       this.deviceService.toggleVideoRecord(status,this.model.selectedDevice._id)
       .then((response) => {
@@ -105,6 +106,14 @@
       registrationModelInstance.result.then((data) => {
         deviceService.newEndUser(data)
       })
+    }
+
+    toggleWifi(status){
+      this.deviceService.toggleWifi(status,this.model.selectedDevice._id);
+    }
+
+    toggleBluetooth(status){
+      this.deviceService.toggleBluetooth(status,this.model.selectedDevice._id);
     }
 
     showNotification(message,type,duration){
