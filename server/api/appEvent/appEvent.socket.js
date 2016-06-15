@@ -7,6 +7,7 @@ var socketioConnections = require('../../config/socketio.connections');
 var _ = require('lodash');
 const fcm = require('../../components/fcm.sender');
 import AppEventEvents from './appEvent.events';
+import EndUser from '../endUser/endUser.model';
 
 // Model events to emit
 var events = ['save', 'remove'];
@@ -25,10 +26,14 @@ export function register(socket) {
 
 function createListener(event, socket) {
   return function(doc) {
-    if (socketioConnections[doc.parentUser] && socketioConnections[doc.parentUser].indexOf(socket.client.id) != -1){
-      socket.emit(event, doc);
-      // fcm.sendToUserIdAppEventUpdates(doc.parentUser,doc);
-    }
+    EndUser.findById(doc.author).exec()
+    .then(endUser => {
+      if (socketioConnections[endUser.parentUser] && socketioConnections[endUser.parentUser].indexOf(socket.client.id) != -1){
+        socket.emit(event, doc);
+        // fcm.sendToUserIdAppEventUpdates(doc.parentUser,doc);
+      }
+    })
+
   };
 }
 
