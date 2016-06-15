@@ -26,7 +26,7 @@ export function register(socket) {
 
 function createListener(event, socket) {
   return function(doc) {
-    console.log("We want to emit event , the author of the appEvent is "  doc.author);
+    console.log("We want to emit event , the author of the appEvent is " , doc.author);
     EndUser.findById(doc.author).exec()
     .then(endUser => {
       console.log("Found end user " , endUser._id , " with parent " , endUser.parentUser);
