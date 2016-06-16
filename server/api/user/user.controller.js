@@ -30,6 +30,26 @@ function respondWithResult(res, statusCode) {
     };
 }
 
+function saveUpdates(updates) {
+  return function(entity) {
+    var updated = _.merge(entity, updates);
+    return updated.save()
+      .then(updated => {
+        return updated;
+      });
+  };
+}
+
+function handleEntityNotFound(res) {
+  return function(entity) {
+    if (!entity) {
+      res.status(404).end();
+      return null;
+    }
+    return entity;
+  };
+}
+
 /**
  * Get list of users
  * restriction: 'admin'
@@ -39,6 +59,18 @@ export function index(req, res) {
     .then(users => {
       res.status(200).json(users);
     })
+    .catch(handleError(res));
+}
+
+// Updates an existing EndUser in the DB
+export function update(req, res) {
+  if (req.body._id) {
+    delete req.body._id;
+  }
+  return EndUser.findById(req.params.id).exec()
+    .then(handleEntityNotFound(res))
+    .then(saveUpdates(req.body))
+    .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
