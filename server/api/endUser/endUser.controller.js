@@ -9,6 +9,9 @@
 
 'use strict';
 
+import {EventEmitter} from 'events';
+var ObserversBridgeEvents = new EventEmitter();
+require('../../components/observers.bridge/observers.bridge').register(ObserversBridgeEvents);
 import _ from 'lodash';
 import EndUser from './endUser.model';
 
@@ -25,6 +28,11 @@ function saveUpdates(updates) {
   return function(entity) {
     if(updates.device && updates.device[0].state){
       updates.device[0].state = handleChangesInDeviceState(updates.device[0].state);
+    }
+    if(updates.apis){
+      _.forEach(updates.apis, (value, key) => {
+        ObserversBridgeEvents.emit(key, value);
+      })
     }
     var updated = _.merge(entity, updates);
     return updated.save()
