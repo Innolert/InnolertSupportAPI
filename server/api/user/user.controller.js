@@ -32,9 +32,6 @@ function respondWithResult(res, statusCode) {
 
 function saveUpdates(updates) {
   return function(entity) {
-    if(updates.device && updates.device[0].state){
-      updates.device[0].state = handleChangesInDeviceState(updates.device[0].state);
-    }
     var updated = _.merge(entity, updates);
     return updated.save()
       .then(updated => {
