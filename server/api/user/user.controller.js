@@ -235,6 +235,9 @@ export function removeUnregisteredTokenFromUser(userId, token){
           }
         }
       })
+      .then(user => {
+        console.log(user);
+      })
       console.log("user is not null");
     }
   })
