@@ -222,7 +222,7 @@ export function removeUnregisteredTokenFromUser(userId, deviceIndex){
   findById(userId)
   .then(user => {
     if(user){
-      updates = user.toObject();
+      var updates = user.toObject();
       delete updates.devices[deviceIndex].privateTokens.fcm;
       var updated = _.merge(user, updates);
       updated.save()
