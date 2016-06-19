@@ -217,3 +217,11 @@ export function authCallback(req, res, next) {
 export function findById(id){
   return User.findById(id).exec().then(user => { return user });
 }
+
+export function removeUnregisteredTokenFromUser(userId, deviceIndex){
+  findById(userId)
+  .then(user => {
+   if(user)
+    delete user.devices[deviceIndex].privateTokens.fcm;
+  })
+}
