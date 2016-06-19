@@ -226,6 +226,7 @@ export function removeUnregisteredTokenFromUser(userId, deviceIndex){
       delete updates.devices[deviceIndex].privateTokens.fcm;
       console.log("The updates is", updates.devices[deviceIndex].privateTokens);
       let updated = _.merge(user, updates);
+      console.log("The updated is", updated.devices[deviceIndex].privateTokens);
       updated.save()
       .then(user => {
         return user
