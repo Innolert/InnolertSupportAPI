@@ -90,10 +90,21 @@ export function index(req, res) {
 
 // Gets a single EndUser from the DB
 export function show(req, res) {
-  return EndUser.findById(req.params.id).exec()
-    .then(handleEntityNotFound(res))
-    .then(respondWithResult(res))
-    .catch(handleError(res));
+  let EU;
+  if (req.user.role === 'admin') {
+    EU = EndUser.findById(req.params.id).exec()
+
+  }
+  else{
+    EU = EndUser.findOne({
+      id: req.params.id,
+      parentUser: req.user._id
+    }).exec()
+  }
+  return EU
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
 }
 
 // Creates a new EndUser in the DB
