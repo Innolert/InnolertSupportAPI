@@ -30,7 +30,7 @@ export function sendToUserIdAppEventUpdates(){
 }
 
 function send(message, userId, deviceIndex){
-  console.log("Sending message using fcm" , message);
+  console.log("Sending message using fcm to" , message.to);
   fcm.send(message, function(err, response){
       if (err) {
           console.log("Something has gone wrong!" , err);
