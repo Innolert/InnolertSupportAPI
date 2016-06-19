@@ -221,7 +221,6 @@ export function findById(id){
 export function removeUnregisteredTokenFromUser(userId, token){
   findById(userId)
   .then(user => {
-    console.log("found user");
     if(user){
       User.update({
         _id: user._id
@@ -235,10 +234,6 @@ export function removeUnregisteredTokenFromUser(userId, token){
           }
         }
       })
-      .then(user => {
-        console.log(user);
-      })
-      console.log("user is not null");
     }
   })
 }
