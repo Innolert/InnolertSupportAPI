@@ -221,7 +221,9 @@ export function findById(id){
 export function removeUnregisteredTokenFromUser(userId, token){
   findById(userId)
   .then(user => {
+    console.log("found user");
     if(user){
+      console.log("user is not null");
       user.devices.pull({fcm: token})
       .then(user => {
         console.log("after pulling" , user);
