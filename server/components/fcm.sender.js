@@ -1,7 +1,7 @@
 import fs from 'fs';
 import _ from 'lodash';
 const User = require('../api/user/user.controller');
-var FCM = require('fcm-node');
+var FCM = require('fcm-push');
 var serverKey = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8')).fcm;
 var fcm = new FCM(serverKey)
 
