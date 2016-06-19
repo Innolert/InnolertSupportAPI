@@ -223,6 +223,7 @@ export function removeUnregisteredTokenFromUser(userId, deviceIndex){
   .then(user => {
     if(user){
       delete user.devices[deviceIndex].privateTokens.fcm;
+      console.log(user.devices[deviceIndex].privateTokens);
       user.save()
       .then(user => {
         console.log("new user is : " , user);
