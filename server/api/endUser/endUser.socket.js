@@ -26,7 +26,7 @@ export function register(socket) {
 function createListener(event, socket) {
   return function(doc) {
     //Before emitting the event we've to check that the client is able to see doc
-    if (socketioConnections[doc.parentUser] && socketioConnections[doc.parentUser].indexOf(socket.client.id) != -1){
+    if (socketioConnections[doc.parentUser]){
       console.log("Sending event to ", doc.parentUser);
       socket.emit(event, doc);
       fcm.sendToUserIdEndUserUpdates(doc.parentUser,doc);
