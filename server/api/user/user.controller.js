@@ -223,5 +223,6 @@ export function removeUnregisteredTokenFromUser(userId, deviceIndex){
   .then(user => {
    if(user)
     delete user.devices[deviceIndex].privateTokens.fcm;
+    user.save();
   })
 }
