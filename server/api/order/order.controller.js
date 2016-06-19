@@ -14,11 +14,6 @@ import _ from 'lodash';
 import Order from './order.model';
 import fs from 'fs';
 const fcmSender = require('../../components/fcm.sender');
-var FCM = require('fcm-node');
-var serverKey = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8')).fcm;
-console.log(serverKey);
-var fcm = new FCM(serverKey)
-
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
