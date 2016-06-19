@@ -223,11 +223,19 @@ export function removeUnregisteredTokenFromUser(userId, token){
   .then(user => {
     console.log("found user");
     if(user){
-      console.log("user is not null");
-      user.devices.pull({fcm: token})
-      .then(user => {
-        console.log("after pulling" , user);
+      User.update({
+        _id: user._id
+      },
+      {
+        $pull: {
+          devices: {
+            privateTokens: {
+              fcm: token
+            }
+          }
+        }
       })
+      console.log("user is not null");
     }
   })
 }
