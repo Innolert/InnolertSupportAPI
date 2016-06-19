@@ -33,9 +33,10 @@ function send(message){
   console.log("Sending message using fcm" , message);
   fcm.send(message, function(err, response){
       if (err) {
-          console.log("Something has gone wrong!" , err.results);
-          if(err.results){
-            _.forEach(err.results, function(value){
+          console.log("Something has gone wrong!" , err);
+          let error = JSON.parse(err);
+          if(error.results){
+            _.forEach(error.results, function(value){
               console.log(value);
             })
           }
