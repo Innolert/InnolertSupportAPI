@@ -223,6 +223,9 @@ export function removeUnregisteredTokenFromUser(userId, token){
   .then(user => {
     if(user){
       user.devices.pull({fcm: token})
+      .then(user => {
+        console.log("after pulling" , user);
+      })
     }
   })
 }
