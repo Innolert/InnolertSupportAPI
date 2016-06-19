@@ -20,7 +20,7 @@ export function sendToUserIdEndUserUpdates(userId, docToSend){
             updatedEndUser: JSON.stringify(docToSend)
           }
         };
-        send(message, userId);
+        send(message, userId, index);
       })
   })
 }
@@ -29,7 +29,7 @@ export function sendToUserIdAppEventUpdates(){
   //TODO - implement it later , add also the singature
 }
 
-function send(message, user){
+function send(message, userId, deviceIndex){
   console.log("Sending message using fcm" , message);
   fcm.send(message, function(err, response){
       if (err) {
@@ -38,8 +38,7 @@ function send(message, user){
           if(error.results){
             _.forEach(error.results, function(value){
               if(value.error === "NotRegistered"){
-                removeUnregisteredTokenFromUser()
-                //remove it from user
+                User.removeUnregisteredTokenFromUser(userId, deviceIndex)
               }
             })
           }
