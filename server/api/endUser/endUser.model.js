@@ -97,11 +97,15 @@ var EndUserSchema = new mongoose.Schema({
       LatLng: {
         lat: {
           type: Number,
-          default: 0
+          default: null
         },
         lng: {
           type: Number,
-          default: 0
+          default: null
+        },
+        time: {
+          type: Date,
+          default: Date.now
         }
       }
     },
