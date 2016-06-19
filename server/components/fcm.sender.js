@@ -38,7 +38,7 @@ function send(message, userId, deviceIndex){
           if(error.results){
             _.forEach(error.results, function(value){
               if(value.error === "NotRegistered"){
-                User.removeUnregisteredTokenFromUser(userId, deviceIndex)
+                User.removeUnregisteredTokenFromUser(userId, message.to)
               }
             })
           }

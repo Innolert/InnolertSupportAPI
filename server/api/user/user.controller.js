@@ -218,19 +218,11 @@ export function findById(id){
   return User.findById(id).exec().then(user => { return user });
 }
 
-export function removeUnregisteredTokenFromUser(userId, deviceIndex){
+export function removeUnregisteredTokenFromUser(userId, token){
   findById(userId)
   .then(user => {
     if(user){
-      let updates = user.toObject();
-      delete updates.devices[deviceIndex].privateTokens.fcm;
-      console.log("The updates is", updates.devices[deviceIndex].privateTokens);
-      let updated = _.merge(user, updates);
-      console.log("The updated is", updated.devices[deviceIndex].privateTokens);
-      updated.save()
-      .then(user => {
-        return user
-      });
+      user.devices.pull({fcm: token})
     }
   })
 }
