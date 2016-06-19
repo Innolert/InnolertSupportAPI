@@ -67,7 +67,7 @@ export function update(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  return EndUser.findById(req.params.id).exec()
+  return User.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(respondWithResult(res))
