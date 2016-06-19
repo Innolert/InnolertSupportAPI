@@ -222,9 +222,10 @@ export function removeUnregisteredTokenFromUser(userId, deviceIndex){
   console.log("Attempt to remove token from" , userId);
   findById(userId)
   .then(user => {
-  console.log("found user" , user);
-   if(user)
-    delete user.devices[deviceIndex].privateTokens.fcm;
-    user.save();
+    console.log("found user" , user);
+    if(user){
+      delete user.devices[deviceIndex].privateTokens.fcm;
+      user.save();
+    }
   })
 }
