@@ -17,7 +17,8 @@ export function sendToUserIdEndUserUpdates(userId, endUserId, event){
         let message = {
           to: device.privateTokens.fcm,
           data: {
-            event: endUserId
+            event: event,
+            endUserId: endUserId
           }
         };
         send(message, userId, index);
