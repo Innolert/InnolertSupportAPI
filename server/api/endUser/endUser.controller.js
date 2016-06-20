@@ -90,18 +90,18 @@ export function index(req, res) {
 
 // Gets a single EndUser from the DB
 export function show(req, res) {
-  let EU;
+  let endUser;
   if (req.user.role === 'admin') {
-    EU = EndUser.findById(req.params.id).exec()
+    endUser = EndUser.findById(req.params.id).exec()
 
   }
   else{
-    EU = EndUser.findOne({
+    endUser = EndUser.findOne({
       id: req.params.id,
       parentUser: req.user._id
     }).exec()
   }
-  return EU
+  return endUser
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
