@@ -10,14 +10,14 @@ export function sendWithMessage(message){
 }
 
 
-export function sendToUserIdEndUserUpdates(userId, endUserId){
+export function sendToUserIdEndUserUpdates(userId, endUserId, event){
   User.findById(userId)
   .then(user => {
       user.devices.forEach((device, index, array) => {
         let message = {
           to: device.privateTokens.fcm,
           data: {
-            updatedEndUserId: endUserId
+            event: endUserId
           }
         };
         send(message, userId, index);
