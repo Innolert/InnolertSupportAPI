@@ -13,6 +13,7 @@ import {EventEmitter} from 'events';
 var ObserversBridgeEvents = new EventEmitter();
 require('../../components/observers.bridge/observers.bridge').register(ObserversBridgeEvents);
 import _ from 'lodash';
+import mongoose from 'mongoose';
 import EndUser from './endUser.model';
 
 function respondWithResult(res, statusCode) {
@@ -97,7 +98,7 @@ export function show(req, res) {
   }
   else{
     endUser = EndUser.findOne({
-      _id: req.params.id,
+      _id: mongoose.Types.ObjectId(req.params.id),
       parentUser: req.user._id
     }).exec()
   }
