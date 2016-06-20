@@ -97,7 +97,7 @@ export function show(req, res) {
   }
   else{
     endUser = EndUser.findOne({
-      id: req.params.id,
+      _id: req.params.id,
       parentUser: req.user._id
     }).exec()
   }
