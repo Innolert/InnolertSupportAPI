@@ -30,7 +30,7 @@ function createListener(event, socket) {
       .then(endUser => {
         if (endUser && socketioConnections[endUser.parentUser] && socketioConnections[endUser.parentUser].indexOf(socket.client.id) != -1){
           socket.emit(event, doc);
-          // fcm.sendToUserIdAppEventUpdates(doc.parentUser,doc);
+          fcm.sendToUserIdAppEventUpdates(endUser.parentUser, endUser._id, doc, event);
         }
       })
   };
