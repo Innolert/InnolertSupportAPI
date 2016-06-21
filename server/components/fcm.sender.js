@@ -11,6 +11,7 @@ export function sendWithMessage(message){
 
 
 export function sendToUserIdEndUserUpdates(userId, endUserId, event){
+  console.log("Sending sendToUserIdEndUserUpdates");
   User.findById(userId)
   .then(user => {
       user.devices.forEach((device, index, array) => {
@@ -21,12 +22,13 @@ export function sendToUserIdEndUserUpdates(userId, endUserId, event){
             endUserId: endUserId
           }
         };
-        send(message, userId, index);
+        send(message, handleErrorFcm);
       })
   })
 }
 
 export function sendToUserIdAppEventUpdates(userId, endUserId, docToSend, event){
+  console.log("Sending sendToUserIdAppEventUpdates");
   User.findById(userId)
   .then(user => {
     user.devices.forEach((device, index, array) => {
@@ -38,7 +40,7 @@ export function sendToUserIdAppEventUpdates(userId, endUserId, docToSend, event)
           endUserId: endUserId
         }
       }
-      send(message, userId, index);
+      send(message, handleErrorFcm);
     })
   })
 }
@@ -47,25 +49,33 @@ export function sendToUserIdAppEventUpdates(userId, endUserId, docToSend, event)
  * [send the message to the device using fcm-push library]
  * [https://www.npmjs.com/package/fcm-push]
  * @param  {object} message     [**require! - message must contain `to` - the device registration from fcm and `data` - {object} with the data to be sent]
- * @param  {string} userId      [**optional - in case the device registration token is not valid anymore using the userId we can delete it from the model]
- * @param  {integer} deviceIndex [**optional - in case the device registration token is not valid anymore using the device index we can delete it from the model]
+ * @param  {function} done      [**optional - in case the device registration token is not valid anymore we user callback with error]
  * @return {void}             [TODO: implement return later - for now only print to the log ]
  */
-function send(message, userId, deviceIndex){
+function send(message, done){
   console.log("Sending message using fcm to" , message);
   fcm.send(message, function(err, response){
       if (err) {
-          console.log("Something has gone wrong!" , err);
-          let error = JSON.parse(err);
-          if(error.results  && userId && deviceIndex){
-            _.forEach(error.results, function(value){
-              if(value.error === "NotRegistered"){
-                User.removeUnregisteredTokenFromUser(userId, message.to)
-              }
-            })
-          }
+        return done(err)
       } else {
           console.log("Successfully sent with response: ", response);
       }
   })
+}
+
+/**
+ * [handleErrorFcm description]
+ * @param  {stinrg} err [the error that returns from fcm-push]
+ * @return {void}
+ */
+function handleErrorFcm(err){
+    console.log("Something has gone wrong!" , err);
+    let error = JSON.parse(err);
+    if(error.results  && userId && deviceIndex){
+      _.forEach(error.results, function(value){
+        if(value.error === "NotRegistered"){
+          User.removeUnregisteredTokenFromUser(userId, message.to)
+        }
+      })
+    }
 }
