@@ -37,7 +37,7 @@ export function sendToUserIdAppEventUpdates(userId, endUserId, docToSend, event)
           appEvent: docToSend,
           endUserId: endUserId
         }
-      },
+      }
       send(message, userId, index);
     })
   })
