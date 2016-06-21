@@ -13,6 +13,7 @@ import {EventEmitter} from 'events';
 var ObserversBridgeEvents = new EventEmitter();
 require('../../components/observers.bridge/observers.bridge').register(ObserversBridgeEvents);
 import _ from 'lodash';
+import mongoose from 'mongoose';
 import EndUser from './endUser.model';
 
 function respondWithResult(res, statusCode) {
@@ -90,10 +91,21 @@ export function index(req, res) {
 
 // Gets a single EndUser from the DB
 export function show(req, res) {
-  return EndUser.findById(req.params.id).exec()
-    .then(handleEntityNotFound(res))
-    .then(respondWithResult(res))
-    .catch(handleError(res));
+  let endUser;
+  if (req.user.role === 'admin') {
+    endUser = EndUser.findById(req.params.id).exec()
+
+  }
+  else{
+    endUser = EndUser.findOne({
+      _id: mongoose.Types.ObjectId(req.params.id),
+      parentUser: req.user._id
+    }).exec()
+  }
+  return endUser
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
 }
 
 // Creates a new EndUser in the DB

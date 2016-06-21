@@ -67,7 +67,7 @@ export function update(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  return EndUser.findById(req.params.id).exec()
+  return User.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(respondWithResult(res))
@@ -216,4 +216,24 @@ export function authCallback(req, res, next) {
 
 export function findById(id){
   return User.findById(id).exec().then(user => { return user });
+}
+
+export function removeUnregisteredTokenFromUser(userId, token){
+  findById(userId)
+  .then(user => {
+    if(user){
+      User.update({
+        _id: user._id
+      },
+      {
+        $pull: {
+          devices: {
+            privateTokens: {
+              fcm: token
+            }
+          }
+        }
+      })
+    }
+  })
 }
