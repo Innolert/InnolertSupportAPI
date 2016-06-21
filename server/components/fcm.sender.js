@@ -1,7 +1,7 @@
 import fs from 'fs';
 import _ from 'lodash';
 const User = require('../api/user/user.controller');
-var FCM = require('./fcm.lib');
+var FCM = require('fcm-push');
 var serverKey = JSON.parse(fs.readFileSync('../apis.key.json', 'utf8')).fcm;
 var fcm = new FCM(serverKey)
 
@@ -54,18 +54,12 @@ export function sendToUserIdAppEventUpdates(userId, endUserId, docToSend, event)
  */
 function send(message, done){
   console.log("Sending message using fcm to" , message);
-  // fcm.send(message, function(err, response){
-  //     if (err) {
-  //       return done(err)
-  //     } else {
-  //     }
-  // })
-  fcm.send(message)
-  .then(() => {
-    console.log("Successfully sent with response: ", response);
-  })
-  .catch(err => {
-    return done(err)
+  fcm.send(message, function(err, response){
+      if (err) {
+        return done(err)
+      } else {
+        console.log("Successfully sent with response: ", response);
+      }
   })
 }
 
