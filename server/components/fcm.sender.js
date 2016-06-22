@@ -56,7 +56,7 @@ function send(message, done) {
   console.log("Sending message using fcm to", message);
   fcm.send(message, function(err, response) {
     if (err) {
-      return done(err)
+      return done(err, message)
     } else {
       console.log("Successfully sent with response: ", response);
     }
@@ -69,7 +69,7 @@ function send(message, done) {
  * @return {function} that has the error message from fcm
  */
 function handleErrorFcm(userId, deviceIndex) {
-  return function(err) {
+  return function(err, message) {
     console.log("Something has gone wrong!", err);
     let error = JSON.parse(err);
     if (error.results && userId && deviceIndex) {
