@@ -22,7 +22,7 @@ export function sendToUserIdEndUserUpdates(userId, endUserId, event){
             endUserId: endUserId
           }
         };
-        send(message, handleErrorFcm(user._id, deviceIndex));
+        send(message, handleErrorFcm(user._id, index));
       })
   })
 }
@@ -40,7 +40,7 @@ export function sendToUserIdAppEventUpdates(userId, endUserId, docToSend, event)
           endUserId: endUserId
         }
       }
-      send(message, handleErrorFcm(user._id, deviceIndex));
+      send(message, handleErrorFcm(user._id, index));
     })
   })
 }
@@ -66,7 +66,7 @@ function send(message, done){
 /**
  * [handleErrorFcm description]
  * @param  {stinrg} err [the error that returns from fcm-push]
- * @return {function} that 
+ * @return {function} that
  */
 function handleErrorFcm(userId,deviceIndex){
   return function(err){
