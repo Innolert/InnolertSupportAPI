@@ -56,7 +56,11 @@ function send(message, done) {
   console.log("Sending message using fcm to", message);
   fcm.send(message, function(err, response) {
     if (err) {
-      return done(err, message)
+      if (_.isFunction(done)) {
+        return done(err, message)
+      } else {
+        return console.e(err);
+      }
     } else {
       console.log("Successfully sent with response: ", response);
     }
