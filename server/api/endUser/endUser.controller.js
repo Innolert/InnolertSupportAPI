@@ -94,7 +94,6 @@ export function show(req, res) {
   let endUser;
   if (req.user.role === 'admin') {
     endUser = EndUser.findById(req.params.id).exec()
-
   }
   else{
     endUser = EndUser.findOne({
