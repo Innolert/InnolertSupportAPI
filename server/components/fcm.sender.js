@@ -22,7 +22,7 @@ export function sendToUserIdEndUserUpdates(userId, endUserId, event){
             endUserId: endUserId
           }
         };
-        send(message, handleErrorFcm);
+        send(message, handleErrorFcm(user._id, deviceIndex));
       })
   })
 }
@@ -40,7 +40,7 @@ export function sendToUserIdAppEventUpdates(userId, endUserId, docToSend, event)
           endUserId: endUserId
         }
       }
-      send(message, handleErrorFcm);
+      send(message, handleErrorFcm(user._id, deviceIndex));
     })
   })
 }
@@ -66,9 +66,10 @@ function send(message, done){
 /**
  * [handleErrorFcm description]
  * @param  {stinrg} err [the error that returns from fcm-push]
- * @return {void}
+ * @return {function} that 
  */
-function handleErrorFcm(err){
+function handleErrorFcm(userId,deviceIndex){
+  return function(err){
     console.log("Something has gone wrong!" , err);
     let error = JSON.parse(err);
     if(error.results  && userId && deviceIndex){
@@ -78,4 +79,5 @@ function handleErrorFcm(err){
         }
       })
     }
+  }
 }
