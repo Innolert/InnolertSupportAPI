@@ -59,7 +59,7 @@ function send(message, done) {
       if (_.isFunction(done)) {
         return done(err, message)
       } else {
-        return console.e(err);
+        return console.error(err);
       }
     } else {
       console.log("Successfully sent with response: ", response);
