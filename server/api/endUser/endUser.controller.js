@@ -9,7 +9,9 @@
 
 'use strict';
 
-import {EventEmitter} from 'events';
+import {
+  EventEmitter
+} from 'events';
 var ObserversBridgeEvents = new EventEmitter();
 require('../../components/observers.bridge/observers.bridge').register(ObserversBridgeEvents);
 import _ from 'lodash';
@@ -27,10 +29,10 @@ function respondWithResult(res, statusCode) {
 
 function saveUpdates(updates) {
   return function(entity) {
-    if(updates.device && updates.device[0].state){
+    if (updates.device && updates.device[0].state) {
       updates.device[0].state = handleChangesInDeviceState(updates.device[0].state);
     }
-    if(updates.apis){
+    if (updates.apis) {
       _.forEach(updates.apis, (value, key) => {
         ObserversBridgeEvents.emit(key, value);
       })
@@ -77,9 +79,10 @@ export function index(req, res) {
     return EndUser.find().exec()
       .then(respondWithResult(res))
       .catch(handleError(res));
-  }
-  else{
-    return EndUser.find({parentUser: req.user._id}).exec()
+  } else {
+    return EndUser.find({
+        parentUser: req.user._id
+      }).exec()
       .then((users) => {
         return users
       })
@@ -94,18 +97,16 @@ export function show(req, res) {
   let endUser;
   if (req.user.role === 'admin') {
     endUser = EndUser.findById(req.params.id).exec()
-
-  }
-  else{
+  } else {
     endUser = EndUser.findOne({
       _id: mongoose.Types.ObjectId(req.params.id),
       parentUser: req.user._id
     }).exec()
   }
   return endUser
-        .then(handleEntityNotFound(res))
-        .then(respondWithResult(res))
-        .catch(handleError(res));
+    .then(handleEntityNotFound(res))
+    .then(respondWithResult(res))
+    .catch(handleError(res));
 }
 
 // Creates a new EndUser in the DB
@@ -136,49 +137,47 @@ export function destroy(req, res) {
     .catch(handleError(res));
 }
 
-function handleChangesInDeviceState(state){
-  console.log("the update is " , state);
-  if(state.deviceLocked){
+function handleChangesInDeviceState(state) {
+  console.log("the update is ", state);
+  if (state.deviceLocked) {
     state.deviceLocked.isEventPassedToDevice = false;
-  }
-  else if(state.audioRecorded){
+  } else if (state.audioRecorded) {
     state.audioRecorded.isEventPassedToDevice = false;
-  }
-  else if(state.videoRecorded){
+  } else if (state.videoRecorded) {
     state.videoRecorded.isEventPassedToDevice = false;
-  }
-  else if(state.wifi){
+  } else if (state.wifi) {
     state.wifi.isEventPassedToDevice = false;
-  }
-  else if(state.bluetooth){
+  } else if (state.bluetooth) {
     state.bluetooth.isEventPassedToDevice = false;
-  }
-  else {
+  } else {
     console.log("nothing matched");
   }
   return state;
 }
 
-export function setDeviceAsbusy(userData,resource){
+export function setDeviceAsbusy(userData, resource) {
   console.log("Setting device as busy");
   return EndUser.findById(userData.author)
-  .exec()
-  .then((user) => {
-    var cases = {
-      videoRecorded: () => {user.device[0].state.videoRecorded.isEventPassedToDevice = false;},
-      audioRecorded: () => {user.device[0].state.audioRecorded.isEventPassedToDevice = false;}
-    }
-    if(cases[resource]){
-      cases[resource]();
-      user.device[0].state.isDeviceBusy = true;
-      return user.save()
-            .then((updated) => {
-              return updated
-            })
-    }
-    else{
-      console.log("Unknow resource");
-    }
+    .exec()
+    .then((user) => {
+      var cases = {
+        videoRecorded: () => {
+          user.device[0].state.videoRecorded.isEventPassedToDevice = false;
+        },
+        audioRecorded: () => {
+          user.device[0].state.audioRecorded.isEventPassedToDevice = false;
+        }
+      }
+      if (cases[resource]) {
+        cases[resource]();
+        user.device[0].state.isDeviceBusy = true;
+        return user.save()
+          .then((updated) => {
+            return updated
+          })
+      } else {
+        console.log("Unknow resource");
+      }
 
-  })
+    })
 }
