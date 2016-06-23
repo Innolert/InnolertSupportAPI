@@ -102,11 +102,11 @@ var EndUserSchema = new mongoose.Schema({
         lng: {
           type: Number,
           default: null
-        },
-        time: {
-          type: Date,
-          default: Date.now
         }
+      },
+      time: {
+        type: Date,
+        default: Date.now
       }
     },
     history: []
