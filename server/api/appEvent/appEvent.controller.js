@@ -125,6 +125,7 @@ function updateEndUserLastLocation(userData){
   .then((user) => {
     user.location.lastLocation.LatLng.lat = userData.data.location.Latitude;
     user.location.lastLocation.LatLng.lng = userData.data.location.Longtitude;
+    user.location.lastLocation.time = new mongoose.Types.ObjectId().getTimestamp()
     user.location.history.push(user.location.lastLocation);
     user.save();
   })
