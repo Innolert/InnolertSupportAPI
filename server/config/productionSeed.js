@@ -7,19 +7,19 @@
 import User from '../api/user/user.model';
 
 User.find({
-    email: 'test@example.com'
+    email: 'test@innolert.com'
   }).remove()
   .then(() => {
     User.create({
         provider: 'local',
         name: 'Test User',
-        email: 'test@example.com',
+        email: 'test@innolert.com',
         password: 'test',
         isVerified: true
       })
       .then(() => {
         User.findOne({
-            email: 'admin@example.com'
+            email: 'admin@innolert.com'
           })
           .exec()
           .then(user => {
@@ -28,7 +28,7 @@ User.find({
                 provider: 'local',
                 role: 'admin',
                 name: 'Admin',
-                email: 'admin@example.com',
+                email: 'admin@innolert.com',
                 password: 'admin',
                 isVerified: true
               })
