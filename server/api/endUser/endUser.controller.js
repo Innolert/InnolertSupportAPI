@@ -17,6 +17,7 @@ require('../../components/observers.bridge/observers.bridge').register(Observers
 import _ from 'lodash';
 import mongoose from 'mongoose';
 import EndUser from './endUser.model';
+import User from '../user/user.model';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -111,10 +112,20 @@ export function show(req, res) {
 
 // Creates a new EndUser in the DB
 export function create(req, res) {
-  req.body.parentUser = req.user._id;
-  return EndUser.create(req.body)
-    .then(respondWithResult(res, 201))
-    .catch(handleError(res));
+  return User.findOne({role: 'admin'})
+        .then((user) => {
+          if(user){
+            req.body.parentUser = user._id;
+            return EndUser.create(req.body)
+            .then(respondWithResult(res, 201))
+
+          }
+          else{
+            console.error("Something went wrong, cant find user with role admin");
+          }
+        })
+        .catch(handleError(res));     
+
 }
 
 // Updates an existing EndUser in the DB

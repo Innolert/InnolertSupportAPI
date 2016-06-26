@@ -5,8 +5,6 @@
 
 'use strict';
 import User from '../api/user/user.model';
-import endUser from '../api/endUser/endUser.model';
-import appEvent from '../api/appEvent/appEvent.model';
 
 User.find({
     email: 'test@example.com'
@@ -20,7 +18,7 @@ User.find({
         isVerified: true
       })
       .then(() => {
-        User.find({
+        User.findOne({
             email: 'admin@example.com'
           })
           .exec()
