@@ -21,9 +21,8 @@ User.find({
         User.findOne({
             email: 'admin@innolert.com'
           })
-          .exec()
-          .then(user => {
-            if (!user)
+          .remove()
+          .then(() => {
               User.create({
                 provider: 'local',
                 role: 'admin',
